@@ -1,5 +1,7 @@
-package Civ;
+package Civ.classes;
 
+
+import Civ.classes.Coords;
 
 public class ScreenCoords {
 

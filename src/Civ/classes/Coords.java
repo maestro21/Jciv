@@ -1,10 +1,18 @@
-package Civ;
+package Civ.classes;
 
 public class Coords {
 
     public int x = 0;
     public int y = 0;
     public int cols = 0;
+
+
+    public Coords() {}
+
+    public Coords(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public int index(int x, int y) {
         return y * cols + x;

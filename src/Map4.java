@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
 
-public class Map3 extends JPanel {
+public class Map4 extends JPanel {
 
-
+    /** will use gfx and ruleset **/
 
     public static final Color OCEAN = new Color(0, 0, 136);
     public static final Color LAKE = new Color(0,0,255);
@@ -46,7 +46,7 @@ public class Map3 extends JPanel {
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
 
-    public Map3()  {
+    public Map4()  {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -142,7 +142,7 @@ public class Map3 extends JPanel {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("Game");
-                Map3 map = new Map3();
+                Map4 map = new Map4();
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
