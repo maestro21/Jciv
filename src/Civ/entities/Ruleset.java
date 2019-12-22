@@ -33,17 +33,31 @@ public class Ruleset {
 
     public void load(String name) {
         JSONParser parser = new JSONParser();
-        try (Reader reader = new FileReader("data/rulesets/" + name + ".json")) {
+        try (Reader reader = new FileReader("data/rulesets/" + name + "/ruleset.json")) {
             JSONObject jsonRulset = (JSONObject) parser.parse(reader);
             this.name = jsonRulset.get("name").toString();
-            JSONArray jsonTerrain = (JSONArray)jsonRulset.get("terrain");
-            for(int i = 0; i < jsonTerrain.size(); i++) {
-                JSONObject jsonTerrainEl = (JSONObject)jsonTerrain.get(0);
+            this.tileSize = (int)(long)jsonRulset.get("tileSize");
+
+            /** load terrain **/
+            JSONObject jsonTerrain = (JSONObject)jsonRulset.get("terrain");
+            for(int i = 0; i < jsonTerrain.size() - 1; i++) {
+                JSONObject jsonTerrainEl = (JSONObject)jsonTerrain.get(Integer.toString(i));
                 Terrain terrain = new Terrain();
                 terrain.name = jsonTerrainEl.get("name").toString();
                 terrain.symbol = jsonTerrainEl.get("symbol").toString();
-                JSONArray colors = (JSONArray)jsonTerrainEl.get("colors");
-                terrain.color = new Color((int)colors.get(0), colors.get(1), colors.get(2));
+
+                JSONArray colors = (JSONArray)jsonTerrainEl.get("color");
+                terrain.color = new Color(
+                        (int)(long)colors.get(0),
+                        (int)(long)colors.get(1),
+                        (int)(long)colors.get(2)
+                );
+
+                JSONArray pos = (JSONArray)jsonTerrainEl.get("pos");
+                terrain.pos =  new Coords(
+                    (int)(long)pos.get(1),
+                    (int)(long)pos.get(0)
+                );
             }
 
             loaded = true;
@@ -55,7 +69,7 @@ public class Ruleset {
     }
 
 
-    public Terrain getTerrain(String name) {
+    public void getTerrain(String name) {
 
     }
 

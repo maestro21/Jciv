@@ -1,4 +1,5 @@
 import Civ.classes.ScreenCoords;
+import Civ.entities.Ruleset;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -38,6 +39,8 @@ public class Map4 extends JPanel {
 
     public HashMap tileMap = new HashMap();
 
+    public Ruleset ruleset;
+
 
     public ScreenCoords screenCoords;
 
@@ -50,8 +53,10 @@ public class Map4 extends JPanel {
 
     public Map4()  {
 
+        ruleset = new Ruleset("default");
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        terrain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("data/ruleset/default/terrain.png"));
+        terrain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("data/rulesets/default/terrain.png"));
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
