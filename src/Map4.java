@@ -46,9 +46,12 @@ public class Map4 extends JPanel {
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
 
+    private Image terrain;
+
     public Map4()  {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        terrain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("data/ruleset/default/terrain.png"));
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;

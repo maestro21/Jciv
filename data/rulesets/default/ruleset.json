@@ -1,0 +1,312 @@
+{
+  "name": "Default Ruleset",
+  "tileSize": 100,
+  "imgTileSize": 150,
+  "coastTile": 0,
+  "terrain": {
+    "0": {
+      "name": "Ocean",
+      "symbol": " ",
+      "color": [
+        0,
+        0,
+        136
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 0,
+      "isWater": 1
+    },
+    "1": {
+      "name": "Water",
+      "symbol": ".",
+      "color": [
+        0,
+        0,
+        255
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 1,
+      "isWater": 1
+    },
+    "2": {
+      "name": "Grassland",
+      "symbol": "g",
+      "color": [
+        0,
+        136,
+        0
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 2,
+      "prod": 0,
+      "trade": 0
+    },
+    "3": {
+      "name": "Forest",
+      "symbol": "f",
+      "color": [
+        32,
+        87,
+        2
+      ],
+      "movement": 2,
+      "defense": 1.5,
+      "food": 0,
+      "prod": 1,
+      "trade": 0
+    },
+    "4": {
+      "name": "Hills",
+      "symbol": "h",
+      "color": [
+        136,
+        136,
+        136
+      ],
+      "movement": 2,
+      "defense": 1.5,
+      "food": 0,
+      "prod": 1,
+      "trade": 0
+    },
+    "5": {
+      "name": "Mountains",
+      "symbol": "p",
+      "color": [
+        68,
+        68,
+        68
+      ],
+      "movement": 3,
+      "defense": 2,
+      "food": 0,
+      "prod": 2,
+      "trade": 0
+    },
+    "6": {
+      "name": "Jungle",
+      "symbol": "j",
+      "color": [
+        0,
+        255,
+        0
+      ],
+      "movement": 2,
+      "defense": 1.5,
+      "food": 1,
+      "prod": 0,
+      "trade": 0
+    },
+    "7": {
+      "name": "Desert",
+      "symbol": "d",
+      "color": [
+        255,
+        255,
+        0
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 0,
+      "prod": 0,
+      "trade": 0
+    },
+    "8": {
+      "name": "Floodplains",
+      "symbol": "l",
+      "color": [
+        255,
+        0,
+        255
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 3,
+      "prod": 0,
+      "trade": 0
+    },
+    "taiga": {
+      "name": "Taiga",
+      "symbol": "t",
+      "color": [
+        0,
+        128,
+        128
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 0
+    },
+    "snow": {
+      "name": "Snow",
+      "symbol": "s",
+      "color": [
+        255,
+        255,
+        255
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 0
+    },
+    "swamp": {
+      "name": "Swamp",
+      "symbol": "a",
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "movement": 3,
+      "defense": 1,
+      "food": 0,
+      "prod": 0,
+      "trade": 0
+    }
+  },
+  "units": {
+    "settlers": {
+      "name": "Settlers",
+      "flags": [
+        "settler"
+      ],
+      "movement": 1,
+      "movementType": "land",
+      "attack": 0,
+      "defense": 1,
+      "hp": 10,
+      "cost": 40
+    },
+    "workers": {
+      "name": "Workers",
+      "flags": [
+        "worker"
+      ],
+      "movement": 1,
+      "movementType": "land",
+      "attack": 0,
+      "defense": 1,
+      "hp": 10,
+      "cost": 20
+    },
+    "warriors": {
+      "name": "Warriors",
+      "movement": 1,
+      "movementType": "land",
+      "attack": 1,
+      "defense": 1,
+      "hp": 10,
+      "cost": 10
+    },
+    "chariots": {
+      "name": "Chariots",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 2,
+      "defense": 1,
+      "hp": 10,
+      "cost": 20,
+      "resources": []
+    },
+    "spearmen": {
+      "name": "Spearmen",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 1,
+      "defense": 2,
+      "hp": 10,
+      "cost": 20
+    },
+    "swordsmen": {
+      "name": "Swordsmen",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 3,
+      "defense": 2,
+      "hp": 10,
+      "cost": 40,
+      "resources": {
+        "iron": 1
+      }
+    },
+    "catapults": {
+      "name": "Catapults",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 6,
+      "defense": 1,
+      "hp": 10,
+      "cost": 60
+    },
+    "caravan": {
+      "name": "Caravan",
+      "movement": 2,
+      "movementType": "sea",
+      "attack": 6,
+      "defense": 1,
+      "hp": 10,
+      "cost": 50
+    },
+    "galley": {
+      "name": "Galley",
+      "movement": 3,
+      "movementType": "sea",
+      "attack": 1,
+      "defense": 1,
+      "hp": 10,
+      "flags": [
+        "coastal"
+      ],
+      "cost": 60
+    },
+    "trade_ship": {
+      "name": "Trading ship",
+      "movement": 3,
+      "movementType": "sea",
+      "attack": 0,
+      "defense": 1,
+      "hp": 10,
+      "flags": [
+        "coastal",
+        "trade"
+      ],
+      "cost": 50
+    }
+  },
+  "civilizations": [
+    "Roman",
+    "Greek",
+    "Egyptian",
+    "Babylonian",
+    "Chinese",
+    "Indian",
+    "Persian",
+    "African",
+    "Arab",
+    "Japanese",
+    "Mongolian",
+    "English",
+    "German",
+    "French",
+    "Scandinavian",
+    "Spanish",
+    "Russian",
+    "Aztec",
+    "Inca",
+    "American",
+    "Korean",
+    "Khmer",
+    "Polish"
+  ]
+}
