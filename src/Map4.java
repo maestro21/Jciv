@@ -1,5 +1,7 @@
+import Civ.classes.Coords;
 import Civ.classes.ScreenCoords;
 import Civ.entities.Ruleset;
+import Civ.entities.Terrain;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,7 +37,7 @@ public class Map4 extends JPanel {
 
     public int WIDTH;
     public int HEIGHT;
-    public int TILESIZE = 64;
+    public int TILESIZE;
 
     public HashMap tileMap = new HashMap();
 
@@ -47,7 +49,7 @@ public class Map4 extends JPanel {
     // In reality you will probably want a class here to represent a map tile,
     // which will include things like dimensions, color, properties in the
     // game world.  Keeping simple just to illustrate.
-    private Color[][] terrainGrid;
+    private Terrain[][] terrainGrid;
 
     private Image terrain;
 
@@ -56,7 +58,7 @@ public class Map4 extends JPanel {
         ruleset = new Ruleset("default");
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        terrain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("data/rulesets/default/terrain.png"));
+        terrain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("terrain.png"));
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
@@ -67,33 +69,17 @@ public class Map4 extends JPanel {
             HEIGHT = terrain.size();
             WIDTH = row.length();
 
-            tileMap.put(" ", OCEAN);
-            tileMap.put(".", LAKE);
-            tileMap.put("g", GRASSLAND);
-            tileMap.put("f", FOREST);
-            tileMap.put("h", HILLS);
-            tileMap.put("p", PLAINS);
-            tileMap.put("m", MOUNTAINS);
-            tileMap.put("j", JUNGLE);
-            tileMap.put("d", DESERT);
-            tileMap.put("l", FLOODPLAIN);
-            tileMap.put("t", SNOW);//TAIGA);
-            tileMap.put("a", SWAMP);
-            tileMap.put("s", SNOW);
-
-
-            this.terrainGrid = new Color[HEIGHT][WIDTH];
+            this.terrainGrid = new Terrain[HEIGHT][WIDTH];
             for (int y = 0; y < HEIGHT; y++) {
                 row = (String) terrain.get(y);
                 for (int x = 0; x < row.length(); x++) {
                     String t = Character.toString(row.charAt(x));
-                    System.out.print(t);
-                    this.terrainGrid[y][x] = (Color) tileMap.get(t);
+                    this.terrainGrid[y][x] = ruleset.getTerrain(t);
                 }
                 System.out.println();
             }
             setPreferredSize(new Dimension(screenSize.width, screenSize.height));
-            screenCoords = new ScreenCoords(WIDTH,HEIGHT, TILESIZE, false);
+            screenCoords = new ScreenCoords(WIDTH,HEIGHT, ruleset.tileSize, false);
             screenCoords.setScreenSize(screenSize.width, screenSize.height);
             screenCoords.goTo(WIDTH / 2, HEIGHT / 2);
         } catch (IOException e) {
@@ -124,11 +110,25 @@ public class Map4 extends JPanel {
                     continue;
                 }
                 // Upper left corner of this terrain rect
-                int px = x * TILESIZE;
-                int py = y * TILESIZE;
-                Color terrainColor = terrainGrid[dTileY][dTileX];
+                int px = x * ruleset.tileSize  - 16;
+                int py = y * ruleset.tileSize  - 16;
+
+                Coords tilePos = terrainGrid[dTileY][dTileX].pos;
+
+
+
+                g.drawImage(terrain, px, py,
+                        px + ruleset.imgTileSize,
+                        py + ruleset.imgTileSize,
+                        tilePos.x * ruleset.imgTileSize,
+                        tilePos.y * ruleset.imgTileSize,
+                        tilePos.x * ruleset.imgTileSize + ruleset.imgTileSize,
+                        tilePos.y * ruleset.imgTileSize + ruleset.imgTileSize,
+                        this);
+                /*
+                Terrain terrainColor = terrainGrid[dTileY][dTileX];
                 g.setColor(terrainColor);
-                g.fillRect(px, py, TILESIZE, TILESIZE);
+                g.fillRect(px, py, TILESIZE, TILESIZE); */
             }
         }
     }

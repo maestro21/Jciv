@@ -1,8 +1,8 @@
 
 {
   "name": "Default Ruleset",
-  "tileSize": 100,
-  "imgTileSize": 150,
+  "tileSize": 64,
+  "imgTileSize": 96,
   "coastTile": 0,
   "terrain": {
     "0": {

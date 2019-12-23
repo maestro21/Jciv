@@ -17,6 +17,7 @@ public class Ruleset {
     public String name;
 
     public int tileSize;
+    public int imgTileSize;
 
     public Coords coastTile;
 
@@ -37,6 +38,7 @@ public class Ruleset {
             JSONObject jsonRulset = (JSONObject) parser.parse(reader);
             this.name = jsonRulset.get("name").toString();
             this.tileSize = (int)(long)jsonRulset.get("tileSize");
+            this.imgTileSize = (int)(long)jsonRulset.get("imgTileSize");
 
             /** load terrain **/
             JSONObject jsonTerrain = (JSONObject)jsonRulset.get("terrain");
@@ -58,6 +60,7 @@ public class Ruleset {
                     (int)(long)pos.get(1),
                     (int)(long)pos.get(0)
                 );
+                this.terrain.add(terrain);
             }
 
             loaded = true;
@@ -69,8 +72,16 @@ public class Ruleset {
     }
 
 
-    public void getTerrain(String name) {
+    public Terrain getTerrain(String symbol) {
+        Terrain t = new Terrain();
+        for(int i = 0; i < terrain.size() - 1; i++) {
+            t = terrain.get(i);
 
+            if(t.symbol.equals(symbol)) {
+                return t;
+            }
+        }
+        return t;
     }
 
 
