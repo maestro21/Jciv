@@ -11,58 +11,38 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.HashMap;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Map4 extends JPanel {
 
-    /** will use gfx and ruleset **/
-
-    public static final Color OCEAN = new Color(0, 0, 136);
-    public static final Color LAKE = new Color(0,0,255);
-    public static final Color GRASSLAND = new Color(0, 136, 0);
-    public static final Color FOREST = new Color(32, 87, 2);
-    public static final Color HILLS = new Color(136, 136, 136);
-    public static final Color MOUNTAINS = new Color(68, 68, 68);
-    public static final Color JUNGLE = new Color(0,255,0);
-
-    public static final Color PLAINS = new Color(255, 174, 0);
-    public static final Color DESERT = new Color(255,255,0);
-    public static final Color FLOODPLAIN = new Color(255,0,255);
-    public static final Color TAIGA = new Color(0,128,128);
-    public static final Color SNOW = new Color(255,255,255);
-    public static final Color SWAMP = new Color(0,0,0);
-
     public int WIDTH;
     public int HEIGHT;
-    public int TILESIZE;
-
-    public HashMap tileMap = new HashMap();
 
     public Ruleset ruleset;
 
 
     public ScreenCoords screenCoords;
-
-    // In reality you will probably want a class here to represent a map tile,
-    // which will include things like dimensions, color, properties in the
-    // game world.  Keeping simple just to illustrate.
     private Terrain[][] terrainGrid;
 
     private Image terrain;
 
     public Map4()  {
 
+
         ruleset = new Ruleset("default");
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        terrain = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("terrain.png"));
+
+        terrain = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/terrain.png");
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
-        try (Reader reader = new FileReader("data/map.json")) {
+        try (Reader reader = new FileReader("data/maps/world210x90/map.json")) {
             jsonObject = (JSONObject) parser.parse(reader);
             JSONArray terrain = (JSONArray)jsonObject.get("terrain");
             String row = (String) terrain.get(0);
@@ -101,7 +81,6 @@ public class Map4 extends JPanel {
 
         for (int x= 0; x < screenCoords.screenSizeInTiles.x; x++) {
             for (int y = 0; y < screenCoords.screenSizeInTiles.y; y++) {
-
                 int dTileX = screenCoords.screenMapOffset.x + x;
                 int dTileY = screenCoords.screenMapOffset.y + y;
 
@@ -109,11 +88,18 @@ public class Map4 extends JPanel {
                         dTileY < 0 || dTileY > screenCoords.mapSize.y) {
                     continue;
                 }
+
+                Terrain t = terrainGrid[dTileY][dTileX];
+
+                if(t.isWater()) {
+                    continue;
+                }
+
                 // Upper left corner of this terrain rect
                 int px = x * ruleset.tileSize  - 16;
                 int py = y * ruleset.tileSize  - 16;
 
-                Coords tilePos = terrainGrid[dTileY][dTileX].pos;
+                Coords tilePos = t.pos;
 
 
 
@@ -125,10 +111,6 @@ public class Map4 extends JPanel {
                         tilePos.x * ruleset.imgTileSize + ruleset.imgTileSize,
                         tilePos.y * ruleset.imgTileSize + ruleset.imgTileSize,
                         this);
-                /*
-                Terrain terrainColor = terrainGrid[dTileY][dTileX];
-                g.setColor(terrainColor);
-                g.fillRect(px, py, TILESIZE, TILESIZE); */
             }
         }
     }

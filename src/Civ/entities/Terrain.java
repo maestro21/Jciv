@@ -22,4 +22,7 @@ public class Terrain {
     }
 
 
+    public boolean isWater() {
+        return (symbol.equals(" ") || symbol.equals("."));
+    }
 }
