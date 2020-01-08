@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class GamePanel extends JFrame {
+public class GameFrame extends JFrame {
 
     Game game;
     public ScreenCoords screenCoords;
@@ -19,7 +19,7 @@ public class GamePanel extends JFrame {
     int imgTileSize;
     Dimension screenSize;
 
-    public GamePanel(Game game) {
+    public GameFrame(Game game) {
         this.game = game;
         init();
     }
@@ -83,20 +83,39 @@ public class GamePanel extends JFrame {
 
             drawWater(g);
             drawCoast(g);
-            drawTerrain(g);
+            drawLand(g);
+            drawTop(g);
+
+            drawCursor(g);
+        }
+
+        public void drawCursor(Graphics g) {
+            Color c = new Color(0, 255, 0);
+            g.setColor(c);
+
+            g.drawRect(
+            screenCoords.screenCursor.x * tileSize,
+            screenCoords.screenCursor.y * tileSize,
+            tileSize,
+            tileSize
+            );
         }
 
 
         public void drawWater(Graphics g) {
-
+            drawTerrain(g, "water");
         }
 
-        public void drawCoast(Graphics g) {
+        public void drawLand(Graphics g) {
+            drawTerrain(g, "land");
+        }
 
+        public void drawTop(Graphics g) {
+            drawTerrain(g, "top");
         }
 
 
-        public void drawTerrain(Graphics g) {
+        public void drawTerrain(Graphics g, String type) {
 
             for (int x = 0; x < screenCoords.screenSizeInTiles.x; x++) {
                 for (int y = 0; y < screenCoords.screenSizeInTiles.y; y++) {
@@ -108,9 +127,10 @@ public class GamePanel extends JFrame {
                         continue;
                     }
 
-                    Terrain t = game.map.getTile(dTileY, dTileX).terrain;
+                    Terrain t = game.map.getTile(dTileX, dTileY).terrain;
 
-                    if (t.isWater()) {
+
+                    if (!type.equals(t.type)) {
                         continue;
                     }
 
@@ -131,5 +151,41 @@ public class GamePanel extends JFrame {
                 }
             }
         }
+
+
+        public void drawCoast(Graphics g) {
+            for (int x = 0; x < screenCoords.screenSizeInTiles.x; x++) {
+                for (int y = 0; y < screenCoords.screenSizeInTiles.y; y++) {
+                    int dTileX = screenCoords.screenMapOffset.x + x;
+                    int dTileY = screenCoords.screenMapOffset.y + y;
+
+                    if (dTileX < 0 || dTileX > screenCoords.mapSize.x ||
+                            dTileY < 0 || dTileY > screenCoords.mapSize.y) {
+                        continue;
+                    }
+
+                    if (game.map.getWater(dTileX, dTileY) || !game.map.getCoast(dTileX, dTileY)) {
+                        continue;
+                    }
+
+                    // Upper left corner of this terrain rect
+                    int px = x * tileSize - 16;
+                    int py = y * tileSize - 16;
+
+                    Coords tilePos = new Coords(0,0); // todo - read from ruleset
+
+                    g.drawImage(game.gfx.terrain, px, py,
+                            px + imgTileSize,
+                            py + imgTileSize,
+                            tilePos.x * imgTileSize,
+                            tilePos.y * imgTileSize,
+                            (tilePos.x + 1) * imgTileSize,
+                            (tilePos.y + 1) * imgTileSize,
+                            this);
+                }
+            }
+        }
+
+
     }
 }

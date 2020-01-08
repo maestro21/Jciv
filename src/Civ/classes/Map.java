@@ -19,8 +19,7 @@ public class Map {
     String name;
     public Coords size;
 
-    public Tile[][] tiles;
-
+    private Tile[][] tiles;
 
     Map(Game game, String name) {
         this.game = game;
@@ -54,12 +53,6 @@ public class Map {
                 }
                 System.out.println();
             }
-
-            /*
-            setPreferredSize(new Dimension(screenSize.width, screenSize.height));
-            screenCoords = new ScreenCoords(WIDTH,HEIGHT, ruleset.tileSize, false);
-            screenCoords.setScreenSize(screenSize.width, screenSize.height);
-            screenCoords.goTo(WIDTH / 2, HEIGHT / 2); */
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -67,10 +60,96 @@ public class Map {
         }
     }
 
-
-
-    public Tile getTile(int y, int x) {
+    public Tile getTile(int x, int y) {
         return tiles[y][x];
+    }
+
+    public Tile getNeigbourTile(int x, int y) {
+        if(x < 0) {
+            // todo if flat - return null;
+            x = size.x - 1;
+        }
+
+        if(x >= size.x) {
+            // todo if flat - return null;
+            x = 0;
+        }
+
+        if(y < 0 || y >= size.y) {
+            return null;
+        }
+
+        return tiles[y][x];
+    }
+
+    public Tile getLeftTile(int x, int y) {
+        return getNeigbourTile(x - 1, y);
+    }
+
+    public Tile getRightTile(int x, int y) {
+        return getNeigbourTile(x + 1, y);
+    }
+
+    public Tile getTopTile(int x, int y) {
+        return getNeigbourTile(x, y - 1);
+    }
+
+    public Tile getBottomTile(int x, int y) {
+        return getNeigbourTile(x, y + 1);
+    }
+
+    public Tile getTopLeftTile(int x, int y) {
+        return getNeigbourTile(x - 1, y - 1);
+    }
+
+    public Tile getTopRightTile(int x, int y) {
+        return getNeigbourTile(x + 1, y - 1);
+    }
+
+    public Tile getBottomLeftTile(int x, int y) {
+        return getNeigbourTile(x - 1, y + 1);
+    }
+
+    public Tile getBottomRightTile(int x, int y) {
+        return getNeigbourTile(x + 1, y + 1);
+    }
+
+    public Tile[] getNeighbourTiles4(int x, int y) {
+        Tile[] neighbours = new Tile[4];
+        neighbours[0] = getLeftTile(x,y);
+        neighbours[1] = getTopTile(x,y);
+        neighbours[2] = getRightTile(x,y);
+        neighbours[3] = getBottomTile(x,y);
+        return neighbours;
+    }
+
+    public Tile[] getNeighbourTiles8(int x, int y) {
+        Tile[] neighbours = new Tile[8];
+        neighbours[0] = getTopLeftTile(x,y);
+        neighbours[1] = getTopTile(x,y);
+        neighbours[2] = getTopRightTile(x,y);
+        neighbours[3] = getLeftTile(x,y);
+        neighbours[4] = getRightTile(x,y);
+        neighbours[5] = getBottomLeftTile(x,y);
+        neighbours[6] = getBottomTile(x,y);
+        neighbours[7] = getBottomRightTile(x,y);
+        return neighbours;
+    }
+
+    public boolean getCoast(int x, int y) {
+        Tile[] neigborTiles = getNeighbourTiles4(x,y);
+
+        for (int i = 0; i < neigborTiles.length; i++) {
+            if(neigborTiles[i] != null && neigborTiles[i].terrain.isWater()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean getWater(int x, int y) {
+        return getTile(x,y).terrain.isWater();
     }
 
 }

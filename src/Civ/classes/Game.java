@@ -1,6 +1,6 @@
 package Civ.classes;
 
-import Civ.classes.gfx.GamePanel;
+import Civ.classes.gfx.GameFrame;
 import Civ.entities.Ruleset;
 
 import javax.swing.*;
@@ -11,7 +11,7 @@ public class Game extends JPanel {
     public Ruleset ruleset;
     public GameOptions gameOptions;
     public Gfx gfx;
-    public GamePanel gamePanel;
+    public GameFrame gameFrame;
 
     public Game(GameOptions gameOptions){
         this.gameOptions = gameOptions;
@@ -22,7 +22,7 @@ public class Game extends JPanel {
 
     public void start() {
         this.gfx = new Gfx(this);
-        this.gamePanel = new GamePanel(this);
+        this.gameFrame = new GameFrame(this);
     }
 
 }

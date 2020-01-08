@@ -91,7 +91,7 @@ public class Map4 extends JPanel {
 
                 Terrain t = terrainGrid[dTileY][dTileX];
 
-                if(t.isWater()) {
+                if(t.type == "water") {
                     continue;
                 }
 

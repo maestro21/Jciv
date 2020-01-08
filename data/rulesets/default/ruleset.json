@@ -21,7 +21,8 @@
       "food": 1,
       "prod": 0,
       "trade": 0,
-      "isWater": 1
+      "isWater": 1,
+      "type": "water"
     },
     "1": {
       "name": "Water",
@@ -40,7 +41,8 @@
       "food": 1,
       "prod": 0,
       "trade": 1,
-      "isWater": 1
+      "isWater": 1,
+      "type": "water"
     },
     "2": {
       "name": "Grassland",
@@ -58,7 +60,8 @@
       "defense": 1,
       "food": 2,
       "prod": 0,
-      "trade": 0
+      "trade": 0,
+      "type": "land"
     },
     "3": {
       "name": "Forest",
@@ -76,7 +79,8 @@
       "defense": 1.5,
       "food": 0,
       "prod": 1,
-      "trade": 0
+      "trade": 0,
+      "type": "top"
     },
     "4": {
       "name": "Hills",
@@ -94,11 +98,12 @@
       "defense": 1.5,
       "food": 0,
       "prod": 1,
-      "trade": 0
+      "trade": 0,
+      "type": "top"
     },
     "5": {
       "name": "Mountains",
-      "symbol": "p",
+      "symbol": "m",
       "color": [
         68,
         68,
@@ -112,7 +117,8 @@
       "defense": 2,
       "food": 0,
       "prod": 2,
-      "trade": 0
+      "trade": 0,
+      "type": "top"
     },
     "6": {
       "name": "Jungle",
@@ -130,7 +136,8 @@
       "defense": 1.5,
       "food": 1,
       "prod": 0,
-      "trade": 0
+      "trade": 0,
+      "type": "top"
     },
     "7": {
       "name": "Desert",
@@ -148,7 +155,8 @@
       "defense": 1,
       "food": 0,
       "prod": 0,
-      "trade": 0
+      "trade": 0,
+      "type": "land"
     },
     "8": {
       "name": "Floodplains",
@@ -166,7 +174,8 @@
       "defense": 1,
       "food": 3,
       "prod": 0,
-      "trade": 0
+      "trade": 0,
+      "type": "land"
     },
     "9": {
       "name": "Taiga",
@@ -184,7 +193,8 @@
       "defense": 1,
       "food": 1,
       "prod": 0,
-      "trade": 0
+      "trade": 0,
+      "type": "land"
     },
     "10": {
       "name": "Snow",
@@ -202,7 +212,8 @@
       "defense": 1,
       "food": 1,
       "prod": 0,
-      "trade": 0
+      "trade": 0,
+      "type": "land"
     },
     "11": {
       "name": "Swamp",
@@ -220,7 +231,27 @@
       "defense": 1,
       "food": 0,
       "prod": 0,
-      "trade": 0
+      "trade": 0,
+      "type": "land"
+    },
+    "12": {
+      "name": "Plains",
+      "symbol": "p",
+      "color": [
+        68,
+        68,
+        68
+      ],
+      "pos": [
+        0,
+        4
+      ],
+      "movement": 1,
+      "defense": 2,
+      "food": 1,
+      "prod": 1,
+      "trade": 0,
+      "type": "land"
     }
   },
   "units": {

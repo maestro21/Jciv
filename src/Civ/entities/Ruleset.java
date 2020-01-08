@@ -47,6 +47,7 @@ public class Ruleset {
                 Terrain terrain = new Terrain();
                 terrain.name = jsonTerrainEl.get("name").toString();
                 terrain.symbol = jsonTerrainEl.get("symbol").toString();
+                terrain.type = jsonTerrainEl.get("type").toString();
 
                 JSONArray colors = (JSONArray)jsonTerrainEl.get("color");
                 terrain.color = new Color(
