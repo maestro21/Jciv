@@ -1,10 +1,11 @@
+
 {
   "name": "Default Ruleset",
   "tileSize": 64,
   "imgTileSize": 96,
   "coastTile": 0,
-  "terrain": {
-    "0": {
+  "terrain": [
+    {
       "name": "Ocean",
       "symbol": " ",
       "color": [
@@ -21,10 +22,9 @@
       "food": 1,
       "prod": 0,
       "trade": 0,
-      "isWater": 1,
       "type": "water"
     },
-    "1": {
+    {
       "name": "Water",
       "symbol": ".",
       "color": [
@@ -41,10 +41,9 @@
       "food": 1,
       "prod": 0,
       "trade": 1,
-      "isWater": 1,
       "type": "water"
     },
-    "2": {
+    {
       "name": "Grassland",
       "symbol": "g",
       "color": [
@@ -63,7 +62,7 @@
       "trade": 0,
       "type": "land"
     },
-    "3": {
+    {
       "name": "Forest",
       "symbol": "f",
       "color": [
@@ -82,7 +81,7 @@
       "trade": 0,
       "type": "top"
     },
-    "4": {
+    {
       "name": "Hills",
       "symbol": "h",
       "color": [
@@ -101,7 +100,7 @@
       "trade": 0,
       "type": "top"
     },
-    "5": {
+    {
       "name": "Mountains",
       "symbol": "m",
       "color": [
@@ -120,7 +119,7 @@
       "trade": 0,
       "type": "top"
     },
-    "6": {
+    {
       "name": "Jungle",
       "symbol": "j",
       "color": [
@@ -139,7 +138,7 @@
       "trade": 0,
       "type": "top"
     },
-    "7": {
+    {
       "name": "Desert",
       "symbol": "d",
       "color": [
@@ -158,7 +157,7 @@
       "trade": 0,
       "type": "land"
     },
-    "8": {
+    {
       "name": "Floodplains",
       "symbol": "l",
       "color": [
@@ -177,7 +176,7 @@
       "trade": 0,
       "type": "land"
     },
-    "9": {
+    {
       "name": "Taiga",
       "symbol": "t",
       "color": [
@@ -196,7 +195,7 @@
       "trade": 0,
       "type": "land"
     },
-    "10": {
+    {
       "name": "Snow",
       "symbol": "s",
       "color": [
@@ -215,7 +214,7 @@
       "trade": 0,
       "type": "land"
     },
-    "11": {
+    {
       "name": "Swamp",
       "pos": [
         0,
@@ -234,26 +233,26 @@
       "trade": 0,
       "type": "land"
     },
-    "12": {
+    {
       "name": "Plains",
-      "symbol": "p",
-      "color": [
-        68,
-        68,
-        68
-      ],
       "pos": [
         0,
-        4
+        5
       ],
-      "movement": 1,
-      "defense": 2,
-      "food": 1,
-      "prod": 1,
+      "symbol": "p",
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "movement": 3,
+      "defense": 1,
+      "food": 0,
+      "prod": 0,
       "trade": 0,
       "type": "land"
     }
-  },
+  ],
   "units": {
     "settlers": {
       "name": "Settlers",

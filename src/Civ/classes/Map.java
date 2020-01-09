@@ -50,6 +50,8 @@ public class Map {
 
                     this.tiles[y][x] = tile;
                     tile.terrain = game.ruleset.getTerrain(t);
+
+                    System.out.print(tile.terrain.symbol);
                 }
                 System.out.println();
             }

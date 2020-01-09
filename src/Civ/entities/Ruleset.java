@@ -41,9 +41,9 @@ public class Ruleset {
             this.imgTileSize = (int)(long)jsonRulset.get("imgTileSize");
 
             /** load terrain **/
-            JSONObject jsonTerrain = (JSONObject)jsonRulset.get("terrain");
-            for(int i = 0; i < jsonTerrain.size() - 1; i++) {
-                JSONObject jsonTerrainEl = (JSONObject)jsonTerrain.get(Integer.toString(i));
+            JSONArray jsonTerrain = (JSONArray)jsonRulset.get("terrain");
+            for(int i = 0; i < jsonTerrain.size(); i++) {
+                JSONObject jsonTerrainEl = (JSONObject)jsonTerrain.get(i);
                 Terrain terrain = new Terrain();
                 terrain.name = jsonTerrainEl.get("name").toString();
                 terrain.symbol = jsonTerrainEl.get("symbol").toString();
@@ -74,15 +74,20 @@ public class Ruleset {
 
 
     public Terrain getTerrain(String symbol) {
+
+        if(symbol.equals("p")) {
+            System.out.print(symbol);
+        }
+
         Terrain t = new Terrain();
-        for(int i = 0; i < terrain.size() - 1; i++) {
+        for(int i = 0; i < terrain.size(); i++) {
             t = terrain.get(i);
 
             if(t.symbol.equals(symbol)) {
                 return t;
             }
         }
-        return t;
+        return getTerrain(" ");
     }
 
 
