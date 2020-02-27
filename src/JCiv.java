@@ -14,7 +14,7 @@ public class JCiv extends JPanel {
     public void quickStart() {
         gameOptions = new GameOptions();
         gameOptions.ruleset = "default";
-        gameOptions.map = "world210x90";
+        gameOptions.map = "world400x200";
         game = new Game(gameOptions);
     }
 

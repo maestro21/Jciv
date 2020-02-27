@@ -1,5 +1,6 @@
 package Civ.classes;
 
+import Civ.entities.City;
 import Civ.entities.Terrain;
 import Civ.entities.Tile;
 import org.json.simple.JSONArray;
@@ -47,13 +48,25 @@ public class Map {
                 for (int x = 0; x < row.length(); x++) {
                     String t = Character.toString(row.charAt(x));
                     Tile tile = new Tile();
-
-                    this.tiles[y][x] = tile;
                     tile.terrain = game.ruleset.getTerrain(t);
 
-                    System.out.print(tile.terrain.symbol);
+                    // city;
+                    if(!tile.terrain.isWater()) {
+                        int rnd = (int) (Math.random() * 10);
+                        if (rnd == 1) {
+                            int size = (int) (Math.random() * 9);
+                            int cs  = (int) (Math.random() * game.ruleset.cityTypes.size());
+                            City city = new City().setSize(size).setCityStyle(game.ruleset.cityTypes.get(cs));
+                            tile.setCity(city);
+                            //System.out.println("" + city.getSize() +  " " + city.getCityStyle());
+                        }
+                    }
+
+
+                    this.tiles[y][x] = tile;
+                    //System.out.print(tile.terrain.symbol);
                 }
-                System.out.println();
+                //System.out.println();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ public class Gfx {
     public Game game;
 
     public Image terrain;
+    public Image cities;
 
     Gfx(Game game) {
         this.game = game;
@@ -16,5 +17,6 @@ public class Gfx {
     public void loadGfx() {
         String rulesetPath = "data/rulesets/" + game.gameOptions.ruleset;
         terrain = Toolkit.getDefaultToolkit().getImage(rulesetPath + "/terrain.png");
+        cities = Toolkit.getDefaultToolkit().getImage(rulesetPath + "/cities.png");
     }
 }

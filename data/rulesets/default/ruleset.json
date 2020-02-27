@@ -362,6 +362,30 @@
       "cost": 50
     }
   },
+  "cities": [
+    "farms",
+    "mines",
+    "egyptian",
+    "roman",
+    "medieval",
+    "celtic",
+    "mediterranean",
+    "russian",
+    "tribal",
+    "babylonian",
+    "muslim",
+    "eastern",
+    "industrial",
+    "soviet",
+    "modern",
+    "postmodern",
+    "nazi",
+    "indian",
+    "spanish",
+    "polish",
+    "english",
+    "nordic"
+  ],
   "civilizations": [
     "Roman",
     "Greek",

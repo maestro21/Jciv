@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Ruleset {
 
@@ -25,6 +26,7 @@ public class Ruleset {
 
     public boolean loaded = false;
 
+    public ArrayList<String> cityTypes = new ArrayList<>();
 
     public Ruleset() {}
 
@@ -64,6 +66,14 @@ public class Ruleset {
                 this.terrain.add(terrain);
             }
 
+            /** load cityTypes **/
+            JSONArray jsonCities = (JSONArray)jsonRulset.get("cities");
+            Iterator iterator = jsonCities.iterator();
+            while(iterator.hasNext()) {
+                String cityType =  iterator.next().toString();
+                this.cityTypes.add(cityType);
+            }
+
             loaded = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,6 +98,15 @@ public class Ruleset {
             }
         }
         return getTerrain(" ");
+    }
+
+    public int getCityStyleIndex(String name) {
+        for(int i = 0 ; i < cityTypes.size(); i++) {
+            if(cityTypes.get(i).equals(name)) {
+                return i;
+            }
+        }
+        return 0;
     }
 
 

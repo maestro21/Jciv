@@ -42,7 +42,7 @@ public class Map4 extends JPanel {
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject;
-        try (Reader reader = new FileReader("data/maps/world210x90/map.json")) {
+        try (Reader reader = new FileReader("data/maps/world400x200/map.json")) {
             jsonObject = (JSONObject) parser.parse(reader);
             JSONArray terrain = (JSONArray)jsonObject.get("terrain");
             String row = (String) terrain.get(0);

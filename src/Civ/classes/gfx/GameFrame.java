@@ -3,6 +3,7 @@ package Civ.classes.gfx;
 import Civ.classes.Coords;
 import Civ.classes.Game;
 import Civ.classes.ScreenCoords;
+import Civ.entities.City;
 import Civ.entities.Ruleset;
 import Civ.entities.Terrain;
 
@@ -85,6 +86,7 @@ public class GameFrame extends JFrame {
             drawCoast(g);
             drawLand(g);
             drawTop(g);
+            drawCities(g);
 
             drawCursor(g);
         }
@@ -113,7 +115,6 @@ public class GameFrame extends JFrame {
         public void drawTop(Graphics g) {
             drawTerrain(g, "top");
         }
-
 
         public void drawTerrain(Graphics g, String type) {
 
@@ -182,6 +183,43 @@ public class GameFrame extends JFrame {
                             (tilePos.x + 1) * imgTileSize,
                             (tilePos.y + 1) * imgTileSize,
                             this);
+                }
+            }
+        }
+
+
+        public void drawCities(Graphics g) {
+            for (int x = 0; x < screenCoords.screenSizeInTiles.x; x++) {
+                for (int y = 0; y < screenCoords.screenSizeInTiles.y; y++) {
+                    int dTileX = screenCoords.screenMapOffset.x + x;
+                    int dTileY = screenCoords.screenMapOffset.y + y;
+
+                    if (dTileX < 0 || dTileX > screenCoords.mapSize.x ||
+                            dTileY < 0 || dTileY > screenCoords.mapSize.y) {
+                        continue;
+                    }
+
+                    if (game.map.getTile(dTileX, dTileY).getCity() != null) {
+                        City city = game.map.getTile(dTileX, dTileY).getCity();
+
+                        if(city == null) {
+                            continue;
+                        }
+
+                        int px = x * tileSize;
+                        int py = y * tileSize;
+                        int sx = city.getSize();
+                        int sy = game.ruleset.getCityStyleIndex(city.getCityStyle());
+                        System.out.printf("%d %d \n", sx, sy);
+                        g.drawImage(game.gfx.cities, px, py,
+                                px + tileSize,
+                                py + tileSize,
+                                sx * tileSize,
+                                sy * tileSize,
+                                (sx + 1) * tileSize,
+                                (sy + 1) * tileSize,
+                                this);
+                    }
                 }
             }
         }
