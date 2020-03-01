@@ -84,11 +84,6 @@ public class Ruleset {
 
 
     public Terrain getTerrain(String symbol) {
-
-        if(symbol.equals("p")) {
-            System.out.print(symbol);
-        }
-
         Terrain t = new Terrain();
         for(int i = 0; i < terrain.size(); i++) {
             t = terrain.get(i);

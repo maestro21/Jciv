@@ -7,6 +7,9 @@ public class Tile {
 
     private City city;
 
+    public int x;
+
+    public int y;
 
     public City getCity(){
         return city;

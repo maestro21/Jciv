@@ -12,6 +12,7 @@ import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 
 public class Map {
 
@@ -49,7 +50,10 @@ public class Map {
                     String t = Character.toString(row.charAt(x));
                     Tile tile = new Tile();
                     tile.terrain = game.ruleset.getTerrain(t);
+                    tile.x = x;
+                    tile.y = y;
 
+                    /*
                     // city;
                     if(!tile.terrain.isWater()) {
                         int rnd = (int) (Math.random() * 10);
@@ -60,7 +64,7 @@ public class Map {
                             tile.setCity(city);
                             //System.out.println("" + city.getSize() +  " " + city.getCityStyle());
                         }
-                    }
+                    } */
 
 
                     this.tiles[y][x] = tile;
@@ -76,7 +80,12 @@ public class Map {
     }
 
     public Tile getTile(int x, int y) {
+        if(y < 0 || y >= size.y || x < 0 || x >= size.x) return null;
         return tiles[y][x];
+    }
+
+    public void putCityOnMap(int x, int y, City city) {
+        tiles[y][x].setCity(city);
     }
 
     public Tile getNeigbourTile(int x, int y) {
@@ -151,6 +160,18 @@ public class Map {
         return neighbours;
     }
 
+    public ArrayList<Tile> getTilesByRadius(int x, int y, int rad) {
+        ArrayList<Tile> neighbours = new ArrayList<>();
+        for(int j = y - rad; j < y + rad; j++) {
+            for (int i = x - rad; i < x + rad; i++) {
+                Tile t = getTile(i, j);
+                if(t != null) neighbours.add(t);
+            }
+        }
+        return neighbours;
+    }
+
+
     public boolean getCoast(int x, int y) {
         Tile[] neigborTiles = getNeighbourTiles4(x,y);
 
@@ -165,6 +186,35 @@ public class Map {
 
     public boolean getWater(int x, int y) {
         return getTile(x,y).terrain.isWater();
+    }
+
+    public boolean canBuildCity(int x, int y) {
+        Tile tile = getTile(x,y);
+
+        if(tile == null) {
+            //System.out.printf("City cannot be build in %d %d because tile dont exist\n", x, y);
+            return false;
+        }
+
+        if(tile.getCity() != null) {
+            //System.out.printf("City cannot be build in %d %d because there is already city\n", x, y);
+            return false;
+        }
+
+        if(tile.getTerrain().isWater()) {
+           // System.out.printf("City cannot be build in %d %d because terrain is water\n", x, y);
+            return false;
+        }
+
+        Tile[] neighbours = getNeighbourTiles8(x,y);
+        for(int i = 0; i < neighbours.length - 1; i++) {
+            if(neighbours[i] != null && neighbours[i].getCity() != null) {
+               // System.out.printf("City cannot be build in %d %d because it has neighbour city in %d %d \n", x, y, neighbours[i].x, neighbours[i].y);
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
