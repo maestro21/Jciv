@@ -24,8 +24,8 @@ public class Game extends JPanel {
         this.gameOptions = gameOptions;
         ruleset = new Ruleset(gameOptions.ruleset);
         map = new Map(this, gameOptions.map);
-        randomPlayers();
-        randomCities();
+        //randomPlayers();
+        //randomCities();
         start();
     }
 

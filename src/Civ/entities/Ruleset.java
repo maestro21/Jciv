@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class Ruleset {
@@ -18,7 +19,7 @@ public class Ruleset {
     public String name;
 
     public int tileSize;
-    public int imgTileSize;
+    public int terrainTileSize;
 
     public Coords coastTile;
 
@@ -34,34 +35,64 @@ public class Ruleset {
         this.load(name);
     }
 
+    public String getStr(JSONObject obj, String name) {
+        return obj.get(name) != null ? obj.get(name).toString() : "";
+    }
+
+    public int getInt(JSONObject obj, String name) {
+        return str2int(getStr(obj,name));
+    }
+
+    public int str2int(String str) {
+        return str.isEmpty() ? 0 : Integer.parseInt(str);
+    }
+
+
+    public ArrayList<String> getValues(JSONObject obj, String str) {
+       return new ArrayList(Arrays.asList(getStr(obj,str).split(",")));
+    }
+
+    public Object alGet(ArrayList al, int index) {
+        return (index >= al.size()) ? null : al.get(index);
+    }
+
+    public String alGetStr(ArrayList al,int index) {
+        return ((index >= al.size()) ? "" : al.get(index)).toString();
+    }
+
+    public int alGetInt(ArrayList al,int index) {
+        return alGetStr(al,index).isEmpty() ? 0 : Integer.parseInt(alGetStr(al,index).trim());
+    }
+
     public void load(String name) {
         JSONParser parser = new JSONParser();
         try (Reader reader = new FileReader("data/rulesets/" + name + "/ruleset.json")) {
             JSONObject jsonRulset = (JSONObject) parser.parse(reader);
-            this.name = jsonRulset.get("name").toString();
-            this.tileSize = (int)(long)jsonRulset.get("tileSize");
-            this.imgTileSize = (int)(long)jsonRulset.get("imgTileSize");
+            this.name = getStr(jsonRulset,"name");
+            this.tileSize = getInt(jsonRulset,"tileSize");
+            this.terrainTileSize = getInt(jsonRulset,"terrainTileSize");
 
             /** load terrain **/
             JSONArray jsonTerrain = (JSONArray)jsonRulset.get("terrain");
             for(int i = 0; i < jsonTerrain.size(); i++) {
                 JSONObject jsonTerrainEl = (JSONObject)jsonTerrain.get(i);
                 Terrain terrain = new Terrain();
-                terrain.name = jsonTerrainEl.get("name").toString();
-                terrain.symbol = jsonTerrainEl.get("symbol").toString();
-                terrain.type = jsonTerrainEl.get("type").toString();
+                terrain.name = getStr(jsonTerrainEl,"name");
+                terrain.symbol = getStr(jsonTerrainEl, "symbol");
+                terrain.type = getStr(jsonTerrainEl ,"type");
+                ArrayList<String> colors = getValues(jsonTerrainEl,"color");
 
-                JSONArray colors = (JSONArray)jsonTerrainEl.get("color");
+                //JSONArray colors = (JSONArray)jsonTerrainEl.get("color");
                 terrain.color = new Color(
-                        (int)(long)colors.get(0),
-                        (int)(long)colors.get(1),
-                        (int)(long)colors.get(2)
+                    alGetInt(colors,0),
+                    alGetInt(colors, 1),
+                    alGetInt(colors,2)
                 );
 
-                JSONArray pos = (JSONArray)jsonTerrainEl.get("pos");
+                //JSONArray pos = (JSONArray)jsonTerrainEl.get("pos");
                 terrain.pos =  new Coords(
-                    (int)(long)pos.get(1),
-                    (int)(long)pos.get(0)
+                    getInt(jsonTerrainEl,"col"),
+                    getInt(jsonTerrainEl, "row")
                 );
                 this.terrain.add(terrain);
             }
@@ -103,6 +134,5 @@ public class Ruleset {
         }
         return 0;
     }
-
-
 }
+

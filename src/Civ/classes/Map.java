@@ -68,9 +68,9 @@ public class Map {
 
 
                     this.tiles[y][x] = tile;
-                    //System.out.print(tile.terrain.symbol);
+                    System.out.print(tile.terrain.symbol);
                 }
-                //System.out.println();
+                System.out.println();
             }
         } catch (IOException e) {
             e.printStackTrace();

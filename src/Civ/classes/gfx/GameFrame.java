@@ -4,7 +4,6 @@ import Civ.classes.Coords;
 import Civ.classes.Game;
 import Civ.classes.ScreenCoords;
 import Civ.entities.City;
-import Civ.entities.Ruleset;
 import Civ.entities.Terrain;
 
 import javax.swing.*;
@@ -17,7 +16,7 @@ public class GameFrame extends JFrame {
     Game game;
     public ScreenCoords screenCoords;
     int tileSize;
-    int imgTileSize;
+    int terrainTileSize;
     Dimension screenSize;
 
     public GameFrame(Game game) {
@@ -34,7 +33,7 @@ public class GameFrame extends JFrame {
 
 
         this.tileSize = game.ruleset.tileSize;
-        this.imgTileSize = game.ruleset.imgTileSize;
+        this.terrainTileSize = game.ruleset.terrainTileSize;
         MapPanel mapPanel = new MapPanel();
 
         mapPanel.addMouseListener(new MouseAdapter() {
@@ -142,12 +141,12 @@ public class GameFrame extends JFrame {
                     Coords tilePos = t.pos;
 
                     g.drawImage(game.gfx.terrain, px, py,
-                            px + imgTileSize,
-                            py + imgTileSize,
-                            tilePos.x * imgTileSize,
-                            tilePos.y * imgTileSize,
-                            (tilePos.x + 1) * imgTileSize,
-                            (tilePos.y + 1) * imgTileSize,
+                            px + terrainTileSize,
+                            py + terrainTileSize,
+                            tilePos.x * terrainTileSize,
+                            tilePos.y * terrainTileSize,
+                            (tilePos.x + 1) * terrainTileSize,
+                            (tilePos.y + 1) * terrainTileSize,
                             this);
                 }
             }
@@ -176,12 +175,12 @@ public class GameFrame extends JFrame {
                     Coords tilePos = new Coords(0,0); // todo - read from ruleset
 
                     g.drawImage(game.gfx.terrain, px, py,
-                            px + imgTileSize,
-                            py + imgTileSize,
-                            tilePos.x * imgTileSize,
-                            tilePos.y * imgTileSize,
-                            (tilePos.x + 1) * imgTileSize,
-                            (tilePos.y + 1) * imgTileSize,
+                            px + terrainTileSize,
+                            py + terrainTileSize,
+                            tilePos.x * terrainTileSize,
+                            tilePos.y * terrainTileSize,
+                            (tilePos.x + 1) * terrainTileSize,
+                            (tilePos.y + 1) * terrainTileSize,
                             this);
                 }
             }

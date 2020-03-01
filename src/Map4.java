@@ -11,12 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Map4 extends JPanel {
 
@@ -104,12 +101,12 @@ public class Map4 extends JPanel {
 
 
                 g.drawImage(terrain, px, py,
-                        px + ruleset.imgTileSize,
-                        py + ruleset.imgTileSize,
-                        tilePos.x * ruleset.imgTileSize,
-                        tilePos.y * ruleset.imgTileSize,
-                        tilePos.x * ruleset.imgTileSize + ruleset.imgTileSize,
-                        tilePos.y * ruleset.imgTileSize + ruleset.imgTileSize,
+                        px + ruleset.terrainTileSize,
+                        py + ruleset.terrainTileSize,
+                        tilePos.x * ruleset.terrainTileSize,
+                        tilePos.y * ruleset.terrainTileSize,
+                        tilePos.x * ruleset.terrainTileSize + ruleset.terrainTileSize,
+                        tilePos.y * ruleset.terrainTileSize + ruleset.terrainTileSize,
                         this);
             }
         }
