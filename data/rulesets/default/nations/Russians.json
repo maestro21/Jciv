@@ -1,0 +1,76 @@
+{
+    "name": "Russians",
+    "flag": "rus",
+    "countryName": "Russia",
+    "cityStyle": "russian",
+    "description": "",
+    "cities": "",
+    "govs": {
+        "tribalism": {
+            "flag": "rus",
+            "country": "Russian tribes",
+            "title": "Chieftain",
+            "ruler": "Svarog"
+        },
+        "monarchy": {
+            "flag": "rus",
+            "country": "Rus'",
+            "title": "Dutch",
+            "ruler": "Ryurik"
+        },
+        "democracy": {
+            "flag": "novgorod",
+            "country": "{city} Republic",
+            "title": "Dutch",
+            "ruler": "Alexandr Nevski"
+        },
+        "feudalism": {
+            "flag": "russia",
+            "country": "Russian Tsardom",
+            "title": "Tzar",
+            "ruler": "Ivan the Great"
+        },
+        "theocracy": {
+            "flag": "rus",
+            "country": "Russian Mitra",
+            "title": "Patriarch",
+            "ruler": "Alexiy"
+        },
+        "absolutism": {
+            "flag": "russia",
+            "country": "Russian Empire",
+            "title": "Emperor",
+            "ruler": "Peter the Great"
+        },
+        "republic": {
+            "flag": "russia",
+            "country": "Russian Federation",
+            "title": "President",
+            "ruler": "Vladimir Putin"
+        },
+        "socialism": {
+            "flag": "su",
+            "country": "R.S.F.S.R",
+            "title": "General Secretary",
+            "ruler": "Vladimir Lenin"
+        },
+        "communism": {
+            "flag": "su",
+            "country": "Soviet Union",
+            "title": "General Secretary",
+            "ruler": "Joseph Stalin"
+        },
+        "fascism": {
+            "flag": "russia",
+            "country": "Reichkomissariat Moskau",
+            "title": "Gauleiter",
+            "ruler": "Vlasov"
+        },
+        "totalitarism": {
+            "flag": "rus",
+            "country": "Eurasian Empire",
+            "title": "Chieftain",
+            "ruler": "Dugin"
+        }
+    }
+}

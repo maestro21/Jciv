@@ -1,0 +1,76 @@
+{
+    "name": "Romans",
+    "flag": "rome",
+    "countryName": "Italy",
+    "cityStyle": "roman",
+    "description": "",
+    "cities": "",
+    "govs": {
+        "tribalism": {
+            "flag": "rome",
+            "country": "Italian Tribes",
+            "title": "",
+            "ruler": ""
+        },
+        "monarchy": {
+            "flag": "rome",
+            "country": "Roman Kingdom",
+            "title": "",
+            "ruler": ""
+        },
+        "democracy": {
+            "flag": "rome",
+            "country": "Roman Republic",
+            "title": "",
+            "ruler": ""
+        },
+        "feudalism": {
+            "flag": "venice",
+            "country": "Venice",
+            "title": "",
+            "ruler": ""
+        },
+        "theocracy": {
+            "flag": "vatican",
+            "country": "Vatican",
+            "title": "",
+            "ruler": ""
+        },
+        "absolutism": {
+            "flag": "italy",
+            "country": "Italian Kingdom",
+            "title": "",
+            "ruler": ""
+        },
+        "republic": {
+            "flag": "italy",
+            "country": "Italian Republic",
+            "title": "",
+            "ruler": ""
+        },
+        "socialism": {
+            "flag": "italy",
+            "country": "Italian Socialist Republic",
+            "title": "",
+            "ruler": ""
+        },
+        "communism": {
+            "flag": "italy",
+            "country": "Italian Socialist Republic",
+            "title": "",
+            "ruler": ""
+        },
+        "fascism": {
+            "flag": "italy",
+            "country": "Italian Social State",
+            "title": "",
+            "ruler": ""
+        },
+        "totalitarism": {
+            "flag": "italy",
+            "country": "Great Italy",
+            "title": "",
+            "ruler": ""
+        }
+    }
+}

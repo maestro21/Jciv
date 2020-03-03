@@ -1,0 +1,76 @@
+{
+    "name": "Americans",
+    "flag": "usa",
+    "countryName": "United States",
+    "cityStyle": "modern",
+    "description": "",
+    "cities": "",
+    "govs": {
+        "tribalism": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "monarchy": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "democracy": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "feudalism": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "theocracy": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "absolutism": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "republic": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "socialism": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "communism": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "fascism": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "totalitarism": {
+            "flag": "abkhazia",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        }
+    }
+}

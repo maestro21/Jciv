@@ -1,0 +1,390 @@
+
+{
+  "name": "Default Ruleset",
+  "tileSize": 64,
+  "imgTileSize": 96,
+  "coastTile": 0,
+  "terrain": [
+    {
+      "name": "Ocean",
+      "symbol": " ",
+      "color": [
+        0,
+        0,
+        136
+      ],
+      "pos": [
+        1,
+        0
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 0,
+      "type": "water"
+    },
+    {
+      "name": "Water",
+      "symbol": ".",
+      "color": [
+        0,
+        0,
+        255
+      ],
+      "pos": [
+        1,
+        0
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 1,
+      "type": "water"
+    },
+    {
+      "name": "Grassland",
+      "symbol": "g",
+      "color": [
+        0,
+        136,
+        0
+      ],
+      "pos": [
+        0,
+        2
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 2,
+      "prod": 0,
+      "trade": 0,
+      "type": "land"
+    },
+    {
+      "name": "Forest",
+      "symbol": "f",
+      "color": [
+        32,
+        87,
+        2
+      ],
+      "pos": [
+        1,
+        4
+      ],
+      "movement": 2,
+      "defense": 1.5,
+      "food": 0,
+      "prod": 1,
+      "trade": 0,
+      "type": "top"
+    },
+    {
+      "name": "Hills",
+      "symbol": "h",
+      "color": [
+        136,
+        136,
+        136
+      ],
+      "pos": [
+        1,
+        5
+      ],
+      "movement": 2,
+      "defense": 1.5,
+      "food": 0,
+      "prod": 1,
+      "trade": 0,
+      "type": "top"
+    },
+    {
+      "name": "Mountains",
+      "symbol": "m",
+      "color": [
+        68,
+        68,
+        68
+      ],
+      "pos": [
+        1,
+        3
+      ],
+      "movement": 3,
+      "defense": 2,
+      "food": 0,
+      "prod": 2,
+      "trade": 0,
+      "type": "top"
+    },
+    {
+      "name": "Jungle",
+      "symbol": "j",
+      "color": [
+        0,
+        255,
+        0
+      ],
+      "pos": [
+        1,
+        6
+      ],
+      "movement": 2,
+      "defense": 1.5,
+      "food": 1,
+      "prod": 0,
+      "trade": 0,
+      "type": "top"
+    },
+    {
+      "name": "Desert",
+      "symbol": "d",
+      "color": [
+        255,
+        255,
+        0
+      ],
+      "pos": [
+        0,
+        3
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 0,
+      "prod": 0,
+      "trade": 0,
+      "type": "land"
+    },
+    {
+      "name": "Floodplains",
+      "symbol": "l",
+      "color": [
+        255,
+        0,
+        255
+      ],
+      "pos": [
+        0,
+        1
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 3,
+      "prod": 0,
+      "trade": 0,
+      "type": "land"
+    },
+    {
+      "name": "Taiga",
+      "symbol": "t",
+      "color": [
+        0,
+        128,
+        128
+      ],
+      "pos": [
+        1,
+        1
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 0,
+      "type": "land"
+    },
+    {
+      "name": "Snow",
+      "symbol": "s",
+      "color": [
+        255,
+        255,
+        255
+      ],
+      "pos": [
+        1,
+        2
+      ],
+      "movement": 1,
+      "defense": 1,
+      "food": 1,
+      "prod": 0,
+      "trade": 0,
+      "type": "land"
+    },
+    {
+      "name": "Swamp",
+      "pos": [
+        0,
+        4
+      ],
+      "symbol": "a",
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "movement": 3,
+      "defense": 1,
+      "food": 0,
+      "prod": 0,
+      "trade": 0,
+      "type": "land"
+    },
+    {
+      "name": "Plains",
+      "pos": [
+        0,
+        5
+      ],
+      "symbol": "p",
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "movement": 3,
+      "defense": 1,
+      "food": 0,
+      "prod": 0,
+      "trade": 0,
+      "type": "land"
+    }
+  ],
+  "units": {
+    "settlers": {
+      "name": "Settlers",
+      "flags": [
+        "settler"
+      ],
+      "movement": 1,
+      "movementType": "land",
+      "attack": 0,
+      "defense": 1,
+      "hp": 10,
+      "cost": 40
+    },
+    "workers": {
+      "name": "Workers",
+      "flags": [
+        "worker"
+      ],
+      "movement": 1,
+      "movementType": "land",
+      "attack": 0,
+      "defense": 1,
+      "hp": 10,
+      "cost": 20
+    },
+    "warriors": {
+      "name": "Warriors",
+      "movement": 1,
+      "movementType": "land",
+      "attack": 1,
+      "defense": 1,
+      "hp": 10,
+      "cost": 10
+    },
+    "chariots": {
+      "name": "Chariots",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 2,
+      "defense": 1,
+      "hp": 10,
+      "cost": 20,
+      "resources": []
+    },
+    "spearmen": {
+      "name": "Spearmen",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 1,
+      "defense": 2,
+      "hp": 10,
+      "cost": 20
+    },
+    "swordsmen": {
+      "name": "Swordsmen",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 3,
+      "defense": 2,
+      "hp": 10,
+      "cost": 40,
+      "resources": {
+        "iron": 1
+      }
+    },
+    "catapults": {
+      "name": "Catapults",
+      "movement": 2,
+      "movementType": "land",
+      "attack": 6,
+      "defense": 1,
+      "hp": 10,
+      "cost": 60
+    },
+    "caravan": {
+      "name": "Caravan",
+      "movement": 2,
+      "movementType": "sea",
+      "attack": 6,
+      "defense": 1,
+      "hp": 10,
+      "cost": 50
+    },
+    "galley": {
+      "name": "Galley",
+      "movement": 3,
+      "movementType": "sea",
+      "attack": 1,
+      "defense": 1,
+      "hp": 10,
+      "flags": [
+        "coastal"
+      ],
+      "cost": 60
+    },
+    "trade_ship": {
+      "name": "Trading ship",
+      "movement": 3,
+      "movementType": "sea",
+      "attack": 0,
+      "defense": 1,
+      "hp": 10,
+      "flags": [
+        "coastal",
+        "trade"
+      ],
+      "cost": 50
+    }
+  },
+  "civilizations": [
+    "Roman",
+    "Greek",
+    "Egyptian",
+    "Babylonian",
+    "Chinese",
+    "Indian",
+    "Persian",
+    "African",
+    "Arab",
+    "Japanese",
+    "Mongolian",
+    "English",
+    "German",
+    "French",
+    "Scandinavian",
+    "Spanish",
+    "Russian",
+    "Aztec",
+    "Inca",
+    "American",
+    "Korean",
+    "Khmer",
+    "Polish"
+  ]
+}

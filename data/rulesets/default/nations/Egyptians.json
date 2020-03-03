@@ -1,0 +1,76 @@
+{
+    "name": "Egyptians",
+    "flag": "egypt",
+    "countryName": "Egypt",
+    "cityStyle": "egyptian",
+    "description": "",
+    "cities": "",
+    "govs": {
+        "tribalism": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "monarchy": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "democracy": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "feudalism": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "theocracy": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "absolutism": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "republic": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "socialism": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "communism": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "fascism": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "totalitarism": {
+            "flag": "egypt",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        }
+    }
+}

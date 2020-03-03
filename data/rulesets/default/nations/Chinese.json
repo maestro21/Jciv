@@ -1,0 +1,76 @@
+{
+    "name": "Chinese",
+    "flag": "qing",
+    "countryName": "China",
+    "cityStyle": "eastern",
+    "description": "",
+    "cities": "",
+    "govs": {
+        "tribalism": {
+            "flag": "qing",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "monarchy": {
+            "flag": "qing",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "democracy": {
+            "flag": "qing",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "feudalism": {
+            "flag": "qing",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "theocracy": {
+            "flag": "tibet",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "absolutism": {
+            "flag": "qing",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "republic": {
+            "flag": "taiwan",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "socialism": {
+            "flag": "china",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "communism": {
+            "flag": "china",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "fascism": {
+            "flag": "manchuria",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        },
+        "totalitarism": {
+            "flag": "qing",
+            "country": "",
+            "title": "",
+            "ruler": ""
+        }
+    }
+}
