@@ -33,7 +33,7 @@ public class CityFrame extends JFrame {
         setBounds(0,0, screenSize.width, screenSize.height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(screenSize.width, screenSize.height));
-        buildings = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/roman.png"); //Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cities.png");
+        buildings = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/roman2.png"); //Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cities.png");
         bg = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/grasslandbg.jpg");
         tileSize = 64;
         loadJsonBuildings();
@@ -45,7 +45,7 @@ public class CityFrame extends JFrame {
 
     public void loadJsonBuildings() {
         JSONParser parser = new JSONParser();
-        try (Reader reader = new FileReader("data/rulesets/default/cityview/roman.json")) {
+        try (Reader reader = new FileReader("data/rulesets/default/cityview/roman2.json")) {
             JSONObject json = (JSONObject) parser.parse(reader);
             JSONArray jsonBuildings = (JSONArray)json.get("buildings");
             for(int i = 0; i < jsonBuildings.size(); i++) {
@@ -53,10 +53,13 @@ public class CityFrame extends JFrame {
                 BuildingGfx buildingGfx = new BuildingGfx();
                 buildingGfx.name = getStr(jsonBuilding,"name");
                 buildingGfx.symbol = getStr(jsonBuilding, "symbol");
-                buildingGfx.x = getInt(jsonBuilding ,"x");
-                buildingGfx.y = getInt(jsonBuilding ,"y");
-                buildingGfx.w = getInt(jsonBuilding ,"w");
-                buildingGfx.h = getInt(jsonBuilding ,"h");
+                buildingGfx.x = getFloat(jsonBuilding ,"x");
+                buildingGfx.y = getFloat(jsonBuilding ,"y");
+                buildingGfx.w = getFloat(jsonBuilding ,"w");
+                buildingGfx.h = getFloat(jsonBuilding ,"h");
+                buildingGfx.dx = getFloat(jsonBuilding ,"dx");
+                buildingGfx.dy = getFloat(jsonBuilding ,"dy");
+                buildingGfx.size = getInt(jsonBuilding, "size");
                 buildingsGfx.add(buildingGfx);
             }
         } catch (IOException | ParseException e) {
@@ -76,12 +79,18 @@ public class CityFrame extends JFrame {
         return str.isEmpty() ? 0 : Integer.parseInt(str);
     }
 
+    public float getFloat(JSONObject obj, String name) {
+        return str2float(getStr(obj,name));
+    }
+
+    public float str2float(String str) {
+        return str.isEmpty() ? 0 : Float.parseFloat(str);
+    }
+
+
     public void buildCityLayout() {
-        String[] buildings = new String[]{ "palace", "granary", "barracks", "marketplace", "temple", "library", "amphitheater", "marketplace", "library" };
-        cityLayout = new CityLayout(12, buildings, true, buildingsGfx);
-
-
-
+        String[] buildings = new String[]{ "palace", "colosseum", "circus","barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct", };
+        cityLayout = new CityLayout(14, buildings, true, buildingsGfx);
     }
 
 
@@ -102,28 +111,29 @@ public class CityFrame extends JFrame {
             g.drawImage(bg, 0, 0, getWidth(), getHeight(),null);
 
             int offsetX = (getWidth() - (cityLayout.cityLayoutMatrixSize * tileSize)) / 2;
-            int offsetY = (int)((cityLayout.cityLayoutMatrixSize / 2 * tileSize) * 1.5);
+            int offsetY = getHeight()  / 2;
            // offsetX = 0 ;//offsetY = 0;
             BuildingGfx buildingGfx;
 
             for (int y = cityLayout.cityLayoutMatrixSize - 1; y >= 0; y--) {
                 for (int x = 0; x < cityLayout.cityLayoutMatrixSize; x++) {
 
-                    buildingGfx = cityLayout.getBuilding(x, y);
+                    buildingGfx = cityLayout.getBuilding(x,  y);
                     if(buildingGfx == null) {
                         continue;
                     }
 
-                    // Upper left corner of this terrain rect
-                    int sx = tileSize * buildingGfx.x;
-                    int sy = tileSize / 2 * buildingGfx.y;
+                    // Upper left corner of this building rect in source
+                    int sx = (int)(tileSize * buildingGfx.x);
+                    int sy = (int)(tileSize / 2 * buildingGfx.y);
 
-                    int w = tileSize * buildingGfx.w;
-                    int h = (int)(tileSize / 2 * buildingGfx.h);
-                    int dx =  buildingGfx.w - 1;
+                    // upper left corner of building in destinton
+                    int w = (int)(tileSize * (buildingGfx.w));
+                    int h = (int)(tileSize / 2 * (buildingGfx.h));
+                    int dx =  (int)(buildingGfx.w - 1);
 
-                    double cidx = y + x - dx;
-                    double cidy = x - y;
+                    double cidx = y + x - dx  + buildingGfx.dx;
+                    double cidy = x - y  + buildingGfx.dy;
 
 
                     if(buildingGfx.w > 1) {
