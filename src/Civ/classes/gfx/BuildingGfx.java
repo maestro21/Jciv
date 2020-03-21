@@ -10,7 +10,11 @@ public class BuildingGfx {
     public double dx = 0;
     public double dy = 0;
     public int size = 1;
-    public String name;
-    public String symbol;
+    public String name = "";
+    public String symbol = "";
+
+    public boolean is(String s) {
+        return s.equals(symbol) || s.equals(name);
+    }
 
 }

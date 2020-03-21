@@ -169,12 +169,32 @@
       "symbol": "Q"
     },
     {
+      "x": 8,
+      "y": 8,
+      "w": 2,
+      "h": 2,
+      "dx": -1.1,
+      "dy": -0.21,
+      "name": "aqueducth",
+      "symbol": "/"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "w": 1,
+      "h": 2,
+      "dy": 1,
+      "dx": 0,
+      "name": "aqueductx",
+      "symbol": "~"
+    },
+    {
       "x": 0,
       "y": 8,
       "w": 3,
-      "h": 4,
-      "dx": 1,
-      "dy": -1,
+      "h": 4.5,
+      "dx": 1.5,
+      "dy": 0.5,
       "size": 2,
       "name": "circus",
       "symbol": "@"

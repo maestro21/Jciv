@@ -15,6 +15,9 @@ class CityLayout {
     int cityLayoutMatrixSize;
     int bc = 0;
     boolean walled;
+
+    public int cityCenter = 0;
+
     private BuildingGfx emptyBuilding = new BuildingGfx();
 
     public BuildingGfx getBuilding(int x, int y) {
@@ -52,12 +55,14 @@ class CityLayout {
         printCityLayout();
     }
 
+
     public void cityLayout() {
         cityLayoutMatrixSize = buildingMatrixSize * 2 + 3;
         cityLayout = new BuildingGfx[cityLayoutMatrixSize][cityLayoutMatrixSize];
         int half = (int)Math.ceil((double)buildingMatrixSize / 2);
         int r = half * 2 + 1;
         int i; int ix; int iy; int j;
+        cityCenter = r;
 
         int e = cityLayoutMatrixSize - 1;
 
@@ -132,7 +137,7 @@ class CityLayout {
         }
     }
 
-    private BuildingGfx getBuilding(String name) {
+    public BuildingGfx getBuilding(String name) {
         for(int i = 0; i < buildingsGfx.size(); i++) {
             if(buildingsGfx.get(i) != null && buildingsGfx.get(i).name.equals(name)) {
                 return buildingsGfx.get(i);
