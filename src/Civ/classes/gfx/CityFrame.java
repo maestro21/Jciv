@@ -222,7 +222,7 @@ public class CityFrame extends JFrame {
 
         public void paint(Graphics g) {
             initDraw(g);
-            draw(bg,d.dim(1750, 900));
+            draw(bg,d.center().dim(1750, 900));
 
             BuildingGfx buildingGfx;
             int offsetX = (getWidth() - (int)(cityLayout.cityLayoutMatrixSize * tileSize * 1.2)) / 2;
@@ -231,8 +231,8 @@ public class CityFrame extends JFrame {
 
             drawRoads(g);
 
-            draw(coastBgTop, d.right().dim(1100, 340, 0 ,60));
-            draw(coastBgRight, d.dim(575, 490, 0, 400));
+            draw(coastBgTop, d.left().top().dim(1100, 340, 1750 - 1100,65));
+            draw(coastBgRight, d.dim(575, 490, 1750 - 575, 400));
 
             //g.drawImage(coastBg, 0,0, getWidth(), getHeight(),null);
           // g.drawImage(coastBgTop, getWidth() - 1080, 85, 1080, 335,null);
