@@ -231,13 +231,14 @@ public class CityFrame extends JFrame {
 
             drawRoads(g);
 
-            draw(coastBgTop, d.left().top().dim(1100, 340, 1750 - 1100,65));
-            draw(coastBgRight, d.dim(575, 490, 1750 - 575, 400));
+            draw(coastBgTop, d.left().top().dim(1100, 315, 0 + 350,80));
+            draw(coastBgRight, d.dim(575, 500, (1100 - 575) + 350, 395));
 
             //g.drawImage(coastBg, 0,0, getWidth(), getHeight(),null);
           // g.drawImage(coastBgTop, getWidth() - 1080, 85, 1080, 335,null);
            //g.drawImage(coastBgRight, getWidth() - 700, 400, 900, getHeight(),null);
 
+            drawBuilding(g, cityLayout.getBuilding("port"), 18, cityLayout.cityLayoutMatrixSize / 2 + 1);
 
             int to = cityLayout.cityLayoutMatrixSize - 1;
             for (int y = to; y >= 0; y--) {

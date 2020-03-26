@@ -198,6 +198,14 @@
       "size": 2,
       "name": "circus",
       "symbol": "@"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "w": 2,
+      "h": 3,
+      "name": "port",
+      "symbol": "t"
     }
   ]
 }
