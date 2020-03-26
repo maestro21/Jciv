@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.ImageObserver;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class CityFrame extends JFrame {
 
     public Image buildings;
     public Image bg;
+    public Image coastBg, coastBgTop, coastBgRight;
     public Image topBg;
     public CityLayout cityLayout;
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
@@ -39,10 +41,13 @@ public class CityFrame extends JFrame {
         buildings = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/roman2.png"); //Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cities.png");
         bg = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/grasslandbg2.jpg");
         topBg = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/topbg.png");
+        coastBg = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/coastBg.png");
+        coastBgTop = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/coastbgtop.png");
+        coastBgRight = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/coastbgright.png");
         tileSize = 64;
         loadJsonBuildings();
         buildCityLayout();
-        CityPanel cityPanel = new CityPanel();
+        CityPanel cityPanel = new CityPanel(this);
         getContentPane().add(cityPanel);
         setVisible(true);
     }
@@ -94,13 +99,24 @@ public class CityFrame extends JFrame {
 
     public void buildCityLayout() {
         String[] buildings = new String[]{ "palace", "colosseum", "circus","barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct", };
-        cityLayout = new CityLayout(15, buildings, true, buildingsGfx);
+        cityLayout = new CityLayout(14, buildings, true, buildingsGfx);
     }
 
 
     public class CityPanel extends JPanel {
+
+        public Drawer d;
+        public ImageObserver io;
+        public Graphics g;
+
+        CityPanel(ImageObserver io) {
+            super();
+            this.io = io;
+        }
+
         @Override
         public void paintComponent(Graphics g) {
+            this.g = g;
             // Important to call super class method
             super.paintComponent(g);
             paint(g);
@@ -175,6 +191,8 @@ public class CityFrame extends JFrame {
                     this);
         }
 
+
+
         public void drawAqueduct(Graphics g, int x, int y) {
             int offsetX = 5;
             BuildingGfx aqueductx = cityLayout.getBuilding("aqueductx");
@@ -187,17 +205,38 @@ public class CityFrame extends JFrame {
             }
         }
 
+
+        public void draw(Image img, ImgDimensions dim) {
+            System.out.println(dim);
+            g.drawImage(img, dim.offX, dim.offY, dim.x, dim.y, null);
+        }
+
+        public void initDraw(Graphics g) {
+            d = new Drawer();
+            this.g = g;
+            double scaleX = 1.0 * getWidth() / 1750;
+            double scaleY = 1.0 *getHeight() / 900;
+            float scale = (float)(scaleX > scaleY ? scaleX : scaleY); System.out.println(scale);
+            d.setScale(scale).setContainer(getWidth(), getHeight());
+        }
+
         public void paint(Graphics g) {
+            initDraw(g);
+            draw(bg,d.dim(1750, 900));
 
-            g.drawImage(bg, 0,0, getWidth(), getHeight(),null);
             BuildingGfx buildingGfx;
-            Coords drawCoords;
-
-            int offsetX = (getWidth() - (cityLayout.cityLayoutMatrixSize * tileSize)) / 2;
+            int offsetX = (getWidth() - (int)(cityLayout.cityLayoutMatrixSize * tileSize * 1.2)) / 2;
             int offsetY = (int)(getHeight() / 1.8);
             offset = new Coords(offsetX, offsetY);
 
             drawRoads(g);
+
+            draw(coastBgTop, d.right().dim(1100, 340, 0 ,60));
+            draw(coastBgRight, d.dim(575, 490, 0, 400));
+
+            //g.drawImage(coastBg, 0,0, getWidth(), getHeight(),null);
+          // g.drawImage(coastBgTop, getWidth() - 1080, 85, 1080, 335,null);
+           //g.drawImage(coastBgRight, getWidth() - 700, 400, 900, getHeight(),null);
 
 
             int to = cityLayout.cityLayoutMatrixSize - 1;
@@ -212,8 +251,6 @@ public class CityFrame extends JFrame {
                     drawBuilding(g, buildingGfx, x,y);
                 }
             }
-            int scale = getWidth() / topBg.getWidth(null) * topBg.getHeight(null);
-            g.drawImage(topBg, 0,(int)(getHeight() * 0.15), getWidth(), scale, null);
         }
     }
 }

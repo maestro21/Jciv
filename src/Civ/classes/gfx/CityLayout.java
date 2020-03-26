@@ -42,6 +42,7 @@ class CityLayout {
             if(houseIndex > 4) houseIndex = 4;
             if(houseIndex < 1) houseIndex = 1;
             this.buildings.add("house" + houseIndex);
+
         }
 
 
