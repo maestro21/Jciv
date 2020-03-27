@@ -22,39 +22,56 @@ public class CityFrame extends JFrame {
         CityFrame cf = new CityFrame();
     }
 
+    public Image wonders;
     public Image buildings;
     public Image bg;
-    public Image coastBg, coastBgTop, coastBgRight;
+    public Image coastBg, coastBgTop, coastBgRight, coastBgBottom;
     public Image topBg;
     public CityLayout cityLayout;
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
+    public String ruleset = "default";
+    public String citySet = "roman2";
+    public String cityViewPath = "";
 
     public int tileSize;
 
     public CityFrame() {
         setTitle("CivNations");
+        cityViewPath = "data/rulesets/" + ruleset + "/cityview/";
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(0,0, screenSize.width, screenSize.height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(1000, 500));
-        buildings = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/roman2.png"); //Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cities.png");
-        bg = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/grasslandbg2.jpg");
-        topBg = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/topbg.png");
-        coastBg = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/coastBg.png");
-        coastBgTop = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/coastbgtop.png");
-        coastBgRight = Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cityview/coastbgright.png");
+        setSize(new Dimension(1750, 900));
+        setMaximumSize(new Dimension(1750, 900));
+        wonders = Toolkit.getDefaultToolkit().getImage(cityViewPath + "wonders.png");
+        buildings = Toolkit.getDefaultToolkit().getImage(cityViewPath + citySet + ".png"); //Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cities.png");
+        bg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "grasslandbg2.jpg");
+        topBg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "leftforest.png");
+        coastBg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastBg.png");
+        coastBgTop = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastbgtop.png");
+        coastBgRight = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coast2r.jpg");
+        coastBgBottom = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastbgright.png");
         tileSize = 64;
-        loadJsonBuildings();
+        loadJsonBuildings(citySet);
+        loadJsonWonders();
         buildCityLayout();
         CityPanel cityPanel = new CityPanel(this);
         getContentPane().add(cityPanel);
         setVisible(true);
     }
 
-    public void loadJsonBuildings() {
+    public void loadJsonBuildings(String name) {
+        loadJsonBuildings(name, false);
+    }
+
+    public void loadJsonWonders() {
+        loadJsonBuildings("wonders", true);
+    }
+
+    public void loadJsonBuildings(String name, boolean wonder) {
         JSONParser parser = new JSONParser();
-        try (Reader reader = new FileReader("data/rulesets/default/cityview/roman2.json")) {
+        try (Reader reader = new FileReader(cityViewPath + name + ".json")) {
             JSONObject json = (JSONObject) parser.parse(reader);
             JSONArray jsonBuildings = (JSONArray)json.get("buildings");
             for(int i = 0; i < jsonBuildings.size(); i++) {
@@ -69,6 +86,7 @@ public class CityFrame extends JFrame {
                 buildingGfx.dx = getFloat(jsonBuilding ,"dx");
                 buildingGfx.dy = getFloat(jsonBuilding ,"dy");
                 buildingGfx.size = getInt(jsonBuilding, "size");
+                buildingGfx.wonder = wonder;
                 buildingsGfx.add(buildingGfx);
             }
         } catch (IOException | ParseException e) {
@@ -98,7 +116,7 @@ public class CityFrame extends JFrame {
 
 
     public void buildCityLayout() {
-        String[] buildings = new String[]{ "palace", "colosseum", "circus","barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct", };
+        String[] buildings = new String[]{ "palace", "colosseum", "circus","barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct", "pyramids"};
         cityLayout = new CityLayout(14, buildings, true, buildingsGfx);
     }
 
@@ -175,13 +193,16 @@ public class CityFrame extends JFrame {
             int cx = drawCoords.x;
             int cy = drawCoords.y;
 
-
-
             if(buildingGfx.name.equals("aqueduct")) {
                 drawAqueduct(g, x,y);
             }
 
-            g.drawImage(buildings, cx, cy,
+            Image img = buildings;
+            if(buildingGfx.isWonder()) {
+                img = wonders;
+            }
+
+            g.drawImage(img, cx, cy,
                     cx + w,
                     cy + h,
                     sx,
@@ -231,8 +252,9 @@ public class CityFrame extends JFrame {
 
             drawRoads(g);
 
-            draw(coastBgTop, d.left().top().dim(1100, 315, 0 + 350,80));
-            draw(coastBgRight, d.dim(575, 500, (1100 - 575) + 350, 395));
+            draw(coastBgTop, d.left().top().dim(1100, 315, 0 + 500,60));
+            draw(coastBgBottom, d.dim(575, 500, (1100 - 575) + 500, 375));
+            draw(coastBgRight, d.dim(430, 800, 1099 + 500, 73));
 
             //g.drawImage(coastBg, 0,0, getWidth(), getHeight(),null);
           // g.drawImage(coastBgTop, getWidth() - 1080, 85, 1080, 335,null);

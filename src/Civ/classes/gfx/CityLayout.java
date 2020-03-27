@@ -153,7 +153,10 @@ class CityLayout {
             return true;
         }
         if(bc < buildings.size()) {
-            BuildingGfx buildingGfx =  getBuilding( buildings.get(bc));
+            BuildingGfx buildingGfx =  getBuilding(buildings.get(bc));
+            if(buildingGfx == null) {
+                return false;
+            }
             buildingMatrix[i][j] = buildingGfx;
             if(buildingGfx.size > 1 ) {
                 int dj = j + 1;
@@ -164,6 +167,23 @@ class CityLayout {
                     buildings.add(buildingMatrix[i][dj].name);
                 }
                 buildingMatrix[i][dj] = emptyBuilding;
+
+                if(buildingGfx.size == 4) {
+                    int di = i + 1;
+                    if(di >= buildingMatrixSize) {
+                        di = i - 1;
+                    }
+                    if(buildingMatrix[di][j] != null) {
+                        buildings.add(buildingMatrix[i][dj].name);
+                    }
+                    buildingMatrix[di][j] = emptyBuilding;
+
+                    if(buildingMatrix[di][dj] != null) {
+                        buildings.add(buildingMatrix[i][dj].name);
+                    }
+                    buildingMatrix[di][dj] = emptyBuilding;
+                }
+
                 printMatrix(buildingMatrix,buildingMatrixSize);
             }
             bc++;

@@ -12,6 +12,11 @@ public class BuildingGfx {
     public int size = 1;
     public String name = "";
     public String symbol = "";
+    public boolean wonder = false;
+
+    public boolean isWonder() {
+        return wonder;
+    }
 
     public boolean is(String s) {
         return s.equals(symbol) || s.equals(name);
