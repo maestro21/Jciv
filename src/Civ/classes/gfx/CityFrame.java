@@ -8,6 +8,8 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,6 +24,7 @@ public class CityFrame extends JFrame {
         CityFrame cf = new CityFrame();
     }
 
+    public int citySize = 1;
     public Image wonders;
     public Image buildings;
     public Image bg;
@@ -33,6 +36,7 @@ public class CityFrame extends JFrame {
     public String ruleset = "default";
     public String citySet = "roman2";
     public String cityViewPath = "";
+    public JButton rndBtn;
 
     public int tileSize;
 
@@ -53,11 +57,28 @@ public class CityFrame extends JFrame {
         coastBgRight = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coast2r.jpg");
         coastBgBottom = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastbgright.png");
         tileSize = 64;
+        CityPanel cityPanel = new CityPanel(this);
         loadJsonBuildings(citySet);
         loadJsonWonders();
         buildCityLayout();
-        CityPanel cityPanel = new CityPanel(this);
         getContentPane().add(cityPanel);
+        setLayout(null);
+        cityPanel.setBounds(0,50,1750,900);
+
+        rndBtn = new JButton("Randomize");
+        rndBtn.setBounds(0,0,95,30);
+        rndBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                citySize += 1;
+                buildCityLayout();
+                repaint();
+            }
+        });
+
+        add(rndBtn);
+
         setVisible(true);
     }
 
@@ -116,8 +137,8 @@ public class CityFrame extends JFrame {
 
 
     public void buildCityLayout() {
-        String[] buildings = new String[]{ "palace", "colosseum", "circus","barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct", "pyramids"};
-        cityLayout = new CityLayout(14, buildings, true, buildingsGfx);
+        String[] buildings = new String[]{ "palace", "barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct",  "colosseum", "circus" };
+        cityLayout = new CityLayout(citySize, buildings, true, buildingsGfx);
     }
 
 
@@ -161,7 +182,7 @@ public class CityFrame extends JFrame {
 
 
         public void drawRoads(Graphics g) {
-            int cc = cityLayout.cityCenter;
+            int cc = cityLayout.cityCenter; System.out.println(cc);
             BuildingGfx roadx = cityLayout.getBuilding("roadv"), roady = cityLayout.getBuilding("roadh");
             for(int i = 0; i < 20; i++) {
                 drawBuilding(g,roady, cc - i, cc);
@@ -228,7 +249,7 @@ public class CityFrame extends JFrame {
 
 
         public void draw(Image img, ImgDimensions dim) {
-            System.out.println(dim);
+            //System.out.println(dim);
             g.drawImage(img, dim.offX, dim.offY, dim.x, dim.y, null);
         }
 
@@ -237,7 +258,7 @@ public class CityFrame extends JFrame {
             this.g = g;
             double scaleX = 1.0 * getWidth() / 1750;
             double scaleY = 1.0 *getHeight() / 900;
-            float scale = (float)(scaleX > scaleY ? scaleX : scaleY); System.out.println(scale);
+            float scale = (float)(scaleX > scaleY ? scaleX : scaleY); //System.out.println(scale);
             d.setScale(scale).setContainer(getWidth(), getHeight());
         }
 
@@ -260,7 +281,7 @@ public class CityFrame extends JFrame {
           // g.drawImage(coastBgTop, getWidth() - 1080, 85, 1080, 335,null);
            //g.drawImage(coastBgRight, getWidth() - 700, 400, 900, getHeight(),null);
 
-            drawBuilding(g, cityLayout.getBuilding("port"), 18, cityLayout.cityLayoutMatrixSize / 2 + 1);
+            drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
 
             int to = cityLayout.cityLayoutMatrixSize - 1;
             for (int y = to; y >= 0; y--) {

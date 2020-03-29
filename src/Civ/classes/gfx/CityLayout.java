@@ -56,6 +56,16 @@ class CityLayout {
         printCityLayout();
     }
 
+    public boolean isEmptyRow() {
+        int to = buildingMatrixSize - 1;
+        for (int i = 0; i < to; i++) {
+            if(buildingMatrix[to][i] != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public void cityLayout() {
         cityLayoutMatrixSize = buildingMatrixSize * 2 + 3;
@@ -64,8 +74,6 @@ class CityLayout {
         int r = half * 2 + 1;
         int i; int ix; int iy; int j;
         cityCenter = r;
-
-        int e = cityLayoutMatrixSize - 1;
 
         for(i = 0; i < buildingMatrixSize; i++ ) {
             ix = 1 + i * 2;
@@ -81,37 +89,50 @@ class CityLayout {
             }
         }
 
-
-        for (i = 0; i < cityLayoutMatrixSize; i++) {
-            if(walled) {
-                cityLayout[i][0] = getBuilding("wallv");
-                cityLayout[i][e] = getBuilding("wallv");
-                cityLayout[0][i] = getBuilding("wallh");
-                cityLayout[e][i] = getBuilding("wallh");
-            }
-            cityLayout[i][r] = getBuilding("roadv");
-            cityLayout[r][i] = getBuilding("roadh");
-        }
-        if(walled) {
-            cityLayout[0][0] = getBuilding("tower");
-            cityLayout[0][e] = getBuilding("tower");
-            cityLayout[e][0] = getBuilding("tower");
-            cityLayout[e][e] = getBuilding("tower");
-            cityLayout[r][r] = getBuilding("roadx");
-            cityLayout[r][0] = getBuilding("gateh");
-            cityLayout[r][e] = getBuilding("gateh");
-            cityLayout[0][r] = getBuilding("gatev");
-            cityLayout[e][r] = getBuilding("gatev");
-        }
+        addWalls();
     }
 
+    public void addWalls() {
+        if(!walled) {
+            return;
+        }
+        int e = cityLayoutMatrixSize - 1;
+        int ey = e;
+        if(isEmptyRow()) {
+            ey--;
+            ey--;
+        }
+        int r = cityCenter;
+        for (int i = 0; i < cityLayoutMatrixSize; i++) {
+            if(i < ey) {
+                cityLayout[i][0] = getBuilding("wallv");
+                cityLayout[i][e] = getBuilding("wallv");
+            }
+            cityLayout[0][i] = getBuilding("wallh");
+            cityLayout[ey][i] = getBuilding("wallh");
+        }
+        cityLayout[0][0] = getBuilding("tower");
+        cityLayout[0][e] = getBuilding("tower");
+        cityLayout[ey][0] = getBuilding("tower");
+        cityLayout[ey][e] = getBuilding("tower");
+        cityLayout[r][r] = getBuilding("roadx");
+        cityLayout[r][0] = getBuilding("gateh");
+        cityLayout[r][e] = getBuilding("gateh");
+        cityLayout[0][r] = getBuilding("gatev");
+        cityLayout[ey][r] = getBuilding("gatev");
+    }
+
+
+    public int getCityCenter() {
+        return (buildingMatrixSize%2 == 0) ? (buildingMatrixSize/2 - 1) : (buildingMatrixSize/2);
+    }
 
     private void spiralBuildingsCounterClockwise() {
         System.out.println("\n\nCounter Clockwise elements:");
 
         int right = buildingMatrixSize/2;
         int left = right - 1;
-        int top = (buildingMatrixSize%2 == 0) ? (buildingMatrixSize/2 - 1) : (buildingMatrixSize/2);
+        int top =  getCityCenter();
         int bottom = top + 1;
 
         OUTER: while (true) {
@@ -147,6 +168,31 @@ class CityLayout {
         return null;
     }
 
+
+    private void replaceBuilding(int x, int y) {
+        replaceBuilding(x,y, emptyBuilding);
+    }
+
+
+    private void replaceBuilding(int x, int y, BuildingGfx building) {
+        if(buildingMatrix[y][x] != null) {
+            buildings.add(buildingMatrix[y][x].name);
+        }
+        buildingMatrix[y][x] = building;
+    }
+
+    private void placeAqueduct(int x, int y) {
+        for(int i = 0; i < buildingMatrixSize; i++) {
+            BuildingGfx buildingGfx =  buildingMatrix[y][i];
+            if(buildingGfx != null && buildingGfx.size == 4) {
+                buildingMatrix[y][x] = buildingMatrix[y--][x];
+                y--;
+                buildingMatrix[y][x] = getBuilding("aqueduct");
+                placeAqueduct(x,y);
+            }
+        }
+    }
+
     private boolean setBuilding(int i, int j) {
         if (i < 0 || i >= buildingMatrixSize || j < 0 || j>= buildingMatrixSize) return false;
         if(buildingMatrix[i][j] != null) {
@@ -157,31 +203,30 @@ class CityLayout {
             if(buildingGfx == null) {
                 return false;
             }
+
             buildingMatrix[i][j] = buildingGfx;
+            /*if(buildingGfx.name.equals("aqueduct")) {
+               // placeAqueduct(i,j);
+               buildingMatrix[i][j] = buildingMatrix[getCityCenter()][getCityCenter() + 1];
+               buildingMatrix[getCityCenter()][getCityCenter() + 1] = buildingGfx;
+               // return true;
+            } */
+
             if(buildingGfx.size > 1 ) {
+                printMatrix(buildingMatrix,buildingMatrixSize);
                 int dj = j + 1;
                 if(dj >= buildingMatrixSize) {
                     dj = j - 1;
                 }
-                if(buildingMatrix[i][dj] != null) {
-                    buildings.add(buildingMatrix[i][dj].name);
-                }
-                buildingMatrix[i][dj] = emptyBuilding;
+                replaceBuilding(dj,i);
 
                 if(buildingGfx.size == 4) {
                     int di = i + 1;
                     if(di >= buildingMatrixSize) {
                         di = i - 1;
                     }
-                    if(buildingMatrix[di][j] != null) {
-                        buildings.add(buildingMatrix[i][dj].name);
-                    }
-                    buildingMatrix[di][j] = emptyBuilding;
-
-                    if(buildingMatrix[di][dj] != null) {
-                        buildings.add(buildingMatrix[i][dj].name);
-                    }
-                    buildingMatrix[di][dj] = emptyBuilding;
+                    replaceBuilding(j,di);
+                    replaceBuilding(dj,di);
                 }
 
                 printMatrix(buildingMatrix,buildingMatrixSize);

@@ -152,14 +152,6 @@
     "name": "marketplace",
     "symbol": "M"
   },
-  {
-    "x": 3,
-    "y": 8,
-    "w": 2,
-    "h": 4,
-    "name": "colosseum",
-    "symbol": "C"
-  },
     {
       "x": 7,
       "y": 6,
@@ -187,17 +179,6 @@
       "dx": 0,
       "name": "aqueductx",
       "symbol": "~"
-    },
-    {
-      "x": 0,
-      "y": 8,
-      "w": 3,
-      "h": 4.5,
-      "dx": 1.5,
-      "dy": 0.5,
-      "size": 2,
-      "name": "circus",
-      "symbol": "@"
     },
     {
       "x": 5,
