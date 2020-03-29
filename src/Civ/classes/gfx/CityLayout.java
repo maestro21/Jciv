@@ -7,6 +7,7 @@ import java.util.ArrayList;
 class CityLayout {
 
     private ArrayList<BuildingGfx> buildingsGfx;
+    public BuildingGfx park = null;
     public BuildingGfx[][] cityLayout;
     private BuildingGfx[][] buildingMatrix;
     ArrayList<String> buildings = new ArrayList<>();
@@ -27,6 +28,7 @@ class CityLayout {
         this.walled = walled;
         int buildingCount = (buildings.length  > citySize ? citySize : buildings.length);
         this.buildingsGfx = buildingsGfx;
+        park = getBuilding("park");
 
         int houseIndex = 0;
         for(int i = 0; i < citySize; i++) {
@@ -85,7 +87,11 @@ class CityLayout {
                 if (j >= halfY) {
                     iy++;
                 }
-                cityLayout[iy][ix] = buildingMatrix[buildingMatrixSize - j - 1][ buildingMatrixSize - i - 1];
+                BuildingGfx buildingGfx = buildingMatrix[buildingMatrixSize - j - 1][ buildingMatrixSize - i - 1];
+                if(buildingGfx == null) {
+                    buildingGfx = park;
+                }
+                cityLayout[iy][ix] = buildingGfx;
             }
         }
 

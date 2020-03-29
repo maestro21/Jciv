@@ -8,6 +8,14 @@
       "name": "house4",
       "symbol": "h"
   },
+    {
+      "x": 7,
+      "y": 10,
+      "w": 2,
+      "h": 2,
+      "name": "park",
+      "symbol": "#"
+    },
   {
     "x": 2,
     "y": 0,

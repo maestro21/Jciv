@@ -25,12 +25,12 @@ public class CityFrame extends JFrame {
     }
 
     public int maxSize = 30;
-    public int citySize = 1;
+    public int citySize = 14;
     public Image wonders;
     public Image buildings;
     public Image bg;
     public Image coastBg, coastBgTop, coastBgRight, coastBgBottom;
-    public Image topBg;
+    public Image topBg, topBgL, topBgR;
     public CityLayout cityLayout;
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
@@ -40,6 +40,12 @@ public class CityFrame extends JFrame {
     public JButton rndBtn, incBtn, decBtn;
 
     public int tileSize;
+    public boolean isWater = true;
+    public boolean walled = true;
+
+    public boolean yesno() {
+        return (Math.random() * 2 > 1);
+    }
 
     public CityFrame() {
         setTitle("CivNations");
@@ -53,6 +59,8 @@ public class CityFrame extends JFrame {
         buildings = Toolkit.getDefaultToolkit().getImage(cityViewPath + citySet + ".png"); //Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cities.png");
         bg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "grasslandbg2.jpg");
         topBg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "leftforest.png");
+        topBgL = Toolkit.getDefaultToolkit().getImage(cityViewPath + "topbgl.png");
+        topBgR = Toolkit.getDefaultToolkit().getImage(cityViewPath + "topbgr.png");
         coastBg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastBg.png");
         coastBgTop = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastbgtop.png");
         coastBgRight = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coast2r.jpg");
@@ -72,6 +80,8 @@ public class CityFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 citySize = (int)(Math.random() * maxSize);
+                walled = yesno();
+                isWater = yesno();
                 buildCityLayout();
                 repaint();
             }
@@ -163,7 +173,7 @@ public class CityFrame extends JFrame {
 
     public void buildCityLayout() {
         String[] buildings = new String[]{ "palace", "barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct",  "colosseum", "circus" };
-        cityLayout = new CityLayout(citySize, buildings, true, buildingsGfx);
+        cityLayout = new CityLayout(citySize, buildings, walled, buildingsGfx);
     }
 
 
@@ -299,11 +309,16 @@ public class CityFrame extends JFrame {
 
             drawRoads(g);
 
-            draw(coastBgTop, d.left().top().dim(1100, 315, 0 + 500,60));
-            draw(coastBgBottom, d.dim(575, 500, (1100 - 575) + 500, 375));
-            draw(coastBgRight, d.dim(430, 800, 1099 + 500, 73));
+            draw(topBgL, d.left().top().dim(672, 173, 0,130));
 
-            drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
+            if(isWater) {
+                draw(coastBgTop, d.left().top().dim(1100, 315, 0 + 500, 60));
+                draw(coastBgBottom, d.dim(575, 500, (1100 - 575) + 500, 375));
+                draw(coastBgRight, d.dim(430, 800, 1099 + 500, 73));
+                drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
+            } else {
+                draw(topBgR, d.right().top().dim(672, 173, 0,130));
+            }
 
             int to = cityLayout.cityLayoutMatrixSize - 1;
             for (int y = to; y >= 0; y--) {
