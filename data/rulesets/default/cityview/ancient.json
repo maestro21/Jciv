@@ -1,0 +1,175 @@
+{
+  "buildings": [
+
+    {
+      "x": 0,
+      "y": 3,
+      "w": 2,
+      "h": 4,
+      "name": "palace",
+      "symbol": "P"
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house1",
+      "symbol": "h"
+    },
+
+    {
+      "x": 2,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house2",
+      "symbol": "h"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house3",
+      "symbol": "h"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house4",
+      "symbol": "h"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "barracks",
+      "symbol": "B"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "granary",
+      "symbol": "G"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "market",
+      "symbol": "M"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "w": 2,
+      "h": 3,
+      "name": "temple",
+      "symbol": "T"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "w": 2,
+      "h": 3,
+      "name": "library",
+      "symbol": "L"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "w": 2,
+      "h": 3,
+      "name": "port",
+      "symbol": "P"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "w": 2,
+      "h": 2,
+      "name": "theater",
+      "symbol": "A"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "w": 1,
+      "h": 2,
+      "name": "tower",
+      "symbol": "#"
+    },
+    {
+      "x": 0,
+      "y": 9,
+      "w": 1,
+      "h": 3,
+      "name": "gateh",
+      "symbol": "="
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "w": 1,
+      "h": 3,
+      "name": "gatev",
+      "symbol": ":"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "w": 2,
+      "h": 2,
+      "name": "park",
+      "symbol": "."
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "w": 1,
+      "h": 2,
+      "name": "wallh",
+      "symbol": "-"
+    },
+    {
+      "x": 1,
+      "y": 10
+      "w": 1,
+      "h": 2,
+      "name": "wallv",
+      "symbol": "|"
+    },
+    ,
+    {
+      "x": 1,
+      "y": 9,
+      "w": 1,
+      "h": 1,
+      "name": "roadh",
+      "symbol": "-"
+    },
+    {
+      "x": 2,
+      "y": 9,
+      "w": 1,
+      "h": 1,
+      "name": "roadv",
+      "symbol": "|"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "w": 1,
+      "h": 1,
+      "name": "roadx",
+      "symbol": "+"
+    }
+  ]
+}

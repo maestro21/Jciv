@@ -35,7 +35,7 @@ public class CityFrame extends JFrame {
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
     public String ruleset = "default";
-    public String citySet = "roman2";
+    public String citySet = "ancient";// "roman2";
     public String cityViewPath = "";
     public JButton rndBtn, incBtn, decBtn;
 
@@ -172,7 +172,9 @@ public class CityFrame extends JFrame {
 
 
     public void buildCityLayout() {
-        String[] buildings = new String[]{ "palace", "barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct",  "colosseum", "circus" };
+        //String[] buildings = new String[]{ "palace", "barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct",  "colosseum", "circus", "pyramids" };
+        //String[] buildings = new String[]{ "palace", "barracks", "granary", "market", "church", "university" };
+        String[] buildings = new String[]{  "barracks", "granary", "market", "temple", "library", "theater" };
         cityLayout = new CityLayout(citySize, buildings, walled, buildingsGfx);
     }
 
@@ -220,11 +222,11 @@ public class CityFrame extends JFrame {
             int cx = cityLayout.cityCenter.x;
             int cy = cityLayout.cityCenter.y;
             BuildingGfx roadx = cityLayout.getBuilding("roadv"), roady = cityLayout.getBuilding("roadh");
-            for(int i = 0; i < 20; i++) {
+            for(int i = 0; i < 17; i++) {
                 drawBuilding(g,roady, cx - i, cy);
                 drawBuilding(g, roadx, cx, cy + i);
             }
-            for(int i = 0; i < 30; i++) {
+            for(int i = 0; i < 17; i++) {
                 drawBuilding(g, roady, cx + i, cy);
                 drawBuilding(g,roadx, cx, cy - i);
             }
@@ -312,9 +314,9 @@ public class CityFrame extends JFrame {
             draw(topBgL, d.left().top().dim(672, 173, 0,130));
 
             if(isWater) {
-                draw(coastBgTop, d.left().top().dim(1100, 315, 0 + 500, 60));
+                draw(coastBgTop, d.left().top().dim(1100, 315, 500, 75));
                 draw(coastBgBottom, d.dim(575, 500, (1100 - 575) + 500, 375));
-                draw(coastBgRight, d.dim(430, 800, 1099 + 500, 73));
+                draw(coastBgRight, d.dim(430, 800, 1099 + 500, 88));
                 drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
             } else {
                 draw(topBgR, d.right().top().dim(672, 173, 0,130));
