@@ -25,7 +25,7 @@ public class CityFrame extends JFrame {
     }
 
     public int maxSize = 30;
-    public int citySize = 14;
+    public int citySize = 8;
     public Image wonders;
     public Image buildings;
     public Image bg;
@@ -34,14 +34,18 @@ public class CityFrame extends JFrame {
     public CityLayout cityLayout;
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
+
+    public String[] citySets = "ancient,roman2,russian_imp,ukraine".split(",");
+    public int csCounter = 0;
     public String ruleset = "default";
     public String citySet = "ancient";// "roman2";
     public String cityViewPath = "";
-    public JButton rndBtn, incBtn, decBtn;
+    public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn;
 
     public int tileSize;
     public boolean isWater = true;
     public boolean walled = true;
+    public boolean palace = true;
 
     public boolean yesno() {
         return (Math.random() * 2 > 1);
@@ -56,7 +60,6 @@ public class CityFrame extends JFrame {
         setSize(new Dimension(1750, 900));
         setMaximumSize(new Dimension(1750, 900));
         wonders = Toolkit.getDefaultToolkit().getImage(cityViewPath + "wonders.png");
-        buildings = Toolkit.getDefaultToolkit().getImage(cityViewPath + citySet + ".png"); //Toolkit.getDefaultToolkit().getImage("data/rulesets/default/cities.png");
         bg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "grasslandbg2.jpg");
         topBg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "leftforest.png");
         topBgL = Toolkit.getDefaultToolkit().getImage(cityViewPath + "topbgl.png");
@@ -67,8 +70,7 @@ public class CityFrame extends JFrame {
         coastBgBottom = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastbgright.png");
         tileSize = 64;
         CityPanel cityPanel = new CityPanel(this);
-        loadJsonBuildings(citySet);
-        loadJsonWonders();
+        loadBuildings();
         buildCityLayout();
         getContentPane().add(cityPanel);
         setLayout(null);
@@ -86,6 +88,7 @@ public class CityFrame extends JFrame {
                 repaint();
             }
         });
+
 
         incBtn = new JButton("+");
         incBtn.setBounds(100,0,50,30);
@@ -109,12 +112,79 @@ public class CityFrame extends JFrame {
             }
         });
 
+        palaceBtn = new JButton("Palace");
+        palaceBtn.setBounds(200,0,100,30);
+        palaceBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                palace = !palace;
+                buildCityLayout();
+                repaint();
+            }
+        });
+
+
+        walledBtn = new JButton("Wall");
+        walledBtn.setBounds(300,0,75,30);
+        walledBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                walled = !walled;
+                buildCityLayout();
+                repaint();
+            }
+        });
+
+        waterBtn = new JButton("Water");
+        waterBtn.setBounds(375,0,75,30);
+        waterBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isWater = !isWater;
+                buildCityLayout();
+                repaint();
+            }
+        });
+
+        styleBtn = new JButton("Style");
+        styleBtn.setBounds(450,0,75,30);
+        styleBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nextStyle();
+                loadBuildings();
+                buildCityLayout();
+                repaint();
+            }
+        });
+
 
         add(rndBtn);
         add(incBtn);
         add(decBtn);
+        add(palaceBtn);
+        add(walledBtn);
+        add(waterBtn);
+        add(styleBtn);
 
         setVisible(true);
+    }
+
+    public void nextStyle() {
+        csCounter++;
+        if(csCounter >= citySets.length) {
+            csCounter = 0;
+        }
+
+        citySet = citySets[csCounter];
+    }
+
+    public void loadBuildings() {
+        citySet = citySets[csCounter];
+        buildings = Toolkit.getDefaultToolkit().getImage(cityViewPath + citySet + ".png");
+        buildingsGfx.clear();
+        loadJsonWonders();
+        loadJsonBuildings(citySet);
     }
 
     public void loadJsonBuildings(String name) {
@@ -170,12 +240,23 @@ public class CityFrame extends JFrame {
         return str.isEmpty() ? 0 : Float.parseFloat(str);
     }
 
+    public String getBuildingsByCitySet() {
+        switch(this.citySet) {
+            case "roman2": return "barracks,granary,marketplace,temple,library,amphitheater,aqueduct,colosseum,circus";
+            case "russian_imp": return "barracks,granary,market,church,university,theater,basyl";
+            case "ukraine": return "barracks,granary,market,church,university";
+            default: return "barracks,granary,market,temple,library";
+        }
+    }
+
 
     public void buildCityLayout() {
-        //String[] buildings = new String[]{ "palace", "barracks", "granary", "marketplace", "temple", "library", "amphitheater", "aqueduct",  "colosseum", "circus", "pyramids" };
-        //String[] buildings = new String[]{ "palace", "barracks", "granary", "market", "church", "university" };
-        String[] buildings = new String[]{  "barracks", "granary", "market", "temple", "library", "theater" };
-        cityLayout = new CityLayout(citySize, buildings, walled, buildingsGfx);
+        String buildings = getBuildingsByCitySet();
+        if(palace) {
+            buildings = "palace," + buildings;
+        }
+        String[] buildingArray = buildings.split(",");
+        cityLayout = new CityLayout(citySize, buildingArray, walled, buildingsGfx);
     }
 
 
@@ -233,6 +314,10 @@ public class CityFrame extends JFrame {
         }
 
         public void drawBuilding(Graphics g, BuildingGfx buildingGfx, int x, int y) {
+            if(buildingGfx == null) {
+                return;
+            }
+
             // Upper left corner of this building rect in source
             int sx = (int)(tileSize * buildingGfx.x);
             int sy = (int)(tileSize / 2 * buildingGfx.y);
