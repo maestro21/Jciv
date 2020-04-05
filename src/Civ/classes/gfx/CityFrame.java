@@ -24,7 +24,7 @@ public class CityFrame extends JFrame {
         CityFrame cf = new CityFrame();
     }
 
-    public int maxSize = 30;
+    public int maxSize = 20;
     public int citySize = 8;
     public Image wonders;
     public Image buildings;
@@ -35,10 +35,10 @@ public class CityFrame extends JFrame {
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
 
-    public String[] citySets = "ancient,roman2,russian_imp,ukraine".split(",");
+    public String[] citySets = "medieval,ancient2,roman2,russian_imp,ukraine".split(",");
     public int csCounter = 0;
     public String ruleset = "default";
-    public String citySet = "ancient";// "roman2";
+    public String citySet = "medieval";// "roman2";
     public String cityViewPath = "";
     public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn;
 
@@ -84,6 +84,9 @@ public class CityFrame extends JFrame {
                 citySize = (int)(Math.random() * maxSize);
                 walled = yesno();
                 isWater = yesno();
+                palace = yesno();
+                randomStyle();
+                loadBuildings();
                 buildCityLayout();
                 repaint();
             }
@@ -175,7 +178,12 @@ public class CityFrame extends JFrame {
         if(csCounter >= citySets.length) {
             csCounter = 0;
         }
+        citySet = citySets[csCounter];
+    }
 
+    public void randomStyle() {
+        csCounter = (int)(Math.random() * (citySets.length
+        ));
         citySet = citySets[csCounter];
     }
 
@@ -245,7 +253,8 @@ public class CityFrame extends JFrame {
             case "roman2": return "barracks,granary,marketplace,temple,library,amphitheater,aqueduct,colosseum,circus";
             case "russian_imp": return "barracks,granary,market,church,university,theater,basyl";
             case "ukraine": return "barracks,granary,market,church,university";
-            default: return "barracks,granary,market,temple,library";
+            case "medieval": return "barracks,granary,market,temple,library,theater,cathedral,university";
+            default: return "barracks,granary,market,temple,library,theater";
         }
     }
 
@@ -254,6 +263,8 @@ public class CityFrame extends JFrame {
         String buildings = getBuildingsByCitySet();
         if(palace) {
             buildings = "palace," + buildings;
+        } else {
+            buildings = "townhall," + buildings;
         }
         String[] buildingArray = buildings.split(",");
         cityLayout = new CityLayout(citySize, buildingArray, walled, buildingsGfx);
@@ -396,7 +407,6 @@ public class CityFrame extends JFrame {
 
             drawRoads(g);
 
-            draw(topBgL, d.left().top().dim(672, 173, 0,130));
 
             if(isWater) {
                 draw(coastBgTop, d.left().top().dim(1100, 315, 500, 75));
@@ -406,6 +416,9 @@ public class CityFrame extends JFrame {
             } else {
                 draw(topBgR, d.right().top().dim(672, 173, 0,130));
             }
+
+
+            draw(topBgL, d.left().top().dim(672, 173, 0,130));
 
             int to = cityLayout.cityLayoutMatrixSize - 1;
             for (int y = to; y >= 0; y--) {
