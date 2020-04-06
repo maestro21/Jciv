@@ -35,10 +35,10 @@ public class CityFrame extends JFrame {
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
 
-    public String[] citySets = "medieval,ancient2,roman2,russian_imp,ukraine".split(",");
+    public String[] citySets = "modern,industrial,colonial,medieval,ancient2,roman2,russian_imp,ukraine".split(",");
     public int csCounter = 0;
     public String ruleset = "default";
-    public String citySet = "medieval";// "roman2";
+    public String citySet = "modern";
     public String cityViewPath = "";
     public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn;
 
@@ -46,6 +46,7 @@ public class CityFrame extends JFrame {
     public boolean isWater = true;
     public boolean walled = true;
     public boolean palace = true;
+    public boolean railroad = false;
 
     public boolean yesno() {
         return (Math.random() * 2 > 1);
@@ -254,6 +255,9 @@ public class CityFrame extends JFrame {
             case "russian_imp": return "barracks,granary,market,church,university,theater,basyl";
             case "ukraine": return "barracks,granary,market,church,university";
             case "medieval": return "barracks,granary,market,temple,library,theater,cathedral,university";
+            case "colonial": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory";
+            case "industrial": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory,supermarket,mfplant,hes,cinema,airport";
+            case "modern": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory,supermarket,mfplant,hes,cinema,airport,nuclear,vfarm,roboplant";
             default: return "barracks,granary,market,temple,library,theater";
         }
     }
@@ -267,7 +271,12 @@ public class CityFrame extends JFrame {
             buildings = "townhall," + buildings;
         }
         String[] buildingArray = buildings.split(",");
-        cityLayout = new CityLayout(citySize, buildingArray, walled, buildingsGfx);
+        boolean wallx4 = this.citySet.equals("colonial");
+        railroad = this.citySet.equals("colonial") && this.citySize > 10;
+        if(this.citySet.equals("industrial")) {
+            walled = false;
+        };
+        cityLayout = new CityLayout(citySize, buildingArray, walled, buildingsGfx, wallx4);
     }
 
 
@@ -313,7 +322,11 @@ public class CityFrame extends JFrame {
         public void drawRoads(Graphics g) {
             int cx = cityLayout.cityCenter.x;
             int cy = cityLayout.cityCenter.y;
-            BuildingGfx roadx = cityLayout.getBuilding("roadv"), roady = cityLayout.getBuilding("roadh");
+            BuildingGfx roadx = cityLayout.getBuilding(railroad ? "railroad" :  "roadv"), roady = cityLayout.getBuilding("roadh");
+            roadx.dx = -0.15;
+            roadx.dy = -0.15;
+            roady.dx = -0.15;
+            roady.dy = -0.15;
             for(int i = 0; i < 17; i++) {
                 drawBuilding(g,roady, cx - i, cy);
                 drawBuilding(g, roadx, cx, cy + i);
@@ -321,6 +334,12 @@ public class CityFrame extends JFrame {
             for(int i = 0; i < 17; i++) {
                 drawBuilding(g, roady, cx + i, cy);
                 drawBuilding(g,roadx, cx, cy - i);
+            }
+            if(!railroad) {
+                BuildingGfx xroad =cityLayout.getBuilding("roadx");
+                xroad.dx = -0.15;
+                xroad.dy = -0.15;
+                drawBuilding(g, xroad, cx, cy);
             }
         }
 

@@ -1,0 +1,255 @@
+{
+  "buildings": [
+    {
+      "x": 0,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house1",
+      "symbol": "h"
+    },
+
+    {
+      "x": 2,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house2",
+      "symbol": "h"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house3",
+      "symbol": "h"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house4",
+      "symbol": "h"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "townhall",
+      "symbol": "t"
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "barracks",
+      "symbol": "B"
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "w": 2,
+      "h": 4,
+      "name": "palace",
+      "symbol": "P"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "w": 2,
+      "h": 4,
+      "name": "granary",
+      "symbol": "G"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "market",
+      "symbol": "M"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "temple",
+      "symbol": "t"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "library",
+      "symbol": "L"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "w": 2,
+      "h": 5,
+      "name": "cathedral",
+      "symbol": "C"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "w": 2,
+      "h": 3,
+      "name": "theater",
+      "symbol": "T"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "w": 2,
+      "h": 4,
+      "name": "university",
+      "symbol": "U"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "w": 2,
+      "h": 4,
+      "name": "bank",
+      "symbol": "b"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "w": 2,
+      "h": 3,
+      "name": "supermarket",
+      "symbol": "S"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "w": 2,
+      "h": 3,
+      "name": "park",
+      "symbol": "."
+    },
+    {
+      "x": 0,
+      "y": 12,
+      "w": 2,
+      "h": 4,
+      "name": "factory",
+      "symbol": "F"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "w": 3,
+      "h": 4,
+      "size": 2,
+      "name": "mfplant",
+      "symbol": "M",
+      "dx": -1,
+      "dy": -1
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "w": 3,
+      "h": 4,
+      "size": 2,
+      "name": "airport",
+      "symbol": "A",
+      "dx": -1,
+      "dy": -1
+    },
+    {
+      "x": 8,
+      "y": 12,
+      "w": 2,
+      "h": 4,
+      "name": "hes",
+      "symbol": "H"
+    },
+    {
+      "x": 2,
+      "y": 14,
+      "w": 2,
+      "h": 4,
+      "name": "cinema",
+      "symbol": "c"
+    },
+    {
+      "x": 4,
+      "y": 14,
+      "w": 2,
+      "h": 4,
+      "name": "port",
+      "symbol": "p"
+    },
+    {
+      "x": 6,
+      "y": 14,
+      "w": 2,
+      "h": 6,
+      "name": "office",
+      "symbol": "O"
+    },
+    {
+      "x": 8,
+      "y": 16,
+      "w": 2,
+      "h": 4,
+      "name": "vfarm",
+      "symbol": "v"
+    },
+    {
+      "x": 0,
+      "y": 18,
+      "w": 3,
+      "h": 4,
+      "size": 4,
+      "dx": 0,
+      "dy": -4,
+      "name": "nuclear",
+      "symbol": "N"
+    },
+    {
+      "x": 3,
+      "y": 18,
+      "w": 3,
+      "h": 4,
+      "size": 2,
+      "name": "roboplant",
+      "symbol": "R"
+    },
+    {
+      "x": 0,
+      "y": 16,
+      "w": 1,
+      "h": 1,
+      "name": "roadh",
+      "symbol": "-"
+    },
+    {
+      "x": 0,
+      "y": 17,
+      "w": 1,
+      "h": 1,
+      "name": "roadv",
+      "symbol": "|"
+    },
+    {
+      "x": 1,
+      "y": 16,
+      "w": 1,
+      "h": 1,
+      "name": "roadx",
+      "symbol": "+"
+    }
+  ]
+}

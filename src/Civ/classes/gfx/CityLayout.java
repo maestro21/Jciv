@@ -15,6 +15,8 @@ class CityLayout {
     int cityLayoutMatrixSize;
     int bc = 0;
     boolean walled;
+    boolean wallx4;
+    boolean railroad;
 
     public Coords cityCenter;
 
@@ -24,8 +26,10 @@ class CityLayout {
         return cityLayout[y][x];
     }
 
-    public CityLayout(int citySize, String[] buildings, boolean walled, ArrayList<BuildingGfx> buildingsGfx) {
+    public CityLayout(int citySize, String[] buildings, boolean walled, ArrayList<BuildingGfx> buildingsGfx, boolean wallx4) {
         this.walled = walled;
+        this.wallx4 = wallx4;
+        this.railroad = railroad;
         int buildingCount = (buildings.length  > citySize ? citySize : buildings.length);
         this.buildingsGfx = buildingsGfx;
         park = getBuilding("park");
@@ -112,23 +116,42 @@ class CityLayout {
         int cx = cityCenter.x;
         int cy = cityCenter.y;
 
-        for (int i = 0; i < cityLayoutMatrixSize; i++) {
-            if(i < ey) {
-                cityLayout[i][0] = getBuilding("wallv");
-                cityLayout[i][e] = getBuilding("wallv");
+        if(wallx4) {
+            for (int i = 0; i < cityLayoutMatrixSize; i++) {
+                if (i < ey) {
+                    cityLayout[i][0] = getBuilding("wall_l");
+                    cityLayout[i][e] = getBuilding("wall_r");
+                }
+                cityLayout[0][i] = getBuilding("wall_b");
+                cityLayout[ey][i] = getBuilding("wall_t");
             }
-            cityLayout[0][i] = getBuilding("wallh");
-            cityLayout[ey][i] = getBuilding("wallh");
+            cityLayout[0][0] = getBuilding("tower_l");
+            cityLayout[0][e] = getBuilding("tower_b");
+            cityLayout[ey][0] = getBuilding("tower_t");
+            cityLayout[ey][e] = getBuilding("tower_r");
+            cityLayout[cy][0] = getBuilding("gate_v");
+            cityLayout[cy][e] = getBuilding("gate_v");
+            cityLayout[0][cx] = getBuilding("gate_h");
+            cityLayout[ey][cx] = getBuilding("gate_h");
+
+        } else {
+            for (int i = 0; i < cityLayoutMatrixSize; i++) {
+                if (i < ey) {
+                    cityLayout[i][0] = getBuilding("wallv");
+                    cityLayout[i][e] = getBuilding("wallv");
+                }
+                cityLayout[0][i] = getBuilding("wallh");
+                cityLayout[ey][i] = getBuilding("wallh");
+            }
+            cityLayout[0][0] = getBuilding("tower");
+            cityLayout[0][e] = getBuilding("tower");
+            cityLayout[ey][0] = getBuilding("tower");
+            cityLayout[ey][e] = getBuilding("tower");
+            cityLayout[cy][0] = getBuilding("gateh");
+            cityLayout[cy][e] = getBuilding("gateh");
+            cityLayout[0][cx] = getBuilding("gatev");
+            cityLayout[ey][cx] = getBuilding("gatev");
         }
-        cityLayout[0][0] = getBuilding("tower");
-        cityLayout[0][e] = getBuilding("tower");
-        cityLayout[ey][0] = getBuilding("tower");
-        cityLayout[ey][e] = getBuilding("tower");
-        cityLayout[cy][cx] = getBuilding("roadx");
-        cityLayout[cy][0] = getBuilding("gateh");
-        cityLayout[cy][e] = getBuilding("gateh");
-        cityLayout[0][cx] = getBuilding("gatev");
-        cityLayout[ey][cx] = getBuilding("gatev");
     }
 
 

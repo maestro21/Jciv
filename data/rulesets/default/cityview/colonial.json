@@ -1,0 +1,343 @@
+{
+  "buildings": [
+
+    {
+      "x": 0,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house1",
+      "symbol": "h"
+    },
+
+    {
+      "x": 2,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house2",
+      "symbol": "h"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house3",
+      "symbol": "h"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "house4",
+      "symbol": "h"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "townhall",
+      "symbol": "T"
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "w": 2,
+      "h": 3,
+      "name": "market",
+      "symbol": "M"
+    },
+
+    {
+      "x": 0,
+      "y": 3,
+      "w": 2,
+      "h": 4,
+      "name": "palace",
+      "symbol": "P"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "barracks",
+      "symbol": "B"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "granary",
+      "symbol": "G"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "temple",
+      "symbol": "T"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "w": 2,
+      "h": 3,
+      "name": "library",
+      "symbol": "L"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "w": 2,
+      "h": 4,
+      "name": "university",
+      "symbol": "L"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "w": 2,
+      "h": 4,
+      "name": "bank",
+      "symbol": "b"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "w": 2,
+      "h": 4,
+      "name": "factory",
+      "symbol": "f"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "w": 2,
+      "h": 3,
+      "name": "theater",
+      "symbol": "t"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "w": 2,
+      "h": 5,
+      "name": "cathedral",
+      "symbol": "t"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "w": 2,
+      "h": 4,
+      "name": "port",
+      "symbol": "P"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "w": 1,
+      "h": 3,
+      "name": "tower",
+      "symbol": "#"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "w": 1,
+      "h": 3,
+      "name": "gatev",
+      "symbol": "="
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "w": 1,
+      "h": 3,
+      "name": "gateh",
+      "symbol": ":"
+    },
+    {
+      "x": 0,
+      "y": 12,
+      "w": 2,
+      "h": 2,
+      "name": "park",
+      "symbol": "."
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "w": 1,
+      "h": 3,
+      "name": "wallh",
+      "symbol": "-"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "w": 1,
+      "h": 3,
+      "name": "wallv",
+      "symbol": "|"
+    },
+    {
+      "x": 2,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "name": "roadh",
+      "symbol": "-"
+    },
+    {
+      "x": 3,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "name": "roadv",
+      "symbol": "|"
+    },
+    {
+      "x": 4,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "name": "roadx",
+      "symbol": "+"
+    },
+    {
+      "x": 5,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "name": "railroad",
+      "symbol": "#"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "w": 1,
+      "h": 3,
+      "name": "wallv",
+      "symbol": "|"
+    },
+    {
+      "x": 2,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "name": "roadh",
+      "symbol": "-"
+    },
+    {
+      "x": 3,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "name": "roadv",
+      "symbol": "|"
+    },
+    {
+      "x": 4,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "name": "roadx",
+      "symbol": "+"
+    },
+    {
+      "x": 0,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "tower_l",
+      "symbol": "*",
+      "dx": -0.5,
+      "dy": 0
+    },
+    {
+      "x": 1,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "tower_b",
+      "symbol": "*",
+      "dx": 0,
+      "dy": 0.4
+    },
+    {
+      "x": 2,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "tower_t",
+      "symbol": "*",
+      "dx": 0,
+      "dy": 0.4
+    },
+    {
+      "x": 3,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "tower_r",
+      "symbol": "*",
+      "dx": 0.5,
+      "dy": 0
+    },
+    {
+      "x": 4,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "wall_l",
+      "symbol": "|"
+    },
+    {
+      "x": 5,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "wall_t",
+      "symbol": "-"
+    },
+    {
+      "x": 6,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "wall_r",
+      "symbol": "|"
+    },
+    {
+      "x": 7,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "wall_b",
+      "symbol": "-"
+    },
+    {
+      "x": 8,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "gate_h",
+      "symbol": "="
+    },
+    {
+      "x": 9,
+      "y": 14,
+      "w": 1,
+      "h": 3,
+      "name": "gate_v",
+      "symbol": ":"
+    }
+  ]
+}
