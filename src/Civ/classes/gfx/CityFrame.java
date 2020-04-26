@@ -25,7 +25,7 @@ public class CityFrame extends JFrame {
     }
 
     public int maxSize = 20;
-    public int citySize = 8;
+    public int citySize = 16;
     public Image wonders;
     public Image buildings;
     public Image bg;
@@ -35,12 +35,12 @@ public class CityFrame extends JFrame {
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
 
-    public String[] citySets = "modern,industrial,colonial,medieval,ancient2,roman2,russian_imp,ukraine".split(",");
+    public String[] citySets = "roman,ancient2,medieval,colonial2,industrial,modern,russian_imp,ukraine".split(",");
     public int csCounter = 0;
     public String ruleset = "default";
-    public String citySet = "modern";
+    public String citySet = "roman";
     public String cityViewPath = "";
-    public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn;
+    public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn, styleBtn2;
 
     public int tileSize;
     public boolean isWater = true;
@@ -162,6 +162,18 @@ public class CityFrame extends JFrame {
             }
         });
 
+        styleBtn2 = new JButton("S-");
+        styleBtn2.setBounds(525,0,75,30);
+        styleBtn2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lastStyle();
+                loadBuildings();
+                buildCityLayout();
+                repaint();
+            }
+        });
+
 
         add(rndBtn);
         add(incBtn);
@@ -170,6 +182,7 @@ public class CityFrame extends JFrame {
         add(walledBtn);
         add(waterBtn);
         add(styleBtn);
+        add(styleBtn2);
 
         setVisible(true);
     }
@@ -178,6 +191,14 @@ public class CityFrame extends JFrame {
         csCounter++;
         if(csCounter >= citySets.length) {
             csCounter = 0;
+        }
+        citySet = citySets[csCounter];
+    }
+
+    public void lastStyle() {
+        csCounter--;
+        if(csCounter < 0) {
+            csCounter = citySets.length - 1;
         }
         citySet = citySets[csCounter];
     }
@@ -251,13 +272,13 @@ public class CityFrame extends JFrame {
 
     public String getBuildingsByCitySet() {
         switch(this.citySet) {
-            case "roman2": return "barracks,granary,marketplace,temple,library,amphitheater,aqueduct,colosseum,circus";
+            case "roman": return "barracks,granary,market,temple,library,amphitheater,aqueduct,colosseum,circus,acropolis,mausoleum,glibrary,pyramids,gardens";
             case "russian_imp": return "barracks,granary,market,church,university,theater,basyl";
             case "ukraine": return "barracks,granary,market,church,university";
             case "medieval": return "barracks,granary,market,temple,library,theater,cathedral,university";
-            case "colonial": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory";
+            case "colonial2": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory";
             case "industrial": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory,supermarket,mfplant,hes,cinema,airport";
-            case "modern": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory,supermarket,mfplant,hes,cinema,airport,nuclear,vfarm,roboplant";
+            case "modern": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory,supermarket,mfplant,hes,cinema,airport,nuclear,office,vfarm,roboplant";
             default: return "barracks,granary,market,temple,library,theater";
         }
     }
@@ -271,8 +292,8 @@ public class CityFrame extends JFrame {
             buildings = "townhall," + buildings;
         }
         String[] buildingArray = buildings.split(",");
-        boolean wallx4 = this.citySet.equals("colonial");
-        railroad = this.citySet.equals("colonial") && this.citySize > 10;
+        boolean wallx4 = this.citySet.equals("colonial2");
+        railroad = this.citySet.equals("colonial2") && this.citySize > 10;
         if(this.citySet.equals("industrial")) {
             walled = false;
         };
@@ -432,6 +453,8 @@ public class CityFrame extends JFrame {
                 draw(coastBgBottom, d.dim(575, 500, (1100 - 575) + 500, 375));
                 draw(coastBgRight, d.dim(430, 800, 1099 + 500, 88));
                 drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
+                drawBuilding(g, cityLayout.getBuilding("colossus"), cityLayout.cityLayoutMatrixSize / 2 - 4, cityLayout.cityLayoutMatrixSize / 2 + 11);
+                drawBuilding(g, cityLayout.getBuilding("lighthouse"), cityLayout.cityLayoutMatrixSize / 2, cityLayout.cityLayoutMatrixSize / 2 + 12);
             } else {
                 draw(topBgR, d.right().top().dim(672, 173, 0,130));
             }

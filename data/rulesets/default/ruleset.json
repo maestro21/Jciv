@@ -1,6 +1,8 @@
 {
   "name": "default",
   "tileSize": "64",
+  "religions": "buddhism,catholicism,islam,orthodoxy,protestantism",
+  "colors": "FF0000,0000FF,00FF00,FFFF00,FF00FF,00FFFF,888888,FFFFFF,000000,880000,008800,000088,FF8800,FF0088,88FF00,8800FF,00FF88,0088FF,FF8888,88FF88,8888FF,",
   "terrainTileSize": "96",
   "terrain": [
     {
@@ -120,62 +122,62 @@
     {
       "col": "0",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "settlers",
+      "name": "Settlers"
     },
     {
       "col": "1",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "peasants",
+      "name": "Peasants"
     },
     {
       "col": "2",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "workers",
+      "name": "Workers"
     },
     {
       "col": "3",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "warriors",
+      "name": "Warriors"
     },
     {
       "col": "4",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "spearmen",
+      "name": "Spearmen"
     },
     {
       "col": "5",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "archers",
+      "name": "Archers"
     },
     {
       "col": "6",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "swordsmen",
+      "name": "Swordsmen"
     },
     {
       "col": "7",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "pikemen",
+      "name": "Pikement"
     },
     {
       "col": "8",
       "row": "0",
-      "key": "",
-      "name": ""
+      "key": "pikeshot",
+      "name": "Pike and shot"
     },
     {
       "col": "0",
       "row": "1",
-      "key": "",
-      "name": ""
+      "key": "infantry",
+      "name": "Infantry"
     },
     {
       "col": "1",

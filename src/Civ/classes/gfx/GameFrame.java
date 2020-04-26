@@ -4,6 +4,7 @@ import Civ.classes.Coords;
 import Civ.classes.Game;
 import Civ.classes.ScreenCoords;
 import Civ.entities.City;
+import Civ.entities.Player;
 import Civ.entities.Terrain;
 
 import javax.swing.*;
@@ -74,6 +75,7 @@ public class GameFrame extends JFrame {
 
 
         public void paint(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
             if (game.map == null) {
                 return;
             }
@@ -81,16 +83,17 @@ public class GameFrame extends JFrame {
             // Clear the board
             g.clearRect(0, 0, getWidth(), getHeight());
 
-            drawWater(g);
-            drawCoast(g);
-            drawLand(g);
-            drawTop(g);
-            drawCities(g);
+            drawWater(g2);
+            drawCoast(g2);
+            drawLand(g2);
+            drawTop(g2);
+            drawCities(g2);
 
-            drawCursor(g);
+            drawCursor(g2);
+
         }
 
-        public void drawCursor(Graphics g) {
+        public void drawCursor(Graphics2D g) {
             Color c = new Color(0, 255, 0);
             g.setColor(c);
 
@@ -100,22 +103,25 @@ public class GameFrame extends JFrame {
             tileSize,
             tileSize
             );
+
+            g.setColor(Color.BLACK);
+            g.drawString(screenCoords.selectedTile.x + "," + screenCoords.selectedTile.y, 50,50);
         }
 
 
-        public void drawWater(Graphics g) {
+        public void drawWater(Graphics2D g) {
             drawTerrain(g, "water");
         }
 
-        public void drawLand(Graphics g) {
+        public void drawLand(Graphics2D g) {
             drawTerrain(g, "land");
         }
 
-        public void drawTop(Graphics g) {
+        public void drawTop(Graphics2D g) {
             drawTerrain(g, "top");
         }
 
-        public void drawTerrain(Graphics g, String type) {
+        public void drawTerrain(Graphics2D g, String type) {
 
             for (int x = 0; x < screenCoords.screenSizeInTiles.x; x++) {
                 for (int y = 0; y < screenCoords.screenSizeInTiles.y; y++) {
@@ -153,7 +159,7 @@ public class GameFrame extends JFrame {
         }
 
 
-        public void drawCoast(Graphics g) {
+        public void drawCoast(Graphics2D g) {
             for (int x = 0; x < screenCoords.screenSizeInTiles.x; x++) {
                 for (int y = 0; y < screenCoords.screenSizeInTiles.y; y++) {
                     int dTileX = screenCoords.screenMapOffset.x + x;
@@ -187,7 +193,9 @@ public class GameFrame extends JFrame {
         }
 
 
-        public void drawCities(Graphics g) {
+
+        public void drawCities(Graphics2D g) {
+            g.setFont(new Font("Serif", Font.BOLD, 16));
             for (int x = 0; x < screenCoords.screenSizeInTiles.x; x++) {
                 for (int y = 0; y < screenCoords.screenSizeInTiles.y; y++) {
                     int dTileX = screenCoords.screenMapOffset.x + x;
@@ -207,6 +215,7 @@ public class GameFrame extends JFrame {
 
                         int px = x * tileSize;
                         int py = y * tileSize;
+
                         int sx = city.getSize();
                         int sy = game.ruleset.getCityStyleIndex(city.getCityStyle());
                         System.out.printf("%d %d \n", sx, sy);
@@ -218,11 +227,23 @@ public class GameFrame extends JFrame {
                                 (sx + 1) * tileSize,
                                 (sy + 1) * tileSize,
                                 this);
+
+                        game.gfx.drawFlag(g, city.getPlayer(),px,py, this);
+
+                        g.drawRect(px + 22, py + 44, 20, 16);
+                        g.setColor(city.getPlayer().getColor());
+                        g.fillRect(px + 22, py + 44, 20, 16);
+                        g.setColor(Color.black);
+                        g.drawRect(px + 22, py + 44, 20, 16);
+
+                        g.drawString(Integer.toString(city.getSize()), px + 24 + (city.getSize() < 10 ? 5 : 0), py + 58);
+
+                        String cityName = "CITYNAME " + city.getPlayer().getNewCityName();
+                        game.gfx.drawOutlineText(g, cityName,  px, py + tileSize + 10, city.getPlayer().getColor(), Color.BLACK );
                     }
                 }
             }
         }
-
-
     }
+
 }

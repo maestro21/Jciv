@@ -13,13 +13,28 @@ public class Player {
     private String name;
 
     private Color color;
-
-    private String cityStyle;
-
     private Coords startLocation;
 
     private ArrayList<City> cities = new ArrayList<>();
 
+    private CivNation civNation;
+
+    public void setCities(ArrayList<City> cities) {
+        this.cities = cities;
+    }
+
+    public CivNation getCivNation() {
+        return civNation;
+    }
+
+    public void setCivNation(String civNationName) {
+        this.civNation = game.ruleset.getCivNation(civNationName);
+    }
+
+
+    public void setCivNation(CivNation civNation) {
+        this.civNation = civNation;
+    }
 
     public Game getGame() {
         return game;
@@ -61,13 +76,19 @@ public class Player {
     }
 
     public String getCityStyle() {
-        return cityStyle;
+        return civNation.getCityStyle();
     }
 
-    public Player setCityStyle(String cityStyle) {
-        this.cityStyle = cityStyle;
-        return this;
+
+    public String getNewCityName() {
+        int i = (int)(Math.random() * (civNation.getCityNames().size()-1));
+        String cityName = civNation.getCityNames().get(i);
+        if(cityName == null || cityName.isEmpty()) {
+            cityName = "City";
+        }
+        return cityName;
     }
+
 
     public Coords findClosestTileForCityFoundation() {
         if(this.getCities().size() == 0) {

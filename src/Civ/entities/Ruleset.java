@@ -10,9 +10,7 @@ import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.*;
 
 public class Ruleset {
 
@@ -20,14 +18,23 @@ public class Ruleset {
 
     public int tileSize;
     public int terrainTileSize;
+    public int flagsPerRow = 30;
 
     public Coords coastTile;
+
+    public ArrayList<String> flags = new ArrayList<>();
 
     public ArrayList<Terrain> terrain = new ArrayList<>();
 
     public boolean loaded = false;
 
+    public ArrayList<String> colors = new ArrayList<>();
+
+    public ArrayList<String> religions = new ArrayList<>();
+
     public ArrayList<String> cityTypes = new ArrayList<>();
+
+    public ArrayList<CivNation> civNations = new ArrayList<>();
 
     public Ruleset() {}
 
@@ -71,6 +78,7 @@ public class Ruleset {
             this.name = getStr(jsonRulset,"name");
             this.tileSize = getInt(jsonRulset,"tileSize");
             this.terrainTileSize = getInt(jsonRulset,"terrainTileSize");
+            Collections.addAll(colors,getStr(jsonRulset,"colors").split(","));
 
             /** load terrain **/
             JSONArray jsonTerrain = (JSONArray)jsonRulset.get("terrain");
@@ -111,8 +119,27 @@ public class Ruleset {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        loadFlags();
     }
 
+
+    public void loadFlags() {
+        JSONParser parser = new JSONParser();
+        try (Reader reader = new FileReader("data/rulesets/" + name + "/flags.json"))
+        {
+            JSONArray jsonFlags = (JSONArray) parser.parse(reader);
+            if (jsonFlags != null) {
+                for (int i = 0 ; i < jsonFlags.size(); i++){
+                    flags.add(jsonFlags.get(i).toString());
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Terrain getTerrain(String symbol) {
         Terrain t = new Terrain();
@@ -133,6 +160,76 @@ public class Ruleset {
             }
         }
         return 0;
+    }
+
+
+    public CivNation getCivNation(String civNationName) {
+        for (CivNation civNation : civNations) {
+            if(civNation.getName().equals(civNationName)) {
+                return civNation;
+            }
+        }
+
+        CivNation civNation = loadCivNation(civNationName);
+        if(civNation != null) {
+            civNations.add(civNation);
+        }
+        return civNation;
+    }
+
+    public CivNation loadCivNation(String civNationName) {
+        JSONParser parser = new JSONParser();
+        CivNation civNation = null;
+        try (Reader reader = new FileReader("data/rulesets/" + name + "/nations/" + civNationName + ".json")) {
+            civNation = new CivNation();
+            JSONObject jsonCivNation = (JSONObject) parser.parse(reader);
+
+            civNation.setName(getStr(jsonCivNation,"name"));
+            civNation.setDescription(getStr(jsonCivNation,"description"));
+            civNation.setAdj(getStr(jsonCivNation,"adj"));
+            civNation.setCityStyle(getStr(jsonCivNation,"cityStyle"));
+            civNation.setReligion(getStr(jsonCivNation,"religion"));
+            civNation.setFlag(getStr(jsonCivNation,"flag"));
+
+            Collections.addAll(civNation.cityNames,getStr(jsonCivNation,"cities").split(","));
+
+            /** load nations **/
+            Map nations = ((Map)jsonCivNation.get("govs"));
+            if(nations != null) {
+                // iterating address Map
+                Iterator<Map.Entry> itr1 = nations.entrySet().iterator();
+                while (itr1.hasNext()) {
+                    Map.Entry pair = itr1.next();
+                    JSONObject jsonNation = (JSONObject) pair.getValue();
+                    Nation nation = new Nation();
+                    nation.setCountryName(getStr(jsonNation, "country"));
+                    nation.setFlag(getStr(jsonNation, "flag"));
+                    nation.setTitle(getStr(jsonNation, "title"));
+                    nation.setGovernment(getStr(jsonNation, "government"));
+                    nation.setRuler(getStr(jsonNation, "ruler"));
+                    civNation.getNations().add(nation);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return civNation;
+    }
+
+    public Coords getFlagCoords(String flagName) {
+        Coords coords = null;
+        int index = flags.indexOf(flagName);
+        if(index > -1) {
+            int x = index % flagsPerRow;
+            int y = (int)Math.floor(index / flagsPerRow);
+            coords = new Coords(x * 44,y * 30);
+        }
+        return coords;
+    }
+
+
+    public Color getColor(int i) {
+        return new Color(Integer.parseInt(colors.get(i), 16));
     }
 }
 

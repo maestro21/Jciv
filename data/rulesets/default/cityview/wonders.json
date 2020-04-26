@@ -27,20 +27,11 @@
       "w": 4,
       "h": 5,
       "size": 4,
+      "dx": -2,
+      "dy": -2,
       "name": "pyramids",
       "symbol": "Y"
     },
-
-    {
-      "x": 0,
-      "y": 10,
-      "w": 4,
-      "h": 5,
-      "size": 4,
-      "name": "hermitage",
-      "symbol": "H"
-    },
-
     {
       "x": 5,
       "y": 0,
@@ -48,6 +39,64 @@
       "h": 5,
       "name": "basyl",
       "symbol": "L"
+    }, {
+      "x": 7,
+      "y": 0,
+      "w": 4,
+      "h": 5,
+      "size": 4,
+      "dx": -2,
+      "dy": -2,
+      "name": "glibrary",
+      "symbol": "L"
+    },
+    {
+      "x": 0,
+      "y": 10,
+      "w": 2,
+      "h": 6,
+      "name": "colossus",
+      "symbol": "C"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "w": 2,
+      "h": 4,
+      "name": "gardens",
+      "symbol": "C"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "w": 2,
+      "h": 5,
+      "name": "mausoleum",
+      "symbol": "M"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "w": 2,
+      "h": 3,
+      "name": "gharbor",
+      "symbol": "H"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "w": 2,
+      "h": 4,
+      "name": "lighthouse",
+      "symbol": "L"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "w": 2,
+      "h": 4,
+      "name": "acropolis",
+      "symbol": "H"
     }
   ]
 }

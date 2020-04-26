@@ -6,8 +6,15 @@ import Civ.entities.Player;
 import Civ.entities.Ruleset;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class Game extends JPanel {
 
@@ -18,14 +25,16 @@ public class Game extends JPanel {
     public Gfx gfx;
     public GameFrame gameFrame;
     public ArrayList<Player> players = new ArrayList<>();
+    public ArrayList<String> civNationNames;
 
     public Game(GameOptions gameOptions){
         this.rand = new Random();
         this.gameOptions = gameOptions;
         ruleset = new Ruleset(gameOptions.ruleset);
         map = new Map(this, gameOptions.map);
+        testPlayers();
         //randomPlayers();
-        //randomCities();
+        randomCities();
         start();
     }
 
@@ -34,15 +43,52 @@ public class Game extends JPanel {
         this.gameFrame = new GameFrame(this);
     }
 
+    public void testPlayers() {
+        putPlayer("Caesar", "Romans", Color.WHITE, new Coords(102, 34));
+        putPlayer("Aleksandr", "Romans", Color.BLUE, new Coords(112, 36));
+        putPlayer("Cleopatra", "Egyptians", Color.YELLOW, new Coords(117, 48));
+        putPlayer("Stalin", "Russians", Color.RED, new Coords(124, 17));
+        putPlayer("Bismark", "Germans", Color.GRAY, new Coords(106, 19));
+        putPlayer("Saladin", "Arabs", Color.GREEN, new Coords(130, 48));
+        putPlayer("Darius", "Persians", Color.MAGENTA, new Coords(135, 39));
+        putPlayer("Ghandi", "Indians", Color.ORANGE, new Coords(148, 51));
+        putPlayer("Mao", "Chinese", Color.YELLOW, new Coords(181, 36));
+        putPlayer("Ghenghis", "Chinese", Color.RED, new Coords(173, 20));
+        putPlayer("Tokugawa", "Chinese", Color.MAGENTA, new Coords(197, 35));
+        putPlayer("Siam", "Chinese", Color.YELLOW, new Coords(167, 48));
+
+        putPlayer("Washington", "Americans", Color.lightGray, new Coords(50, 29));
+        putPlayer("Louis", "French", Color.BLUE, new Coords(50, 19)); //canada
+        putPlayer("Louis", "French", Color.BLUE, new Coords(95, 48)); //africa
+
+        putPlayer("Philip", "Spanish", Color.ORANGE, new Coords(41, 38));
+        putPlayer("Philip", "Spanish", Color.ORANGE, new Coords(66, 64)); // portugals
+        putPlayer("Churchill", "Americans", Color.RED, new Coords(200, 75)); // australia
+        putPlayer("Churchill", "Americans", Color.GREEN, new Coords(110, 85)); //africa
+
+
+        putPlayer("Montezuma", "Aztecs", Color.YELLOW, new Coords(48, 64));
+    }
+
+    public void putPlayer(String name, String nation, Color color, Coords coords) {
+        Player player = new Player();
+        player.setColor(color);
+        player.setName(name);
+        player.setGame(this);
+        player.setCivNation(nation);
+        player.setStartLocation(coords);
+        players.add(player);
+        System.out.printf("%s (%s) with city style %s created (%d, %d) \n", player.getName(), player.getCivNation().getName(), player.getCityStyle(), player.getStartLocation().x, player.getStartLocation().y);
+
+    }
+
     public void randomPlayers(){
         for(int i = 0; i < gameOptions.totalPlayers; i++) {
-            Player player = new Player();
-            player.setCityStyle(getRandomCityStyle());
-            player.setName("Player " + (i + 1));
-            player.setGame(this);
-            setRandomStartLocation(player);
-            players.add(player);
-            System.out.printf("%s with city style %s created (%d, %d) \n", player.getName(), player.getCityStyle(), player.getStartLocation().x, player.getStartLocation().y);
+            Coords startLocation = getRandomStartLocation();
+            String name = "Player " + (i + 1);
+            String nation = getRandomCivNation();
+            Color color = ruleset.getColor(i);
+            putPlayer(name, nation, color, startLocation);
         }
     }
 
@@ -58,6 +104,34 @@ public class Game extends JPanel {
         }
     }
 
+    public Coords getRandomStartLocation() {
+        while(true) {
+            int x = rand.nextInt(map.size.x);
+            int y = rand.nextInt(map.size.y);
+            if(map.canBuildCity(x,y)) {
+                return new Coords(x,y);
+            }
+        }
+    }
+
+    public String getRandomCivNation() {
+        if(civNationNames == null) {
+            civNationNames = new ArrayList<>();
+            File folder = new File("data/rulesets/" + gameOptions.ruleset + "/nations");
+            File[] listOfFiles = folder.listFiles();
+
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    civNationNames.add(file.getName().replace(".json", ""));
+                }
+            }
+        }
+
+        int i = rand.nextInt(civNationNames.size() - 1);
+        return civNationNames.get(i);
+
+    }
+
     public String getRandomCityStyle() {
         int i = rand.nextInt(ruleset.cityTypes.size() - 2) + 2;
         return ruleset.cityTypes.get(i);
@@ -71,7 +145,7 @@ public class Game extends JPanel {
            city.setPlayer(player);
            city.setCityStyle(player.getCityStyle());
            city.setSize(rand.nextInt(8) + 1);
-           city.setName("City-" + (i + 1));
+           city.setName(player.getNewCityName());
 
            Coords coords = player.findClosestTileForCityFoundation();
            if(coords != null) {
