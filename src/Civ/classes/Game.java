@@ -45,7 +45,7 @@ public class Game extends JPanel {
 
     public void testPlayers() {
         putPlayer("Caesar", "Romans", Color.WHITE, new Coords(102, 34));
-        putPlayer("Aleksandr", "Romans", Color.BLUE, new Coords(112, 36));
+        putPlayer("Aleksandr", "Greeks", Color.BLUE, new Coords(112, 36));
         putPlayer("Cleopatra", "Egyptians", Color.YELLOW, new Coords(117, 48));
         putPlayer("Stalin", "Russians", Color.RED, new Coords(124, 17));
         putPlayer("Bismark", "Germans", Color.GRAY, new Coords(106, 19));
@@ -53,18 +53,18 @@ public class Game extends JPanel {
         putPlayer("Darius", "Persians", Color.MAGENTA, new Coords(135, 39));
         putPlayer("Ghandi", "Indians", Color.ORANGE, new Coords(148, 51));
         putPlayer("Mao", "Chinese", Color.YELLOW, new Coords(181, 36));
-        putPlayer("Ghenghis", "Chinese", Color.RED, new Coords(173, 20));
-        putPlayer("Tokugawa", "Chinese", Color.MAGENTA, new Coords(197, 35));
-        putPlayer("Siam", "Chinese", Color.YELLOW, new Coords(167, 48));
+        putPlayer("Ghenghis", "Mongols", Color.RED, new Coords(173, 20));
+        putPlayer("Tokugawa", "Japanese", Color.MAGENTA, new Coords(197, 35));
+        putPlayer("Siam", "Siam", Color.ORANGE, new Coords(167, 48));
 
         putPlayer("Washington", "Americans", Color.lightGray, new Coords(50, 29));
         putPlayer("Louis", "French", Color.BLUE, new Coords(50, 19)); //canada
         putPlayer("Louis", "French", Color.BLUE, new Coords(95, 48)); //africa
 
         putPlayer("Philip", "Spanish", Color.ORANGE, new Coords(41, 38));
-        putPlayer("Philip", "Spanish", Color.ORANGE, new Coords(66, 64)); // portugals
-        putPlayer("Churchill", "Americans", Color.RED, new Coords(200, 75)); // australia
-        putPlayer("Churchill", "Americans", Color.GREEN, new Coords(110, 85)); //africa
+        putPlayer("Jaume", "Brasilians", Color.ORANGE, new Coords(66, 64)); // portugals
+        putPlayer("Churchill", "British", Color.RED, new Coords(200, 75)); // australia
+        putPlayer("Churchill", "British", Color.GREEN, new Coords(110, 85)); //africa
 
 
         putPlayer("Montezuma", "Aztecs", Color.YELLOW, new Coords(48, 64));
@@ -138,7 +138,7 @@ public class Game extends JPanel {
     }
 
     public void randomCities() {
-       for(int i = 0; i < 1000; i++) {
+       for(int i = 0; i < 1500; i++) {
            int pi = i % players.size();
            Player player = players.get(pi);
            City city = new City();
