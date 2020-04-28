@@ -19,6 +19,10 @@ public class Player {
 
     private CivNation civNation;
 
+    private String age = "ancient";
+
+    private int cityNameCounter = 0;
+
     public void setCities(ArrayList<City> cities) {
         this.cities = cities;
     }
@@ -81,14 +85,22 @@ public class Player {
 
 
     public String getNewCityName() {
-        int i = (int)(Math.random() * (civNation.getCityNames().size()-1));
-        String cityName = civNation.getCityNames().get(i);
-        if(cityName == null || cityName.isEmpty()) {
-            cityName = "City";
+        //int i = (int)(Math.random() * (civNation.getCityNames().size()-1));
+        String cityName = "City";
+        if(civNation.getCityNames().size() > cityNameCounter) {
+            cityName = civNation.getCityNames().get(cityNameCounter);
+            if (cityName == null || cityName.isEmpty()) {
+                cityName = "City";
+            }
         }
+        cityNameCounter++;
         return cityName;
     }
 
+
+    public boolean isCapital() {
+        return cityNameCounter == 0;
+    }
 
     public Coords findClosestTileForCityFoundation() {
         if(this.getCities().size() == 0) {

@@ -1,957 +1,958 @@
 {
-  "name": "default",
-  "tileSize": "64",
-  "religions": "buddhism,catholicism,islam,orthodoxy,protestantism",
-  "colors": "FF0000,0000FF,00FF00,FFFF00,FF00FF,00FFFF,888888,FFFFFF,000000,880000,008800,000088,FF8800,FF0088,88FF00,8800FF,00FF88,0088FF,FF8888,88FF88,8888FF,",
-  "terrainTileSize": "96",
-  "terrain": [
-    {
-      "col": "0",
-      "row": "0",
-      "name": "Coast",
-      "symbol": "",
-      "color": "",
-      "type": "coast"
-    },
-    {
-      "col": "1",
-      "row": "0",
-      "name": "Floodplains",
-      "symbol": "l",
-      "color": "255,0,255",
-      "type": "land"
-    },
-    {
-      "col": "2",
-      "row": "0",
-      "name": "Grassland",
-      "symbol": "g",
-      "color": "0,136, 0",
-      "type": "land"
-    },
-    {
-      "col": "3",
-      "row": "0",
-      "name": "Desert",
-      "symbol": "d",
-      "color": "255,255,0",
-      "type": "land"
-    },
-    {
-      "col": "4",
-      "row": "0",
-      "name": "Swamp",
-      "symbol": "a",
-      "color": "0,0,0",
-      "type": "land"
-    },
-    {
-      "col": "5",
-      "row": "0",
-      "name": "Plains",
-      "symbol": "p",
-      "color": "248,178,52",
-      "type": "land"
-    },
-    {
-      "col": "6",
-      "row": "0",
-      "name": "",
-      "symbol": "",
-      "color": "",
-      "type": ""
-    },
-    {
-      "col": "0",
-      "row": "1",
-      "name": "Water",
-      "symbol": " ",
-      "color": "0,100,255",
-      "type": "water"
-    },
-    {
-      "col": "1",
-      "row": "1",
-      "name": "Taiga",
-      "symbol": "t",
-      "color": "68,135,100",
-      "type": "land"
-    },
-    {
-      "col": "2",
-      "row": "1",
-      "name": "Snow",
-      "symbol": "s",
-      "color": "255,255,255",
-      "type": "land"
-    },
-    {
-      "col": "3",
-      "row": "1",
-      "name": "Mountains",
-      "symbol": "m",
-      "color": "68,68,68",
-      "type": "top"
-    },
-    {
-      "col": "4",
-      "row": "1",
-      "name": "Forest",
-      "symbol": "f",
-      "color": "32, 87, 2",
-      "type": "top"
-    },
-    {
-      "col": "5",
-      "row": "1",
-      "name": "Hills",
-      "symbol": "h",
-      "color": "136,136,136",
-      "type": "top"
-    },
-    {
-      "col": "6",
-      "row": "1",
-      "name": "Jungle",
-      "symbol": "j",
-      "color": "0,255,0",
-      "type": "top"
-    }
-  ],
-  "units": [
-    {
-      "col": "0",
-      "row": "0",
-      "key": "settlers",
-      "name": "Settlers"
-    },
-    {
-      "col": "1",
-      "row": "0",
-      "key": "peasants",
-      "name": "Peasants"
-    },
-    {
-      "col": "2",
-      "row": "0",
-      "key": "workers",
-      "name": "Workers"
-    },
-    {
-      "col": "3",
-      "row": "0",
-      "key": "warriors",
-      "name": "Warriors"
-    },
-    {
-      "col": "4",
-      "row": "0",
-      "key": "spearmen",
-      "name": "Spearmen"
-    },
-    {
-      "col": "5",
-      "row": "0",
-      "key": "archers",
-      "name": "Archers"
-    },
-    {
-      "col": "6",
-      "row": "0",
-      "key": "swordsmen",
-      "name": "Swordsmen"
-    },
-    {
-      "col": "7",
-      "row": "0",
-      "key": "pikemen",
-      "name": "Pikement"
-    },
-    {
-      "col": "8",
-      "row": "0",
-      "key": "pikeshot",
-      "name": "Pike and shot"
-    },
-    {
-      "col": "0",
-      "row": "1",
-      "key": "infantry",
-      "name": "Infantry"
-    },
-    {
-      "col": "1",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "1",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "2",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "3",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "4",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "5",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "6",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "7",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "8",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "9",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "10",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "11",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "12",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "13",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "0",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "1",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "2",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "3",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "4",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "5",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "6",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "7",
-      "row": "14",
-      "key": "",
-      "name": ""
-    },
-    {
-      "col": "8",
-      "row": "14",
-      "key": "",
-      "name": ""
-    }
-  ],
-  "cities": [
-    "farms",
-    "mines",
-    "egyptian",
-    "roman",
-    "medieval",
-    "celtic",
-    "mediterranean",
-    "russian",
-    "tribal",
-    "babylonian",
-    "muslim",
-    "eastern",
-    "industrial",
-    "soviet",
-    "modern",
-    "postmodern",
-    "nazi",
-    "indian",
-    "spanish",
-    "polish",
-    "english",
-    "nordic"
-  ]
+    "name": "default",
+    "tileSize": "64",
+    "religions": "buddhism,catholicism,islam,orthodoxy,protestantism",
+    "ages": "ancient,medieval,colonial,modern,postmodern",
+    "colors": "FF0000,0000FF,00FF00,FFFF00,FF00FF,00FFFF,888888,FFFFFF,000000,880000,008800,000088,FF8800,FF0088,88FF00,8800FF,00FF88,0088FF,FF8888,88FF88,8888FF,",
+    "terrainTileSize": "96",
+    "terrain": [
+        {
+            "col": "0",
+            "row": "0",
+            "name": "Coast",
+            "symbol": "",
+            "color": "",
+            "type": "coast"
+        },
+        {
+            "col": "1",
+            "row": "0",
+            "name": "Floodplains",
+            "symbol": "l",
+            "color": "255,0,255",
+            "type": "land"
+        },
+        {
+            "col": "2",
+            "row": "0",
+            "name": "Grassland",
+            "symbol": "g",
+            "color": "0,136, 0",
+            "type": "land"
+        },
+        {
+            "col": "3",
+            "row": "0",
+            "name": "Desert",
+            "symbol": "d",
+            "color": "255,255,0",
+            "type": "land"
+        },
+        {
+            "col": "4",
+            "row": "0",
+            "name": "Swamp",
+            "symbol": "a",
+            "color": "0,0,0",
+            "type": "land"
+        },
+        {
+            "col": "5",
+            "row": "0",
+            "name": "Plains",
+            "symbol": "p",
+            "color": "248,178,52",
+            "type": "land"
+        },
+        {
+            "col": "6",
+            "row": "0",
+            "name": "",
+            "symbol": "",
+            "color": "",
+            "type": ""
+        },
+        {
+            "col": "0",
+            "row": "1",
+            "name": "Water",
+            "symbol": " ",
+            "color": "0,100,255",
+            "type": "water"
+        },
+        {
+            "col": "1",
+            "row": "1",
+            "name": "Taiga",
+            "symbol": "t",
+            "color": "68,135,100",
+            "type": "land"
+        },
+        {
+            "col": "2",
+            "row": "1",
+            "name": "Snow",
+            "symbol": "s",
+            "color": "255,255,255",
+            "type": "land"
+        },
+        {
+            "col": "3",
+            "row": "1",
+            "name": "Mountains",
+            "symbol": "m",
+            "color": "68,68,68",
+            "type": "top"
+        },
+        {
+            "col": "4",
+            "row": "1",
+            "name": "Forest",
+            "symbol": "f",
+            "color": "32, 87, 2",
+            "type": "top"
+        },
+        {
+            "col": "5",
+            "row": "1",
+            "name": "Hills",
+            "symbol": "h",
+            "color": "136,136,136",
+            "type": "top"
+        },
+        {
+            "col": "6",
+            "row": "1",
+            "name": "Jungle",
+            "symbol": "j",
+            "color": "0,255,0",
+            "type": "top"
+        }
+    ],
+    "units": [
+        {
+            "col": "0",
+            "row": "0",
+            "key": "settlers",
+            "name": "Settlers"
+        },
+        {
+            "col": "1",
+            "row": "0",
+            "key": "peasants",
+            "name": "Peasants"
+        },
+        {
+            "col": "2",
+            "row": "0",
+            "key": "workers",
+            "name": "Workers"
+        },
+        {
+            "col": "3",
+            "row": "0",
+            "key": "warriors",
+            "name": "Warriors"
+        },
+        {
+            "col": "4",
+            "row": "0",
+            "key": "spearmen",
+            "name": "Spearmen"
+        },
+        {
+            "col": "5",
+            "row": "0",
+            "key": "archers",
+            "name": "Archers"
+        },
+        {
+            "col": "6",
+            "row": "0",
+            "key": "swordsmen",
+            "name": "Swordsmen"
+        },
+        {
+            "col": "7",
+            "row": "0",
+            "key": "pikemen",
+            "name": "Pikement"
+        },
+        {
+            "col": "8",
+            "row": "0",
+            "key": "pikeshot",
+            "name": "Pike and shot"
+        },
+        {
+            "col": "0",
+            "row": "1",
+            "key": "infantry",
+            "name": "Infantry"
+        },
+        {
+            "col": "1",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "1",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "2",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "3",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "4",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "5",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "6",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "7",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "8",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "9",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "10",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "11",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "12",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "13",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "0",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "1",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "2",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "3",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "4",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "5",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "6",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "7",
+            "row": "14",
+            "key": "",
+            "name": ""
+        },
+        {
+            "col": "8",
+            "row": "14",
+            "key": "",
+            "name": ""
+        }
+    ],
+    "cities": [
+        "farms",
+        "mines",
+        "egyptian",
+        "roman",
+        "medieval",
+        "celtic",
+        "mediterranean",
+        "russian",
+        "tribal",
+        "babylonian",
+        "muslim",
+        "eastern",
+        "industrial",
+        "soviet",
+        "modern",
+        "postmodern",
+        "nazi",
+        "indian",
+        "spanish",
+        "polish",
+        "english",
+        "nordic"
+    ]
 }

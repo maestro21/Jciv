@@ -44,6 +44,7 @@ public class Game extends JPanel {
     }
 
     public void testPlayers() {
+        // nation, location, age
         putPlayer("Caesar", "Romans", Color.WHITE, new Coords(102, 34));
         putPlayer("Aleksandr", "Greeks", Color.BLUE, new Coords(112, 36));
         putPlayer("Cleopatra", "Egyptians", Color.YELLOW, new Coords(117, 48));
@@ -142,9 +143,11 @@ public class Game extends JPanel {
            int pi = i % players.size();
            Player player = players.get(pi);
            City city = new City();
+           city.isCapital = player.isCapital();
+           city.game = this;
            city.setPlayer(player);
            city.setCityStyle(player.getCityStyle());
-           city.setSize(rand.nextInt(8) + 1);
+           city.setSize(city.isCapital ? 16 : rand.nextInt(12) + 1);
            city.setName(player.getNewCityName());
 
            Coords coords = player.findClosestTileForCityFoundation();

@@ -2,9 +2,10 @@
     "name": "Russians",
     "flag": "rus",
     "countryName": "Russia",
+    "religion": "orthodoxy",
     "cityStyle": "russian",
     "description": "",
-    "cities": "",
+    "cities": "Moskva,Sankt-Peterburg (ocean),Tver (river),Velikiy Novgorod (lake,river),Yekaterinburg,Samara,Pskov,Ryazan (river),Vladimir,Yaroslavl (river),Novosibirsk (river),Smolensk (river),Bryansk,Oryol,Voronezh,Saransk,Perm,Ufa,Saratov (river),Volgograd (river),Tomsk,Petrozavodsk,Rostov-na-Donu (river),Omsk,Chelyabinsk,Irkutsk,Vladivostok (ocean),Khabarovsk,Krasnoyarsk,Suzdal,Vologda,Murmansk (ocean,tundra),Arkhangelsk (ocean),Krasnodar,Stavropol,Murom,Kaluga,Tula,Kursk,Tambov,Lipetsk,Belgorod,Nizhny Novgorod,Kostroma,Izhevsk,Astrakhan,Kazan,Orenburg,Kurgan,Tyumen,Kemerovo,Yakutsk (tundra),Chita,Magadan (ocean),Norilsk (tundra),Novokuznetsk,Barnaul,Makhachkala,Kirov,Penza,Khanty-Mansiysk,Ulyanovsk,Cheboksary,Ivanovo,Grozny,Syktyvkar,Ulan-Ude,Kaliningrad,Blagoveshchensk,Nalchik,Yoshkar-Ola,Vladikavkaz (mountains),Yuzno-Sakhalinsk,Salekhard,Magas,Maykop,Cherkessk,Petropavlovsk-Kamchatsky (tundra),Kyzyl,Elista,Gorno-Altaysk,Birobidzhan,Anadyr (ocean,tundra),Naryan-Mar,Balashikha,Gatchina,Surgut,Cherepovets,Novy Urengoy,Nazran,Kudymkar,Dudinka,Ust-Ordynsky,Aginskoye,Tura,Palana,Tolyatti,Naberezhnye Chelny,Magnitogorsk,Nizhny Tagil,Sochi (ocean),Sterlitamak,Komsomolsk-na-Amure (river),Taganrog,Bratsk,Nizhnevartovsk,Novorossiysk,Novocherkassk,Okhotsk (ocean),Derbent,Elektrostal,Balakovo,Tobolsk,Volzhskiy,Dzerzhinsk,Khimki,Prokopyevsk,Vyborg,Engels,Krasny Bor,Verkhoyansk (tundra),Borodino,Chernyakhovsk,Pushkin,Azov (ocean),Podolsk",
     "govs": {
         "tribalism": {
             "flag": "rus",
@@ -15,13 +16,13 @@
         "monarchy": {
             "flag": "rus",
             "country": "Rus'",
-            "title": "Dutch",
+            "title": "Knyaz",
             "ruler": "Ryurik"
         },
         "democracy": {
             "flag": "novgorod",
             "country": "{city} Republic",
-            "title": "Dutch",
+            "title": "Knyaz",
             "ruler": "Alexandr Nevski"
         },
         "feudalism": {

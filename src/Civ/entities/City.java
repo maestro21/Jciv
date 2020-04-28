@@ -1,14 +1,17 @@
 package Civ.entities;
 
 import Civ.classes.Coords;
+import Civ.classes.Game;
 
 public class City {
 
     private String name;
     private String cityStyle;
-    private int size;
+    private int size = 0;
     private Player player;
     private Coords coords;
+    public Game game;
+    public boolean isCapital = false;
 
 
     public Coords getCoords() {
@@ -30,7 +33,7 @@ public class City {
     }
 
     public String getName() {
-        return name;
+        return isCapital ? name.toUpperCase() : name;
     }
 
     public City setName(String name) {
@@ -54,5 +57,11 @@ public class City {
     public City setSize(int size) {
         this.size = size;
         return this;
+    }
+
+    public int getCitySizeGfx() {
+        int idx = (int)Math.floor(this.size / 4);
+        if(idx > 3) idx = 3;
+        return idx;
     }
 }

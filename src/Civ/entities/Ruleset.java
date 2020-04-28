@@ -32,6 +32,8 @@ public class Ruleset {
 
     public ArrayList<String> religions = new ArrayList<>();
 
+    public ArrayList<String> ages = new ArrayList<>();
+
     public ArrayList<String> cityTypes = new ArrayList<>();
 
     public ArrayList<CivNation> civNations = new ArrayList<>();
@@ -78,6 +80,8 @@ public class Ruleset {
             this.name = getStr(jsonRulset,"name");
             this.tileSize = getInt(jsonRulset,"tileSize");
             this.terrainTileSize = getInt(jsonRulset,"terrainTileSize");
+            this.religions = getValues(jsonRulset,"religions");
+            this.ages = getValues(jsonRulset,"ages");
             Collections.addAll(colors,getStr(jsonRulset,"colors").split(","));
 
             /** load terrain **/

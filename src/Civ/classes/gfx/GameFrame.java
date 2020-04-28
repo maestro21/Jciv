@@ -6,6 +6,7 @@ import Civ.classes.ScreenCoords;
 import Civ.entities.City;
 import Civ.entities.Player;
 import Civ.entities.Terrain;
+import Civ.entities.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,6 +63,10 @@ public class GameFrame extends JFrame {
 
     public void handleClick(int x, int y) {
         screenCoords.click(x,y);
+        Tile tile = game.map.getTile(screenCoords.selectedTile.x, screenCoords.selectedTile.y);
+        if(tile.getCity() != null) {
+            new CityFrame(tile);
+        }
     }
 
 
@@ -216,7 +221,7 @@ public class GameFrame extends JFrame {
                         int px = x * tileSize;
                         int py = y * tileSize;
 
-                        int sx = city.getSize();
+                        int sx = city.getCitySizeGfx();
                         int sy = game.ruleset.getCityStyleIndex(city.getCityStyle());
                         System.out.printf("%d %d \n", sx, sy);
                         g.drawImage(game.gfx.cities, px, py,
@@ -237,9 +242,7 @@ public class GameFrame extends JFrame {
                         g.drawRect(px + 22, py + 44, 20, 16);
 
                         g.drawString(Integer.toString(city.getSize()), px + 24 + (city.getSize() < 10 ? 5 : 0), py + 58);
-
-                        String cityName = "CITYNAME " + city.getPlayer().getNewCityName();
-                        game.gfx.drawOutlineText(g, cityName,  px, py + tileSize + 10, city.getPlayer().getColor(), Color.BLACK );
+                        game.gfx.drawOutlineText(g, city.getName(),  px, py + tileSize + 10, city.getPlayer().getColor(), Color.BLACK );
                     }
                 }
             }

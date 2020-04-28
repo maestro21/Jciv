@@ -33,11 +33,22 @@ public class Gfx {
     }
 
     public void drawFlag(Graphics g, String flag, int x, int y, ImageObserver io) {
+        drawFlag(g, flag, x, y, io, 30, 20);
+    }
+
+    public void drawFlag(Graphics g, Player player, int x, int y, ImageObserver io, int fx, int fy) {
+        if(player == null || player.getCivNation() == null || player.getCivNation().getFlag().isEmpty()) {
+            return;
+        }
+        drawFlag(g, player.getCivNation().getFlag(), x, y, io, fx, fy);
+    }
+
+    public void drawFlag(Graphics g, String flag, int x, int y, ImageObserver io, int fx, int fy) {
         Coords flagCoords = game.ruleset.getFlagCoords(flag);
         if(flagCoords == null) return;
-        g.drawImage(flags, x + 34, y,
-                x + 64,
-                y + 20,
+        g.drawImage(flags, x, y,
+                x + fx,
+                y + fy,
                 flagCoords.x,
                 flagCoords.y,
                 flagCoords.x + 44,
@@ -69,4 +80,8 @@ public class Gfx {
         g.drawString(text, x, y);
     }
 
+    public int getStringCenter(Graphics g, String text, Font font) {
+        FontMetrics metrics = g.getFontMetrics(font);
+        return metrics.stringWidth(text) / 2;
+    }
 }

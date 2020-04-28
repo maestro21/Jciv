@@ -1,6 +1,9 @@
 package Civ.classes.gfx;
 
 import Civ.classes.Coords;
+import Civ.classes.Game;
+import Civ.entities.City;
+import Civ.entities.Tile;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,7 +18,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CityFrame extends JFrame {
 
@@ -47,17 +53,50 @@ public class CityFrame extends JFrame {
     public boolean walled = true;
     public boolean palace = true;
     public boolean railroad = false;
+    public String cityName = "City";
+
+    private Game game;
+    private City city;
+    private Tile tile;
 
     public boolean yesno() {
         return (Math.random() * 2 > 1);
     }
 
+
+    public CityFrame(Tile tile) {
+        this.tile = tile;
+        city = this.tile.getCity();
+        game = city.game;
+        ruleset = game.ruleset.name;
+        citySize = city.getSize();
+        citySet = getCitySet(city.getPlayer().getCityStyle());
+        isWater = game.map.getCoast(tile.x, tile.y);
+        palace = city.isCapital;
+        cityName = city.getName();
+        walled = citySize > 6;
+        init();
+    }
+
+    private String getCitySet(String citySet) {
+        List<String> list = Arrays.asList(citySets);
+
+        if(list.contains(citySet)){
+            return citySet;
+        }
+        return "ancient2";
+    }
+
     public CityFrame() {
+        init();
+    }
+
+    public void init() {
         setTitle("CivNations");
         cityViewPath = "data/rulesets/" + ruleset + "/cityview/";
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(0,0, screenSize.width, screenSize.height);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(1750, 900));
         setMaximumSize(new Dimension(1750, 900));
         wonders = Toolkit.getDefaultToolkit().getImage(cityViewPath + "wonders.png");
@@ -210,7 +249,7 @@ public class CityFrame extends JFrame {
     }
 
     public void loadBuildings() {
-        citySet = citySets[csCounter];
+        //citySet = citySets[csCounter];
         buildings = Toolkit.getDefaultToolkit().getImage(cityViewPath + citySet + ".png");
         buildingsGfx.clear();
         loadJsonWonders();
@@ -272,7 +311,7 @@ public class CityFrame extends JFrame {
 
     public String getBuildingsByCitySet() {
         switch(this.citySet) {
-            case "roman": return "barracks,granary,market,temple,library,amphitheater,aqueduct,colosseum,circus,acropolis,mausoleum,glibrary,pyramids,gardens";
+            case "roman": return "barracks,granary,market,temple,library,amphitheater,aqueduct";//,colosseum,circus,acropolis,mausoleum,glibrary,pyramids,gardens";
             case "russian_imp": return "barracks,granary,market,church,university,theater,basyl";
             case "ukraine": return "barracks,granary,market,church,university";
             case "medieval": return "barracks,granary,market,temple,library,theater,cathedral,university";
@@ -453,8 +492,8 @@ public class CityFrame extends JFrame {
                 draw(coastBgBottom, d.dim(575, 500, (1100 - 575) + 500, 375));
                 draw(coastBgRight, d.dim(430, 800, 1099 + 500, 88));
                 drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
-                drawBuilding(g, cityLayout.getBuilding("colossus"), cityLayout.cityLayoutMatrixSize / 2 - 4, cityLayout.cityLayoutMatrixSize / 2 + 11);
-                drawBuilding(g, cityLayout.getBuilding("lighthouse"), cityLayout.cityLayoutMatrixSize / 2, cityLayout.cityLayoutMatrixSize / 2 + 12);
+               // drawBuilding(g, cityLayout.getBuilding("colossus"), cityLayout.cityLayoutMatrixSize / 2 - 4, cityLayout.cityLayoutMatrixSize / 2 + 11);
+               // drawBuilding(g, cityLayout.getBuilding("lighthouse"), cityLayout.cityLayoutMatrixSize / 2, cityLayout.cityLayoutMatrixSize / 2 + 12);
             } else {
                 draw(topBgR, d.right().top().dim(672, 173, 0,130));
             }
@@ -474,6 +513,42 @@ public class CityFrame extends JFrame {
                     drawBuilding(g, buildingGfx, x,y);
                 }
             }
+            drawCityInfo(g);
+        }
+
+
+
+        private void drawCityInfo(Graphics g) {
+            Font font = new Font("Serif", Font.BOLD, 50);
+            g.setFont(font);
+            int x = getWidth() / 2 - getStringCenter(g, cityName, font) - 32;
+            g.drawString(cityName, x, 50);
+
+            if(game != null) {
+                game.gfx.drawFlag(g, city.getPlayer(), x - 50, 20, io, 44, 30);
+                game.gfx.drawFlag(g, city.getPlayer(), x + getStringCenter(g, cityName, font) * 2 + 10, 20, io, 44, 30);
+            }
+
+            font = new Font("SansSerif", Font.BOLD, 16);
+            g.setFont(font);
+            g.drawString(citySize + " District(s)", 10, 20);
+
+            String text = "(Pop. " + getPopulation() + ")";
+            x = getWidth() / 2 - getStringCenter(g, text, font) - 32;
+            g.drawString(text, x, 80);
+        }
+
+        private String getPopulation() {
+            DecimalFormat formatter = new DecimalFormat("#,###");
+            int pop = citySize * (citySize + 1) / 2 * 10000;
+            return formatter.format(pop);
+        }
+
+
+        public int getStringCenter(Graphics g, String text, Font font) {
+            FontMetrics metrics = g.getFontMetrics(font);
+            return metrics.stringWidth(text) / 2;
         }
     }
+
 }
