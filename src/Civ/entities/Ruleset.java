@@ -14,99 +14,106 @@ import java.util.*;
 
 public class Ruleset {
 
-    public String name;
+    public static final String RELIGION_PAGANISM = "paganism";
 
-    public int tileSize;
-    public int terrainTileSize;
-    public int flagsPerRow = 30;
+    public static String name;
 
-    public Coords coastTile;
+    public static int tileSize;
+    public static int terrainTileSize;
+    public static int flagsPerRow = 30;
 
-    public ArrayList<String> flags = new ArrayList<>();
+    public static Coords coastTile;
 
-    public ArrayList<Terrain> terrain = new ArrayList<>();
+    public static ArrayList<String> flags = new ArrayList<>();
 
-    public boolean loaded = false;
+    public static ArrayList<Terrain> terrain = new ArrayList<>();
 
-    public ArrayList<String> colors = new ArrayList<>();
+    public static boolean loaded = false;
 
-    public ArrayList<String> religions = new ArrayList<>();
+    public static ArrayList<String> colors = new ArrayList<>();
 
-    public ArrayList<String> ages = new ArrayList<>();
+    public static ArrayList<String> religions = new ArrayList<>();
 
-    public ArrayList<String> cityTypes = new ArrayList<>();
+    public static ArrayList<String> ages = new ArrayList<>();
 
-    public ArrayList<CivNation> civNations = new ArrayList<>();
+    public static ArrayList<String> cityStyles = new ArrayList<>();
+
+    public static ArrayList<CivNation> civNations = new ArrayList<>();
+
+    public static ArrayList<String> buildingSets = new ArrayList<String>(Arrays.asList(
+        "euro", "classic"
+    ));
 
     public Ruleset() {}
 
     public Ruleset(String name) {
-        this.load(name);
+        load(name);
     }
 
-    public String getStr(JSONObject obj, String name) {
+    public static String getStr(JSONObject obj, String name) {
         return obj.get(name) != null ? obj.get(name).toString() : "";
     }
 
-    public int getInt(JSONObject obj, String name) {
+    public static int getInt(JSONObject obj, String name) {
         return str2int(getStr(obj,name));
     }
 
-    public int str2int(String str) {
+    public static int str2int(String str) {
         return str.isEmpty() ? 0 : Integer.parseInt(str);
     }
 
 
-    public ArrayList<String> getValues(JSONObject obj, String str) {
+    public static ArrayList<String> getValues(JSONObject obj, String str) {
        return new ArrayList(Arrays.asList(getStr(obj,str).split(",")));
     }
 
-    public Object alGet(ArrayList al, int index) {
+    public static Object alGet(ArrayList al, int index) {
         return (index >= al.size()) ? null : al.get(index);
     }
 
-    public String alGetStr(ArrayList al,int index) {
+    public static String alGetStr(ArrayList al,int index) {
         return ((index >= al.size()) ? "" : al.get(index)).toString();
     }
 
-    public int alGetInt(ArrayList al,int index) {
+    public static int alGetInt(ArrayList al,int index) {
         return alGetStr(al,index).isEmpty() ? 0 : Integer.parseInt(alGetStr(al,index).trim());
     }
 
-    public void load(String name) {
+    public static void load(String name) {
+        Ruleset.name = name;
         JSONParser parser = new JSONParser();
         try (Reader reader = new FileReader("data/rulesets/" + name + "/ruleset.json")) {
             JSONObject jsonRulset = (JSONObject) parser.parse(reader);
-            this.name = getStr(jsonRulset,"name");
-            this.tileSize = getInt(jsonRulset,"tileSize");
-            this.terrainTileSize = getInt(jsonRulset,"terrainTileSize");
-            this.religions = getValues(jsonRulset,"religions");
-            this.ages = getValues(jsonRulset,"ages");
+            Ruleset.name = getStr(jsonRulset,"name");
+            tileSize = getInt(jsonRulset,"tileSize");
+            terrainTileSize = getInt(jsonRulset,"terrainTileSize");
+            religions = getValues(jsonRulset,"religions");
+            ages = getValues(jsonRulset,"ages");
             Collections.addAll(colors,getStr(jsonRulset,"colors").split(","));
 
             /** load terrain **/
             JSONArray jsonTerrain = (JSONArray)jsonRulset.get("terrain");
             for(int i = 0; i < jsonTerrain.size(); i++) {
                 JSONObject jsonTerrainEl = (JSONObject)jsonTerrain.get(i);
-                Terrain terrain = new Terrain();
-                terrain.name = getStr(jsonTerrainEl,"name");
-                terrain.symbol = getStr(jsonTerrainEl, "symbol");
-                terrain.type = getStr(jsonTerrainEl ,"type");
+                Terrain t = new Terrain();
+                t.name = getStr(jsonTerrainEl,"name");
+                t.symbol = getStr(jsonTerrainEl, "symbol");
+                t.type = getStr(jsonTerrainEl ,"type");
                 ArrayList<String> colors = getValues(jsonTerrainEl,"color");
 
                 //JSONArray colors = (JSONArray)jsonTerrainEl.get("color");
-                terrain.color = new Color(
+                t.color = new Color(
                     alGetInt(colors,0),
                     alGetInt(colors, 1),
                     alGetInt(colors,2)
                 );
 
                 //JSONArray pos = (JSONArray)jsonTerrainEl.get("pos");
-                terrain.pos =  new Coords(
+                t.pos =  new Coords(
                     getInt(jsonTerrainEl,"col"),
                     getInt(jsonTerrainEl, "row")
                 );
-                this.terrain.add(terrain);
+                terrain.add(t);
             }
 
             /** load cityTypes **/
@@ -114,7 +121,7 @@ public class Ruleset {
             Iterator iterator = jsonCities.iterator();
             while(iterator.hasNext()) {
                 String cityType =  iterator.next().toString();
-                this.cityTypes.add(cityType);
+                cityStyles.add(cityType);
             }
 
             loaded = true;
@@ -128,7 +135,7 @@ public class Ruleset {
     }
 
 
-    public void loadFlags() {
+    public static void loadFlags() {
         JSONParser parser = new JSONParser();
         try (Reader reader = new FileReader("data/rulesets/" + name + "/flags.json"))
         {
@@ -158,8 +165,8 @@ public class Ruleset {
     }
 
     public int getCityStyleIndex(String name) {
-        for(int i = 0 ; i < cityTypes.size(); i++) {
-            if(cityTypes.get(i).equals(name)) {
+        for(int i = 0; i < cityStyles.size(); i++) {
+            if(cityStyles.get(i).equals(name)) {
                 return i;
             }
         }
@@ -234,6 +241,53 @@ public class Ruleset {
 
     public Color getColor(int i) {
         return new Color(Integer.parseInt(colors.get(i), 16));
+    }
+
+    /**
+     * Checks if age1 has age2. I.e. hasAge('colonial', 'ancient') => true, hasAge('colonial', 'industrial') => false
+     * Usage: hasAge(player.age, age)
+     * @param age1
+     * @param age2
+     * @return
+     */
+    public static boolean hasAge(String age1, String age2) {
+        return ages.indexOf(age1) >= ages.indexOf(age2);
+    }
+
+
+    public static String getBuildingStyleByCityStyle(String cityStyle) {
+        switch(cityStyle) {
+            case "egyptian":
+            case "babylonian":
+            case "muslim":
+            case "indian":
+                return "oriental";
+
+            case "mediterranean":
+            case "spanish":
+            case "roman":
+                return "classic";
+
+            case "medieval":
+            case "celtic":
+            case "russian":
+            case "tribal":
+            case "industrial":
+            case "soviet":
+            case "modern":
+            case "postmodern":
+            case "nazi":
+            case "polish":
+            case "english":
+            case "nordic":
+                return "european";
+
+
+            case "eastern":
+                return  "eastern";
+        }
+
+        return "european";
     }
 }
 

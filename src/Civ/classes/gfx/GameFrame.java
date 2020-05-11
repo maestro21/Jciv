@@ -15,14 +15,12 @@ import java.awt.event.MouseEvent;
 
 public class GameFrame extends JFrame {
 
-    Game game;
     public ScreenCoords screenCoords;
     int tileSize;
     int terrainTileSize;
     Dimension screenSize;
 
-    public GameFrame(Game game) {
-        this.game = game;
+    public GameFrame() {
         init();
     }
 
@@ -34,8 +32,8 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        this.tileSize = game.ruleset.tileSize;
-        this.terrainTileSize = game.ruleset.terrainTileSize;
+        this.tileSize = Game.ruleset.tileSize;
+        this.terrainTileSize = Game.ruleset.terrainTileSize;
         MapPanel mapPanel = new MapPanel();
 
         mapPanel.addMouseListener(new MouseAdapter() {
@@ -56,14 +54,14 @@ public class GameFrame extends JFrame {
     public void initScreenCoords() {
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setPreferredSize(new Dimension(screenSize.width, screenSize.height));
-        screenCoords = new ScreenCoords(this.game.map.size.x, this.game.map.size.y, this.game.ruleset.tileSize, false);
+        screenCoords = new ScreenCoords(Game.map.size.x, Game.map.size.y, Game.ruleset.tileSize, false);
         screenCoords.setScreenSize(screenSize.width, screenSize.height);
-        screenCoords.goTo(this.game.map.size.x / 2, this.game.map.size.y / 2);
+        screenCoords.goTo(Game.map.size.x / 2, Game.map.size.y / 2);
     }
 
     public void handleClick(int x, int y) {
         screenCoords.click(x,y);
-        Tile tile = game.map.getTile(screenCoords.selectedTile.x, screenCoords.selectedTile.y);
+        Tile tile = Game.map.getTile(screenCoords.selectedTile.x, screenCoords.selectedTile.y);
         if(tile.getCity() != null) {
             new CityFrame(tile);
         }
@@ -81,7 +79,7 @@ public class GameFrame extends JFrame {
 
         public void paint(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            if (game.map == null) {
+            if (Game.map == null) {
                 return;
             }
 
@@ -138,7 +136,7 @@ public class GameFrame extends JFrame {
                         continue;
                     }
 
-                    Terrain t = game.map.getTile(dTileX, dTileY).terrain;
+                    Terrain t = Game.map.getTile(dTileX, dTileY).terrain;
 
 
                     if (!type.equals(t.type)) {
@@ -151,7 +149,7 @@ public class GameFrame extends JFrame {
 
                     Coords tilePos = t.pos;
 
-                    g.drawImage(game.gfx.terrain, px, py,
+                    g.drawImage(Game.gfx.get("terrain"), px, py,
                             px + terrainTileSize,
                             py + terrainTileSize,
                             tilePos.x * terrainTileSize,
@@ -175,7 +173,7 @@ public class GameFrame extends JFrame {
                         continue;
                     }
 
-                    if (game.map.getWater(dTileX, dTileY) || !game.map.getCoast(dTileX, dTileY)) {
+                    if (Game.map.getWater(dTileX, dTileY) || !Game.map.getCoast(dTileX, dTileY)) {
                         continue;
                     }
 
@@ -185,7 +183,7 @@ public class GameFrame extends JFrame {
 
                     Coords tilePos = new Coords(0,0); // todo - read from ruleset
 
-                    g.drawImage(game.gfx.terrain, px, py,
+                    g.drawImage(Game.gfx.get("terrain"), px, py,
                             px + terrainTileSize,
                             py + terrainTileSize,
                             tilePos.x * terrainTileSize,
@@ -211,8 +209,8 @@ public class GameFrame extends JFrame {
                         continue;
                     }
 
-                    if (game.map.getTile(dTileX, dTileY).getCity() != null) {
-                        City city = game.map.getTile(dTileX, dTileY).getCity();
+                    if (Game.map.getTile(dTileX, dTileY).getCity() != null) {
+                        City city = Game.map.getTile(dTileX, dTileY).getCity();
 
                         if(city == null) {
                             continue;
@@ -222,9 +220,9 @@ public class GameFrame extends JFrame {
                         int py = y * tileSize;
 
                         int sx = city.getCitySizeGfx();
-                        int sy = game.ruleset.getCityStyleIndex(city.getCityStyle());
+                        int sy = Game.ruleset.getCityStyleIndex(city.getCityStyle());
                         System.out.printf("%d %d \n", sx, sy);
-                        g.drawImage(game.gfx.cities, px, py,
+                        g.drawImage(Game.gfx.get("cities"), px, py,
                                 px + tileSize,
                                 py + tileSize,
                                 sx * tileSize,
@@ -233,7 +231,7 @@ public class GameFrame extends JFrame {
                                 (sy + 1) * tileSize,
                                 this);
 
-                        game.gfx.drawFlag(g, city.getPlayer(),px,py, this);
+                        Game.gfx.drawFlag(g, city.getPlayer(),px,py, this);
 
                         g.drawRect(px + 22, py + 44, 20, 16);
                         g.setColor(city.getPlayer().getColor());
@@ -242,7 +240,7 @@ public class GameFrame extends JFrame {
                         g.drawRect(px + 22, py + 44, 20, 16);
 
                         g.drawString(Integer.toString(city.getSize()), px + 24 + (city.getSize() < 10 ? 5 : 0), py + 58);
-                        game.gfx.drawOutlineText(g, city.getName(),  px, py + tileSize + 10, city.getPlayer().getColor(), Color.BLACK );
+                        Game.gfx.drawOutlineText(g, city.getName(),  px, py + tileSize + 10, city.getPlayer().getColor(), Color.BLACK );
                     }
                 }
             }

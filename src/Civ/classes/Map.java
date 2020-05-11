@@ -86,6 +86,7 @@ public class Map {
 
     public void putCityOnMap(int x, int y, City city) {
         tiles[y][x].setCity(city);
+        city.setTile(tiles[y][x]);
     }
 
     public Tile getNeigbourTile(int x, int y) {

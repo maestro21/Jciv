@@ -1,28 +1,32 @@
-package Civ.classes;
+package Civ.classes.gfx;
 
+import Civ.classes.Coords;
+import Civ.classes.Game;
 import Civ.entities.Player;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
 
-public class Gfx {
+public class GameGfx extends Gfx {
 
     public Game game;
 
-    public Image terrain, cities, flags;
+    public String rulesetPath = "data/rulesets/" + Game.gameOptions.ruleset + "/";
 
-    Gfx(Game game) {
+    GameGfx(Game game) {
         this.game = game;
         loadGfx();
     }
 
     public void loadGfx() {
-        String rulesetPath = "data/rulesets/" + game.gameOptions.ruleset;
-        terrain = Toolkit.getDefaultToolkit().getImage(rulesetPath + "/terrain.png");
-        cities = Toolkit.getDefaultToolkit().getImage(rulesetPath + "/cities.png");
-        flags = Toolkit.getDefaultToolkit().getImage(rulesetPath + "/flags.png");
+        loadImg("terrain");
+        loadImg("cities");
+        loadImg("flags");
     }
 
+    public void loadImg(String key){
+        load(key, rulesetPath + key + ".png");
+    }
 
 
     public void drawFlag(Graphics g, Player player, int x, int y, ImageObserver io) {
@@ -46,7 +50,7 @@ public class Gfx {
     public void drawFlag(Graphics g, String flag, int x, int y, ImageObserver io, int fx, int fy) {
         Coords flagCoords = game.ruleset.getFlagCoords(flag);
         if(flagCoords == null) return;
-        g.drawImage(flags, x, y,
+        g.drawImage(get("flags"), x, y,
                 x + fx,
                 y + fy,
                 flagCoords.x,

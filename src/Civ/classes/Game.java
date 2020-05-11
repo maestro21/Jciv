@@ -1,49 +1,40 @@
 package Civ.classes;
 
 import Civ.classes.gfx.GameFrame;
+import Civ.classes.gfx.GameGfx;
 import Civ.entities.City;
 import Civ.entities.Player;
 import Civ.entities.Ruleset;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.stream.Stream;
 
 public class Game extends JPanel {
 
-    public Random rand;
-    public Map map;
-    public Ruleset ruleset;
-    public GameOptions gameOptions;
-    public Gfx gfx;
-    public GameFrame gameFrame;
-    public ArrayList<Player> players = new ArrayList<>();
-    public ArrayList<String> civNationNames;
+    public static Map map;
+    public static Ruleset ruleset;
+    public static GameOptions gameOptions;
+    public static GameGfx gfx;
+    public static GameFrame gameFrame;
+    public static ArrayList<Player> players = new ArrayList<>();
+    public static ArrayList<String> civNationNames;
+    public static ArrayList<String> builtWonders = new ArrayList<>();
 
     public Game(GameOptions gameOptions){
-        this.rand = new Random();
-        this.gameOptions = gameOptions;
-        ruleset = new Ruleset(gameOptions.ruleset);
+        Game.gameOptions = gameOptions;
         map = new Map(this, gameOptions.map);
-        testPlayers();
+        addTestPlayers();
         //randomPlayers();
-        randomCities();
+        Rnd.randomCities();
         start();
     }
 
     public void start() {
-        this.gfx = new Gfx(this);
-        this.gameFrame = new GameFrame(this);
+        this.gameFrame = new GameFrame();
     }
 
-    public void testPlayers() {
+    public static void addTestPlayers() {
         // nation, location, age
         putPlayer("Caesar", "Romans", Color.WHITE, new Coords(102, 34));
         putPlayer("Aleksandr", "Greeks", Color.BLUE, new Coords(112, 36));
@@ -71,107 +62,62 @@ public class Game extends JPanel {
         putPlayer("Montezuma", "Aztecs", Color.YELLOW, new Coords(48, 64));
     }
 
-    public void putPlayer(String name, String nation, Color color, Coords coords) {
+    public static void putPlayer(String name, String nation, Color color, Coords coords) {
         Player player = new Player();
         player.setColor(color);
         player.setName(name);
-        player.setGame(this);
         player.setCivNation(nation);
         player.setStartLocation(coords);
         players.add(player);
         System.out.printf("%s (%s) with city style %s created (%d, %d) \n", player.getName(), player.getCivNation().getName(), player.getCityStyle(), player.getStartLocation().x, player.getStartLocation().y);
-
     }
 
-    public void randomPlayers(){
+
+    public static String getPreferredGov(String nation, String age) {
+        switch(age) {
+            case "ancient":
+                switch(nation) {
+                    case "greek":
+                        return "democracy";
+                }
+                return "monarchy";
+        }
+        return "tribalism";
+    }
+
+    public static String getPreferredAge(String nation) {
+        switch(nation) {
+            case "Turks":
+            case "Arabs":
+            case "Germans":
+            case "French":
+                return "medieval";
+
+            case "Brasilians":
+            case "Spanish":
+            case "Russians":
+                return "colonial";
+
+            case "Americans":
+                return "modern";
+
+            default:
+                return "ancient";
+        }
+    }
+
+
+    public static void randomPlayers(){
         for(int i = 0; i < gameOptions.totalPlayers; i++) {
-            Coords startLocation = getRandomStartLocation();
+            Coords startLocation = Rnd.getRandomStartLocation();
             String name = "Player " + (i + 1);
-            String nation = getRandomCivNation();
+            String nation = Rnd.getRandomCivNation();
             Color color = ruleset.getColor(i);
             putPlayer(name, nation, color, startLocation);
         }
     }
 
-    public void setRandomStartLocation(Player player) {
-        while(true) {
-            int x = rand.nextInt(map.size.x);
-            int y = rand.nextInt(map.size.y);
-            if(map.canBuildCity(x,y)) {
-                Coords loc = new Coords(x,y);
-                player.setStartLocation(loc);
-                return;
-            }
-        }
-    }
-
-    public Coords getRandomStartLocation() {
-        while(true) {
-            int x = rand.nextInt(map.size.x);
-            int y = rand.nextInt(map.size.y);
-            if(map.canBuildCity(x,y)) {
-                return new Coords(x,y);
-            }
-        }
-    }
-
-    public String getRandomCivNation() {
-        if(civNationNames == null) {
-            civNationNames = new ArrayList<>();
-            File folder = new File("data/rulesets/" + gameOptions.ruleset + "/nations");
-            File[] listOfFiles = folder.listFiles();
-
-            for (File file : listOfFiles) {
-                if (file.isFile()) {
-                    civNationNames.add(file.getName().replace(".json", ""));
-                }
-            }
-        }
-
-        int i = rand.nextInt(civNationNames.size() - 1);
-        return civNationNames.get(i);
-
-    }
-
-    public String getRandomCityStyle() {
-        int i = rand.nextInt(ruleset.cityTypes.size() - 2) + 2;
-        return ruleset.cityTypes.get(i);
-    }
-
-    public void randomCities() {
-       for(int i = 0; i < 1500; i++) {
-           int pi = i % players.size();
-           Player player = players.get(pi);
-           City city = new City();
-           city.isCapital = player.isCapital();
-           city.game = this;
-           city.setPlayer(player);
-           city.setCityStyle(player.getCityStyle());
-           city.setSize(city.isCapital ? 16 : rand.nextInt(12) + 1);
-           city.setName(player.getNewCityName());
-
-           Coords coords = player.findClosestTileForCityFoundation();
-           if(coords != null) {
-               if(buildCity(coords.x, coords.y, city)) {
-                   System.out.printf("City %s (%d %s) found (%d,%d, %s)\n", city.getName(), city.getSize(), city.getCityStyle(), coords.x, coords.y, player.getName());
-               }
-           }
-       }
-
-        City city; int cnt = 0;
-        for (int y = 0; y < map.size.y; y++) {
-            for (int x = 0; x < map.size.x; x++) {
-                city = map.getTile(x,y).getCity();
-                if(city != null){ cnt ++;
-                    System.out.printf("City %s (%d %s) found (%d,%d, %s)\n", city.getName(), city.getSize(), city.getCityStyle(), city.getCoords().x, city.getCoords().y, city.getPlayer().getName());
-                }
-            }
-        }
-        System.out.println("Total cities found: " + cnt);
-    }
-
-
-    public boolean buildCity(int x, int y, City city) {
+    public static boolean buildCity(int x, int y, City city) {
         if(!map.canBuildCity(x,y)) {
             return false;
         }

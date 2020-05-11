@@ -1,8 +1,11 @@
 package Civ.classes.gfx;
 
+import Civ.classes.Buildings;
 import Civ.classes.Coords;
 import Civ.classes.Game;
 import Civ.entities.City;
+import Civ.entities.Ruleset;
+import Civ.entities.Terrain;
 import Civ.entities.Tile;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,101 +33,86 @@ public class CityFrame extends JFrame {
         CityFrame cf = new CityFrame();
     }
 
+
+
+    public String cityViewPath;
+
+    public CityBuildingsGfxSettings settings = new CityBuildingsGfxSettings();
+
     public int maxSize = 20;
     public int citySize = 16;
-    public Image wonders;
-    public Image buildings;
-    public Image bg;
-    public Image coastBg, coastBgTop, coastBgRight, coastBgBottom;
-    public Image topBg, topBgL, topBgR;
     public CityLayout cityLayout;
     public ArrayList<BuildingGfx> buildingsGfx = new ArrayList<>();
     public Coords offset;
-
-    public String[] citySets = "roman,ancient2,medieval,colonial2,industrial,modern,russian_imp,ukraine".split(",");
     public int csCounter = 0;
-    public String ruleset = "default";
-    public String citySet = "roman";
-    public String cityViewPath = "";
-    public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn, styleBtn2;
+
+    public String citySet = "classic";
+    public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn, styleBtn2, ageBtn;
 
     public int tileSize;
-    public boolean isWater = true;
-    public boolean walled = true;
-    public boolean palace = true;
-    public boolean railroad = false;
-    public String cityName = "City";
 
-    private Game game;
-    private City city;
-    private Tile tile;
-
-    public boolean yesno() {
-        return (Math.random() * 2 > 1);
-    }
+    public Gfx gfx = new Gfx();
 
 
-    public CityFrame(Tile tile) {
-        this.tile = tile;
-        city = this.tile.getCity();
-        game = city.game;
-        ruleset = game.ruleset.name;
-        citySize = city.getSize();
-        citySet = getCitySet(city.getPlayer().getCityStyle());
-        isWater = game.map.getCoast(tile.x, tile.y);
-        palace = city.isCapital;
-        cityName = city.getName();
-        walled = citySize > 6;
+    CityFrame() {
+        Ruleset.load("default");
+        settings.randomizeCity();
         init();
     }
 
-    private String getCitySet(String citySet) {
-        List<String> list = Arrays.asList(citySets);
 
-        if(list.contains(citySet)){
-            return citySet;
-        }
-        return "ancient2";
-    }
-
-    public CityFrame() {
+    CityFrame(Tile tile) {
+        settings.loadCity(tile);
         init();
     }
+
+    public void loadImg(String key){
+        loadImg(key, key + ".png");
+    }
+
+    public void loadImg(String key, String src){
+        gfx.load(key, cityViewPath + src);
+    }
+
 
     public void init() {
+        cityViewPath = "data/rulesets/" + Ruleset.name + "/cityview/";
         setTitle("CivNations");
-        cityViewPath = "data/rulesets/" + ruleset + "/cityview/";
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(0,0, screenSize.width, screenSize.height);
+        setBounds(0, 0, screenSize.width, screenSize.height);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(1750, 900));
         setMaximumSize(new Dimension(1750, 900));
-        wonders = Toolkit.getDefaultToolkit().getImage(cityViewPath + "wonders.png");
-        bg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "grasslandbg2.jpg");
-        topBg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "leftforest.png");
-        topBgL = Toolkit.getDefaultToolkit().getImage(cityViewPath + "topbgl.png");
-        topBgR = Toolkit.getDefaultToolkit().getImage(cityViewPath + "topbgr.png");
-        coastBg = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastBg.png");
-        coastBgTop = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastbgtop.png");
-        coastBgRight = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coast2r.jpg");
-        coastBgBottom = Toolkit.getDefaultToolkit().getImage(cityViewPath + "coastbgright.png");
         tileSize = 64;
         CityPanel cityPanel = new CityPanel(this);
+        loadGfx();
         loadBuildings();
         buildCityLayout();
         getContentPane().add(cityPanel);
         setLayout(null);
-        cityPanel.setBounds(0,50,1750,900);
+        cityPanel.setBounds(0, 50, 1750, 900);
+        addButtons();
+        setVisible(true);
+    }
 
+    public void loadGfx() {
+        loadImg("bg","grasslandbg2.jpg");
+        loadImg("topBg","leftforest.png");
+        loadImg("topBgL","topbgl.png");
+        loadImg("topBgR","topbgr.png");
+        loadImg("coastBg","coastBg.png");
+        loadImg("coastBgTop","coastbgtop.png");
+        loadImg("coastBgRight","coast2r.jpg");
+        loadImg("coastBgBottom","coastbgright.png");
+    }
+
+    public void addButtons() {
         rndBtn = new JButton("Randomize");
         rndBtn.setBounds(0,0,100,30);
         rndBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                citySize = (int)(Math.random() * maxSize);
-                walled = yesno();
-                isWater = yesno();
-                palace = yesno();
+                settings.randomizeCity();
                 randomStyle();
                 loadBuildings();
                 buildCityLayout();
@@ -160,7 +148,7 @@ public class CityFrame extends JFrame {
         palaceBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                palace = !palace;
+                settings.palace = !settings.palace;
                 buildCityLayout();
                 repaint();
             }
@@ -172,7 +160,7 @@ public class CityFrame extends JFrame {
         walledBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                walled = !walled;
+                settings.walled = !settings.walled;
                 buildCityLayout();
                 repaint();
             }
@@ -183,7 +171,7 @@ public class CityFrame extends JFrame {
         waterBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                isWater = !isWater;
+                settings.hasWater = !settings.hasWater;
                 buildCityLayout();
                 repaint();
             }
@@ -213,6 +201,17 @@ public class CityFrame extends JFrame {
             }
         });
 
+        ageBtn = new JButton("Age");
+        ageBtn.setBounds(600,0,50,30);
+        ageBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settings.nextAge();
+                buildCityLayout();
+                repaint();
+            }
+        });
+
 
         add(rndBtn);
         add(incBtn);
@@ -222,37 +221,38 @@ public class CityFrame extends JFrame {
         add(waterBtn);
         add(styleBtn);
         add(styleBtn2);
-
-        setVisible(true);
+        add(ageBtn);
     }
 
     public void nextStyle() {
         csCounter++;
-        if(csCounter >= citySets.length) {
+        if(csCounter >= Ruleset.buildingSets.size()) {
             csCounter = 0;
         }
-        citySet = citySets[csCounter];
+        citySet =  Ruleset.buildingSets.get(csCounter);
     }
 
     public void lastStyle() {
         csCounter--;
         if(csCounter < 0) {
-            csCounter = citySets.length - 1;
+            csCounter = Ruleset.buildingSets.size() - 1;
         }
-        citySet = citySets[csCounter];
+        citySet = Ruleset.buildingSets.get(csCounter);
     }
 
     public void randomStyle() {
-        csCounter = (int)(Math.random() * (citySets.length
-        ));
-        citySet = citySets[csCounter];
+        csCounter = (int)(Math.random() * (Ruleset.buildingSets.size() - 1));
+        citySet = Ruleset.buildingSets.get(csCounter);
     }
 
     public void loadBuildings() {
         //citySet = citySets[csCounter];
-        buildings = Toolkit.getDefaultToolkit().getImage(cityViewPath + citySet + ".png");
+
+        loadImg(citySet);
+        loadImg("general");
         buildingsGfx.clear();
-        loadJsonWonders();
+       // loadJsonWonders();
+        loadJsonBuildings("general", true);
         loadJsonBuildings(citySet);
     }
 
@@ -281,6 +281,8 @@ public class CityFrame extends JFrame {
                 buildingGfx.dx = getFloat(jsonBuilding ,"dx");
                 buildingGfx.dy = getFloat(jsonBuilding ,"dy");
                 buildingGfx.size = getInt(jsonBuilding, "size");
+                buildingGfx.age = getStr(jsonBuilding, "age");
+                buildingGfx.fileName = name;
                 buildingGfx.wonder = wonder;
                 buildingsGfx.add(buildingGfx);
             }
@@ -309,34 +311,10 @@ public class CityFrame extends JFrame {
         return str.isEmpty() ? 0 : Float.parseFloat(str);
     }
 
-    public String getBuildingsByCitySet() {
-        switch(this.citySet) {
-            case "roman": return "barracks,granary,market,temple,library,amphitheater,aqueduct";//,colosseum,circus,acropolis,mausoleum,glibrary,pyramids,gardens";
-            case "russian_imp": return "barracks,granary,market,church,university,theater,basyl";
-            case "ukraine": return "barracks,granary,market,church,university";
-            case "medieval": return "barracks,granary,market,temple,library,theater,cathedral,university";
-            case "colonial2": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory";
-            case "industrial": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory,supermarket,mfplant,hes,cinema,airport";
-            case "modern": return "barracks,granary,market,temple,library,theater,cathedral,university,bank,factory,supermarket,mfplant,hes,cinema,airport,nuclear,office,vfarm,roboplant";
-            default: return "barracks,granary,market,temple,library,theater";
-        }
-    }
 
 
     public void buildCityLayout() {
-        String buildings = getBuildingsByCitySet();
-        if(palace) {
-            buildings = "palace," + buildings;
-        } else {
-            buildings = "townhall," + buildings;
-        }
-        String[] buildingArray = buildings.split(",");
-        boolean wallx4 = this.citySet.equals("colonial2");
-        railroad = this.citySet.equals("colonial2") && this.citySize > 10;
-        if(this.citySet.equals("industrial")) {
-            walled = false;
-        };
-        cityLayout = new CityLayout(citySize, buildingArray, walled, buildingsGfx, wallx4);
+        cityLayout = new CityLayout(settings, buildingsGfx);
     }
 
 
@@ -382,7 +360,7 @@ public class CityFrame extends JFrame {
         public void drawRoads(Graphics g) {
             int cx = cityLayout.cityCenter.x;
             int cy = cityLayout.cityCenter.y;
-            BuildingGfx roadx = cityLayout.getBuilding(railroad ? "railroad" :  "roadv"), roady = cityLayout.getBuilding("roadh");
+            BuildingGfx roadx = cityLayout.getBuilding(settings.isRailroad() ? "railroad" :  "roadv"), roady = cityLayout.getBuilding("roadh");
             roadx.dx = -0.15;
             roadx.dy = -0.15;
             roady.dx = -0.15;
@@ -395,8 +373,8 @@ public class CityFrame extends JFrame {
                 drawBuilding(g, roady, cx + i, cy);
                 drawBuilding(g,roadx, cx, cy - i);
             }
-            if(!railroad) {
-                BuildingGfx xroad =cityLayout.getBuilding("roadx");
+            if(!settings.isRailroad()) {
+                BuildingGfx xroad = cityLayout.getBuilding("roadx");
                 xroad.dx = -0.15;
                 xroad.dy = -0.15;
                 drawBuilding(g, xroad, cx, cy);
@@ -427,14 +405,11 @@ public class CityFrame extends JFrame {
             int cx = drawCoords.x;
             int cy = drawCoords.y;
 
-            if(buildingGfx.name.equals("aqueduct")) {
+            if(buildingGfx.name.equals(Buildings.AQUEDUCT)) {
                 drawAqueduct(g, x,y);
             }
 
-            Image img = buildings;
-            if(buildingGfx.isWonder()) {
-                img = wonders;
-            }
+            Image img = gfx.get(buildingGfx.fileName);
 
             g.drawImage(img, cx, cy,
                     cx + w,
@@ -477,7 +452,7 @@ public class CityFrame extends JFrame {
 
         public void paint(Graphics g) {
             initDraw(g);
-            draw(bg,d.center().dim(1750, 900));
+            draw(gfx.get("bg"),d.center().dim(1750, 900));
 
             BuildingGfx buildingGfx;
             int offsetX = (getWidth() - (int)(cityLayout.cityLayoutMatrixSize * tileSize * 1.2)) / 2;
@@ -487,19 +462,19 @@ public class CityFrame extends JFrame {
             drawRoads(g);
 
 
-            if(isWater) {
-                draw(coastBgTop, d.left().top().dim(1100, 315, 500, 75));
-                draw(coastBgBottom, d.dim(575, 500, (1100 - 575) + 500, 375));
-                draw(coastBgRight, d.dim(430, 800, 1099 + 500, 88));
+            if(settings.hasWater) {
+                draw(gfx.get("coastBgTop"), d.left().top().dim(1100, 315, 500, 75));
+                draw(gfx.get("coastBgBottom"), d.dim(575, 500, (1100 - 575) + 500, 375));
+                draw(gfx.get("coastBgRight"), d.dim(430, 800, 1099 + 500, 88));
                 drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
                // drawBuilding(g, cityLayout.getBuilding("colossus"), cityLayout.cityLayoutMatrixSize / 2 - 4, cityLayout.cityLayoutMatrixSize / 2 + 11);
                // drawBuilding(g, cityLayout.getBuilding("lighthouse"), cityLayout.cityLayoutMatrixSize / 2, cityLayout.cityLayoutMatrixSize / 2 + 12);
             } else {
-                draw(topBgR, d.right().top().dim(672, 173, 0,130));
+                draw(gfx.get("topBgR"), d.right().top().dim(672, 173, 0,130));
             }
 
 
-            draw(topBgL, d.left().top().dim(672, 173, 0,130));
+            draw(gfx.get("topBgL"), d.left().top().dim(672, 173, 0,130));
 
             int to = cityLayout.cityLayoutMatrixSize - 1;
             for (int y = to; y >= 0; y--) {
@@ -521,17 +496,18 @@ public class CityFrame extends JFrame {
         private void drawCityInfo(Graphics g) {
             Font font = new Font("Serif", Font.BOLD, 50);
             g.setFont(font);
-            int x = getWidth() / 2 - getStringCenter(g, cityName, font) - 32;
-            g.drawString(cityName, x, 50);
+            int x = getWidth() / 2 - getStringCenter(g, settings.name, font) - 32;
+            g.drawString(settings.name, x, 50);
 
+            /*
             if(game != null) {
-                game.gfx.drawFlag(g, city.getPlayer(), x - 50, 20, io, 44, 30);
+                Game.gfx.drawFlag(g, city.getPlayer(), x - 50, 20, io, 44, 30);
                 game.gfx.drawFlag(g, city.getPlayer(), x + getStringCenter(g, cityName, font) * 2 + 10, 20, io, 44, 30);
-            }
+            }*/
 
             font = new Font("SansSerif", Font.BOLD, 16);
             g.setFont(font);
-            g.drawString(citySize + " District(s)", 10, 20);
+            g.drawString(settings.size + " District(s)", 10, 20);
 
             String text = "(Pop. " + getPopulation() + ")";
             x = getWidth() / 2 - getStringCenter(g, text, font) - 32;

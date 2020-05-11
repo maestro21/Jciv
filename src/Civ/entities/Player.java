@@ -1,10 +1,12 @@
 package Civ.entities;
 
+import Civ.classes.Buildings;
 import Civ.classes.Coords;
 import Civ.classes.Game;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player {
 
@@ -13,6 +15,10 @@ public class Player {
     private String name;
 
     private Color color;
+
+    private String gov;
+
+
     private Coords startLocation;
 
     private ArrayList<City> cities = new ArrayList<>();
@@ -20,6 +26,26 @@ public class Player {
     private CivNation civNation;
 
     private String age = "ancient";
+
+    private String religion = "";
+
+    public String getGov() {
+        return gov;
+    }
+
+    public Player setGov(String gov) {
+        this.gov = gov;
+        return this;
+    }
+
+    public String getReligion() {
+        return hasAge("medieval") ? civNation.getReligion() : "paganism";
+        //return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
+    }
 
     private int cityNameCounter = 0;
 
@@ -46,6 +72,15 @@ public class Player {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public Player setAge(String age) {
+        this.age = age;
+        return this;
     }
 
     public ArrayList<City> getCities() {
@@ -129,4 +164,9 @@ public class Player {
             }
         }
     }
+
+    public boolean hasAge(String age) {
+        return game.ruleset.hasAge(this.age, age);
+    }
+
 }

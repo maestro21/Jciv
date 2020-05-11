@@ -12,7 +12,10 @@ public class BuildingGfx {
     public int size = 1;
     public String name = "";
     public String symbol = "";
+    public String age = "";
     public boolean wonder = false;
+    public String fileName = "";
+
 
     public boolean isWonder() {
         return wonder;

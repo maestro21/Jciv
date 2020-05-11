@@ -1,6 +1,7 @@
 package Civ.classes.gfx;
 
 import Civ.classes.Coords;
+import Civ.entities.Ruleset;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ class CityLayout {
     boolean walled;
     boolean wallx4;
     boolean railroad;
+    String age;
 
     public Coords cityCenter;
 
@@ -26,19 +28,21 @@ class CityLayout {
         return cityLayout[y][x];
     }
 
-    public CityLayout(int citySize, String[] buildings, boolean walled, ArrayList<BuildingGfx> buildingsGfx, boolean wallx4) {
-        this.walled = walled;
-        this.wallx4 = wallx4;
-        this.railroad = railroad;
-        int buildingCount = (buildings.length  > citySize ? citySize : buildings.length);
+
+    public CityLayout(CityBuildingsGfxSettings settings, ArrayList<BuildingGfx> buildingsGfx) {
+        this.walled = settings.walled;
+        this.wallx4 = settings.wallx4();
+        this.age = settings.age;
+        int citySize = settings.size;
+        int buildingCount = (Math.min(settings.buildings.size(), citySize));
         this.buildingsGfx = buildingsGfx;
         park = getBuilding("park");
 
         int houseIndex = 0;
         for(int i = 0; i < citySize; i++) {
-            if(i < buildings.length) {
-                this.buildings.add(buildings[i]);
-                BuildingGfx b = getBuilding(buildings[i]);
+            if(i < settings.buildings.size()) {
+                this.buildings.add(settings.buildings.get(i));
+                BuildingGfx b = getBuilding(settings.buildings.get(i));
                 if(b != null && b.size > 1) {
                     buildingCount += b.size - 1;
                 }
@@ -49,8 +53,6 @@ class CityLayout {
             this.buildings.add("house" + houseIndex);
 
         }
-
-
 
         buildingMatrixSize = (int)Math.ceil(Math.sqrt(citySize + buildingCount));
         buildingMatrix = new BuildingGfx[buildingMatrixSize][buildingMatrixSize];
@@ -192,14 +194,27 @@ class CityLayout {
     }
 
     public BuildingGfx getBuilding(String name) {
+        BuildingGfx bgfx = null, _bgfx;
+        name = getBuildingGfxNameByName(name);
+        System.out.println(name);
         for(int i = 0; i < buildingsGfx.size(); i++) {
-            if(buildingsGfx.get(i) != null && buildingsGfx.get(i).name.equals(name)) {
-                return buildingsGfx.get(i);
+            _bgfx = buildingsGfx.get(i);
+            if(_bgfx != null && _bgfx.name.equals(name) && Ruleset.hasAge(age, _bgfx.age)) {
+                bgfx = buildingsGfx.get(i);
             }
         }
-        return null;
+        return bgfx;
     }
 
+
+    public String getBuildingGfxNameByName(String name) {
+        switch (name) {
+            case "townhall":
+                return "house4";
+        }
+
+        return name;
+    }
 
     private void replaceBuilding(int x, int y) {
         replaceBuilding(x,y, emptyBuilding);
