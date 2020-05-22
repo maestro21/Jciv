@@ -54,7 +54,7 @@ class CityBuildingsGfxSettings {
 
 
     public  void randomizeCity() {
-        size = (int)(Math.random() * maxSize);
+        size = (int)(Math.random() * maxSize) + 1;
         buildingStyle = "classic";
         age = Rnd.randomAge();
         religion = age.equals("ancient") ? Ruleset.RELIGION_PAGANISM : Rnd.randomReligion();

@@ -14,6 +14,14 @@ public class Coords {
         this.y = y;
     }
 
+    public void print() {
+       System.out.println("x: " + x + " y:" + y);
+    }
+
+    public Coords center() {
+        return new Coords(x / 2, y / 2);
+    }
+
     public int index(int x, int y) {
         return y * cols + x;
     }
