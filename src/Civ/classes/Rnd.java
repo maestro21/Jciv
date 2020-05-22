@@ -25,6 +25,11 @@ public class Rnd {
         return getRandomItem(Ruleset.ages);
     }
 
+    public static String randomReligion() {
+        return getRandomItem(Ruleset.religions);
+    }
+
+
     public static String randomNation() {
         return getRandomItem(Ruleset.civNations).getName();
     }

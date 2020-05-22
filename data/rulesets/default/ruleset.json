@@ -1,7 +1,7 @@
 {
     "name": "default",
     "tileSize": "64",
-    "religions": "buddhism,catholicism,islam,orthodoxy,protestantism",
+    "religions": "catholicism,islam,orthodoxy,protestantism",
     "ages": "ancient,medieval,colonial,modern,postmodern",
     "colors": "FF0000,0000FF,00FF00,FFFF00,FF00FF,00FFFF,888888,FFFFFF,000000,880000,008800,000088,FF8800,FF0088,88FF00,8800FF,00FF88,0088FF,FF8888,88FF88,8888FF,",
     "terrainTileSize": "96",

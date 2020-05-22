@@ -15,6 +15,7 @@ public class BuildingGfx {
     public String age = "";
     public boolean wonder = false;
     public String fileName = "";
+    public String religion = "";
 
 
     public boolean isWonder() {

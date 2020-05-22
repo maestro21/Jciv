@@ -47,7 +47,7 @@ public class CityFrame extends JFrame {
     public int csCounter = 0;
 
     public String citySet = "classic";
-    public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn, styleBtn2, ageBtn;
+    public JButton rndBtn, incBtn, decBtn, walledBtn, palaceBtn, waterBtn, styleBtn, styleBtn2, ageBtn, relBtn;
 
     public int tileSize;
 
@@ -126,9 +126,8 @@ public class CityFrame extends JFrame {
         incBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(citySize < maxSize) citySize++;
-                buildCityLayout();
-                repaint();
+                if(settings.size < maxSize) settings.size++;
+                refresh();
             }
         });
 
@@ -137,9 +136,8 @@ public class CityFrame extends JFrame {
         decBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(citySize > 1) citySize--;
-                buildCityLayout();
-                repaint();
+                if(settings.size > 1) settings.size--;
+                refresh();
             }
         });
 
@@ -149,8 +147,7 @@ public class CityFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 settings.palace = !settings.palace;
-                buildCityLayout();
-                repaint();
+                refresh();
             }
         });
 
@@ -161,8 +158,7 @@ public class CityFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 settings.walled = !settings.walled;
-                buildCityLayout();
-                repaint();
+                refresh();
             }
         });
 
@@ -172,8 +168,7 @@ public class CityFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 settings.hasWater = !settings.hasWater;
-                buildCityLayout();
-                repaint();
+                refresh();
             }
         });
 
@@ -183,9 +178,7 @@ public class CityFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 nextStyle();
-                loadBuildings();
-                buildCityLayout();
-                repaint();
+                refresh();
             }
         });
 
@@ -195,20 +188,27 @@ public class CityFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 lastStyle();
-                loadBuildings();
-                buildCityLayout();
-                repaint();
+                refresh();
             }
         });
 
         ageBtn = new JButton("Age");
-        ageBtn.setBounds(600,0,50,30);
+        ageBtn.setBounds(600,0,70,30);
         ageBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 settings.nextAge();
-                buildCityLayout();
-                repaint();
+                refresh();
+            }
+        });
+
+        relBtn = new JButton("Rel");
+        relBtn.setBounds(670,0,70,30);
+        relBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settings.nextRel();
+                refresh();
             }
         });
 
@@ -222,6 +222,13 @@ public class CityFrame extends JFrame {
         add(styleBtn);
         add(styleBtn2);
         add(ageBtn);
+        add(relBtn);
+    }
+
+    public void refresh() {
+        settings.refresh();
+        buildCityLayout();
+        repaint();
     }
 
     public void nextStyle() {
@@ -230,6 +237,7 @@ public class CityFrame extends JFrame {
             csCounter = 0;
         }
         citySet =  Ruleset.buildingSets.get(csCounter);
+        loadBuildings();
     }
 
     public void lastStyle() {
@@ -238,6 +246,7 @@ public class CityFrame extends JFrame {
             csCounter = Ruleset.buildingSets.size() - 1;
         }
         citySet = Ruleset.buildingSets.get(csCounter);
+        loadBuildings();
     }
 
     public void randomStyle() {
@@ -282,6 +291,7 @@ public class CityFrame extends JFrame {
                 buildingGfx.dy = getFloat(jsonBuilding ,"dy");
                 buildingGfx.size = getInt(jsonBuilding, "size");
                 buildingGfx.age = getStr(jsonBuilding, "age");
+                buildingGfx.religion = getStr(jsonBuilding, "religion");
                 buildingGfx.fileName = name;
                 buildingGfx.wonder = wonder;
                 buildingsGfx.add(buildingGfx);
@@ -340,7 +350,7 @@ public class CityFrame extends JFrame {
         public Coords getDrawCoords(int x, int y, double dx, double dy) {
             double cidx = y + x + dx;
             double cidy = x - y + dy;
-            double mod = 1.1;
+            double mod = 0.8;
 
             int cx = offset.x + (int)(cidx * tileSize * mod / 2);
             int cy = offset.y + (int)(cidy * tileSize * mod / 4);
@@ -359,32 +369,168 @@ public class CityFrame extends JFrame {
 
         public void drawRoads(Graphics g) {
             int cx = cityLayout.cityCenter.x;
-            int cy = cityLayout.cityCenter.y;
-            BuildingGfx roadx = cityLayout.getBuilding(settings.isRailroad() ? "railroad" :  "roadv"), roady = cityLayout.getBuilding("roadh");
-            roadx.dx = -0.15;
-            roadx.dy = -0.15;
-            roady.dx = -0.15;
-            roady.dy = -0.15;
+            int cy = cityLayout.cityCenter.y + 1;
+            String road = settings.isRailroad() ? "romanroad" : settings.roads;
+            BuildingGfx roadx = cityLayout.getBuilding( road + "v"), roady = cityLayout.getBuilding(road + "h");
+            Double offsetX = 0.0;
+            Double offsetY= 0.0;
+            roadx.dx = offsetX;
+            roadx.dy = offsetY;
+            roady.dx = offsetX;
+            roady.dy = offsetY;
+
+            BuildingGfx xroad = cityLayout.getBuilding(road + "x");
+            xroad.dx = offsetX;
+            xroad.dy = offsetY;
+
+            for(int i = 0; i < cityLayout.buildingMatrixSize - 1; i++ ) {
+                int d = i * 3 + 4;
+                if(cityLayout.isBigStreet() && i >= cityLayout.buildingMatrixSize / 2) d++;
+                for(int j = 2; j < cityLayout.cityLayoutMatrixSize.y - (cityLayout.isBigStreet() ? 1 : 2); j++ ) {
+                    if(d != cityLayout.cityCenter.y) {
+                        System.out.println(d + " y:" + cityLayout.cityCenter.y);
+                        drawBuilding(g, roady, j, d);
+                    }
+                    if(d != cityLayout.cityCenter.x && d != cityLayout.cityCenter.x + 1) {
+                        System.out.println(d + " x:" + cityLayout.cityCenter.x);
+                        drawBuilding(g, roadx, d, j);
+                    };
+                }
+                drawBuilding(g, xroad, d, d);
+            }
+
+            Double mod = 0.8;
+            roady.dy = 2;
+            if(cityLayout.isBigStreet()) {
+                mod = 0.85;
+               if(road.equals("road")) {
+                    roadx = cityLayout.getBuilding("roadbig");
+                    roady = cityLayout.getBuilding("roadbig");
+                    xroad = cityLayout.getBuilding("roadbig");
+                }
+
+                if(road.equals("romanroad")) {
+                    roadx = cityLayout.getBuilding("romanroadbig");
+                    roady = cityLayout.getBuilding("romanroadbig");
+                    xroad = cityLayout.getBuilding("romanroadbig");
+                }
+
+                if(road.equals("highway")) {
+                    roadx = cityLayout.getBuilding("highwaybigv");
+                    roady = cityLayout.getBuilding("highwaybigh");
+                    xroad = cityLayout.getBuilding("highwaybigx");
+                }
+
+                //roadx.dx++;
+                roady.dy = 0.5;
+               // roady.dy--;
+                //mod = 1.0;
+            }
+
             for(int i = 0; i < 17; i++) {
-                drawBuilding(g,roady, cx - i, cy);
-                drawBuilding(g, roadx, cx, cy + i);
+                drawBuilding(g,roady, cx - i, cy, mod);
+                drawBuilding(g, roadx, cx, cy + i, mod);
             }
             for(int i = 0; i < 17; i++) {
-                drawBuilding(g, roady, cx + i, cy);
-                drawBuilding(g,roadx, cx, cy - i);
+                drawBuilding(g, roady, cx + i, cy, mod);
+                drawBuilding(g,roadx, cx, cy - i, mod);
             }
             if(!settings.isRailroad()) {
-                BuildingGfx xroad = cityLayout.getBuilding("roadx");
-                xroad.dx = -0.15;
-                xroad.dy = -0.15;
+                xroad.dx = offsetX;
+                xroad.dy = offsetY;
                 drawBuilding(g, xroad, cx, cy);
             }
         }
 
+        public void drawWallsBack(Graphics g) {
+            if(!cityLayout.walled || settings.walls.isEmpty()) {
+             //   return;
+            }
+            int s = 1;
+            int e = cityLayout.cityLayoutMatrixSize.x - 1; if(!cityLayout.isBigStreet()) e--;
+            int ey = e;
+
+            int cx = cityLayout.cityCenter.x;
+            int cy = cityLayout.cityCenter.y;
+
+            boolean w4 = cityLayout.wallx4;
+
+            BuildingGfx gatev = cityLayout.getBuilding(w4 ? "gate_v" : "gatev");
+            BuildingGfx gateh = cityLayout.getBuilding(w4 ? "gate_h" : "gateh");
+            if(cityLayout.isBigStreet()) {
+                gatev.dy = -1;
+                gatev.dx = 0.5;
+                gateh.dx = 0.5;
+            }
+
+            drawBuilding(g, w4 ? "tower_t" : "tower", s, ey);
+
+            for (int i = s; i < e; i++) {
+                if (i < ey) {
+                    drawBuilding(g, w4 ? "wall_l" : "wallv", s, i);
+                }
+                drawBuilding(g, w4 ? "wall_t" : "wallh", i + 1, e);
+            }
+
+            drawBuilding(g, gatev, s, cy);
+            drawBuilding(g, gateh, cx, e);
+
+            drawBuilding(g, w4 ? "tower_l" : "tower", s, s);
+            drawBuilding(g, w4 ? "tower_r" : "tower", e, ey);
+        }
+
+        public void drawWallsFront(Graphics g) {
+            if(!cityLayout.walled || settings.walls.isEmpty()) {
+              //  return;
+            }
+            int s = 1;
+            int ex = cityLayout.cityLayoutMatrixSize.x - 1; if(!cityLayout.isBigStreet()) ex--;
+            int ey = cityLayout.cityLayoutMatrixSize.y - 1; if(!cityLayout.isBigStreet()) ey--;
+            int cx = cityLayout.cityCenter.x;
+            int cy = cityLayout.cityCenter.y;
+            boolean w4 = cityLayout.wallx4;
+
+            BuildingGfx gatev = cityLayout.getBuilding(w4 ? "gate_v" : "gatev");
+            BuildingGfx gateh = cityLayout.getBuilding(w4 ? "gate_h" : "gateh");
+            if(cityLayout.isBigStreet()) {
+                gatev.dy = -1;
+                gatev.dx = 0.5;
+                gateh.dx = 0.5;
+            }
+
+            for (int i = s; i < ex; i++) {
+                if (i < ey) {
+                    drawBuilding(g, w4 ? "wall_r" : "wallv", ey, i);
+                }
+                drawBuilding(g, w4 ? "wall_b" : "wallh", i + 1, s);
+            }
+
+            drawBuilding(g, gatev, ex, cy);
+            drawBuilding(g, gateh, cx, s);
+
+            drawBuilding(g, w4 ? "tower_b" : "tower", ex, s);
+        }
+
+
+        public void drawBuilding(Graphics g, String name, int x, int y) {
+            drawBuilding(g, name, x, y, 0.8);
+        }
+
+        public void drawBuilding(Graphics g, String name, int x, int y, Double mod) {
+            BuildingGfx buildingGfx = cityLayout.getBuilding(name);
+            drawBuilding(g, buildingGfx, x, y, mod);
+        }
+
         public void drawBuilding(Graphics g, BuildingGfx buildingGfx, int x, int y) {
+            drawBuilding(g, buildingGfx, x, y, 0.8);
+        }
+
+        public void drawBuilding(Graphics g, BuildingGfx buildingGfx, int x, int y, Double mod) {
             if(buildingGfx == null) {
                 return;
             }
+
+            //int offsetX, offsetY = getBuildingOffset(buildingGfx.name);
 
             // Upper left corner of this building rect in source
             int sx = (int)(tileSize * buildingGfx.x);
@@ -394,11 +540,23 @@ public class CityFrame extends JFrame {
             int w = (int)(tileSize * (buildingGfx.w));
             int h = (int)(tileSize / 2 * (buildingGfx.h));
 
+            int dw = (int)(w * mod);
+            int dh = (int)(h * mod);
+
             double dx = buildingGfx.dx - (buildingGfx.w - 1);
             double dy = buildingGfx.dy - (buildingGfx.h - buildingGfx.w) * 2;
             if(buildingGfx.w > 1) {
                 dx++;
                 dy--;
+            }
+
+            if(buildingGfx.size > 1) {
+                dx = dx - 1;
+                dy = dy - 2;
+
+                if(buildingGfx.size == 4) {
+                    dy = dy - 2;
+                }
             }
 
             Coords drawCoords = getDrawCoords(x,y,dx,dy);
@@ -411,24 +569,39 @@ public class CityFrame extends JFrame {
 
             Image img = gfx.get(buildingGfx.fileName);
 
-            g.drawImage(img, cx, cy,
-                    cx + w,
-                    cy + h,
+
+           // drawTileRect(g,cx,cy + h - w / 2,w,w / 2);
+
+            /**/g.drawImage(img, cx, cy,
+                    cx + dw,
+                    cy + dh,
                     sx,
                     sy,
                     sx + w,
                     sy + h,
-                    this);
+                    this);/**/
+        }
+
+
+        public void drawTileRect(Graphics g, int sx, int sy, int w, int h) {
+            Double mod = 0.8;
+            int hh = h / 2;
+            int hw = w / 2;
+            g.drawLine(sx + hw, sy, sx + w, sy + hh);
+            g.drawLine(sx + w, sy + hh, sx + hw, sy + h);
+            g.drawLine(sx + hw, sy + h, sx, sy + hh);
+            g.drawLine(sx, sy + hh, sx + hw, sy);
         }
 
 
 
         public void drawAqueduct(Graphics g, int x, int y) {
             int offsetX = 5;
-            BuildingGfx aqueductx = cityLayout.getBuilding("aqueductx");
-            BuildingGfx aqueducth = cityLayout.getBuilding("aqueducth");
+            BuildingGfx aqueductx = cityLayout.getBuilding("aqueducth");
+            aqueductx.dy = 1;
+            BuildingGfx aqueducth = cityLayout.getBuilding("aqueductx");
             for(int i = 0; i < 7; i++) {
-                drawBuilding(g, aqueducth, -offsetX - 1 - i, y - 1 - i);
+                drawBuilding(g, aqueducth, -offsetX - 1 - i, y - 1- i);
             }
             for(int i = 0; i < x + offsetX; i++) {
                 drawBuilding(g, aqueductx, i - offsetX, y);
@@ -455,7 +628,7 @@ public class CityFrame extends JFrame {
             draw(gfx.get("bg"),d.center().dim(1750, 900));
 
             BuildingGfx buildingGfx;
-            int offsetX = (getWidth() - (int)(cityLayout.cityLayoutMatrixSize * tileSize * 1.2)) / 2;
+            int offsetX = (getWidth() - (int)(cityLayout.cityLayoutMatrixSize.x * tileSize * 1.2)) / 2;
             int offsetY = (int)(getHeight() / 1.8);
             offset = new Coords(offsetX, offsetY);
 
@@ -466,7 +639,7 @@ public class CityFrame extends JFrame {
                 draw(gfx.get("coastBgTop"), d.left().top().dim(1100, 315, 500, 75));
                 draw(gfx.get("coastBgBottom"), d.dim(575, 500, (1100 - 575) + 500, 375));
                 draw(gfx.get("coastBgRight"), d.dim(430, 800, 1099 + 500, 88));
-                drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize / 2 + 12, cityLayout.cityLayoutMatrixSize / 2 + 1);
+                drawBuilding(g, cityLayout.getBuilding("port"), cityLayout.cityLayoutMatrixSize.x / 2 + 12, cityLayout.cityLayoutMatrixSize.y / 2 + 1);
                // drawBuilding(g, cityLayout.getBuilding("colossus"), cityLayout.cityLayoutMatrixSize / 2 - 4, cityLayout.cityLayoutMatrixSize / 2 + 11);
                // drawBuilding(g, cityLayout.getBuilding("lighthouse"), cityLayout.cityLayoutMatrixSize / 2, cityLayout.cityLayoutMatrixSize / 2 + 12);
             } else {
@@ -476,9 +649,13 @@ public class CityFrame extends JFrame {
 
             draw(gfx.get("topBgL"), d.left().top().dim(672, 173, 0,130));
 
-            int to = cityLayout.cityLayoutMatrixSize - 1;
-            for (int y = to; y >= 0; y--) {
-                for (int x = 0; x <= to; x++) {
+            int toX = cityLayout.cityLayoutMatrixSize.x;
+            int toY = cityLayout.cityLayoutMatrixSize.y;
+
+            drawWallsBack(g);
+
+            for (int y = toY; y >= 0; y--) {
+                for (int x = 0; x < toX; x++) {
 
                     buildingGfx = cityLayout.getBuilding(x,  y);
                     if(buildingGfx == null) {
@@ -488,6 +665,9 @@ public class CityFrame extends JFrame {
                     drawBuilding(g, buildingGfx, x,y);
                 }
             }
+            drawWallsFront(g);
+
+
             drawCityInfo(g);
         }
 

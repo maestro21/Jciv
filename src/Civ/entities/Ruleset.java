@@ -41,7 +41,7 @@ public class Ruleset {
     public static ArrayList<CivNation> civNations = new ArrayList<>();
 
     public static ArrayList<String> buildingSets = new ArrayList<String>(Arrays.asList(
-        "euro", "classic"
+      "classic"
     ));
 
     public Ruleset() {}

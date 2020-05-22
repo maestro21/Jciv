@@ -1,8 +1,10 @@
 package Civ.classes.gfx;
 
+import Civ.classes.Buildings;
 import Civ.classes.Coords;
 import Civ.entities.Ruleset;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 class CityLayout {
@@ -13,36 +15,50 @@ class CityLayout {
     private BuildingGfx[][] buildingMatrix;
     ArrayList<String> buildings = new ArrayList<>();
     int buildingMatrixSize;
-    int cityLayoutMatrixSize;
+    Coords cityLayoutMatrixSize;
     int bc = 0;
     boolean walled;
     boolean wallx4;
     boolean railroad;
     String age;
+    Coords bmSize;
+
+    Double mod = 0.8;
+
+    public boolean isBigStreet() {
+        return settings.size > 5;
+    }
+
+    CityBuildingsGfxSettings settings;
 
     public Coords cityCenter;
 
     private BuildingGfx emptyBuilding = new BuildingGfx();
 
     public BuildingGfx getBuilding(int x, int y) {
-        return cityLayout[y][x];
+        try {
+            return cityLayout[y][x];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
 
     public CityLayout(CityBuildingsGfxSettings settings, ArrayList<BuildingGfx> buildingsGfx) {
-        this.walled = settings.walled;
+        this.settings = settings;
+        this.walled = settings.walled && !settings.walls.isEmpty();
         this.wallx4 = settings.wallx4();
         this.age = settings.age;
         int citySize = settings.size;
-        int buildingCount = (Math.min(settings.buildings.size(), citySize));
+        int buildingCount = settings.cityBuildings.size();
         this.buildingsGfx = buildingsGfx;
         park = getBuilding("park");
 
         int houseIndex = 0;
         for(int i = 0; i < citySize; i++) {
-            if(i < settings.buildings.size()) {
-                this.buildings.add(settings.buildings.get(i));
-                BuildingGfx b = getBuilding(settings.buildings.get(i));
+            if(i < buildingCount) {
+                this.buildings.add(settings.cityBuildings.get(i));
+                BuildingGfx b = getBuilding(settings.cityBuildings.get(i));
                 if(b != null && b.size > 1) {
                     buildingCount += b.size - 1;
                 }
@@ -55,60 +71,84 @@ class CityLayout {
         }
 
         buildingMatrixSize = (int)Math.ceil(Math.sqrt(citySize + buildingCount));
+        bmSize = new Coords(buildingMatrixSize, buildingMatrixSize);
         buildingMatrix = new BuildingGfx[buildingMatrixSize][buildingMatrixSize];
-
         spiralBuildingsCounterClockwise();
         printCity();
+        //cleanEmptyRows();
+        System.out.println("After row cleaning:");
+        printCity();
         cityLayout();
-        //printCityLayout();
+        printCityLayout();
     }
 
-    public boolean isEmptyRow() {
-        int to = buildingMatrixSize - 1;
-        for (int i = 0; i < to; i++) {
-            if(buildingMatrix[to][i] != null) {
-                return false;
+    public void cleanEmptyRows() {
+        boolean rmTop = true;
+        boolean rmBottom = true;
+        boolean rmLeft = true;
+        boolean rmRight = true;
+        int s = buildingMatrixSize - 1;
+        for(int i = 0; i <= s; i++) {
+            if(buildingMatrix[0][i] != null) rmTop = false;
+            if(buildingMatrix[s][i] != null) rmBottom = false;
+            if(buildingMatrix[i][0] != null) rmLeft = false;
+            if(buildingMatrix[i][s] != null) rmRight = false;
+        }
+
+        int xFrom = rmLeft ? 1 : 0;
+        int xTo = buildingMatrixSize - (rmRight ? 1 : 0);
+        int yFrom = rmTop ? 1 : 0;
+        int yTo = buildingMatrixSize - (rmBottom ? 1 : 0);
+
+        BuildingGfx[][] matrix = new BuildingGfx[yTo - yFrom][xTo - xFrom];
+
+        for(int y = yFrom; y < yTo; y++){
+            for(int x = xFrom ; x < xTo ; x++){
+                matrix[y- yFrom][x - xFrom] = buildingMatrix[y][x];
             }
         }
-        return true;
+
+        buildingMatrix = matrix;
+
+        bmSize.y = matrix.length;
+        bmSize.x = matrix[0].length;
     }
 
 
     public void cityLayout() {
-        cityLayoutMatrixSize = buildingMatrixSize * 2 + 3;
-        cityLayout = new BuildingGfx[cityLayoutMatrixSize][cityLayoutMatrixSize];
-        int halfX = (int)Math.ceil((double)buildingMatrixSize / 2);
-        int halfY = (int)Math.floor((double)buildingMatrixSize / 2);
+        int mod = 3;
+
+        cityLayoutMatrixSize = new Coords((bmSize.x + 1) * mod, (bmSize.y + 1) * mod);
+        cityLayout = new BuildingGfx[cityLayoutMatrixSize.y][cityLayoutMatrixSize.x];
+        int halfX = (int)Math.ceil((double)bmSize.x / 2);
+        int halfY = (int)Math.floor((double)bmSize.y / 2);
         int i; int ix; int iy; int j;
-        cityCenter = new Coords(halfX * 2 + 1,halfY * 2 + 1);
+        cityCenter = new Coords(halfX * mod + 1,halfY * mod + 1);
 
 
-        for(i = 0; i < buildingMatrixSize; i++ ) {
-            ix = 1 + i * 2;
-            if (i >= halfX) {
-                ix++;
-            }
-            for(j = 0; j < buildingMatrixSize; j++ ) {
-                iy = 1 + j * 2;
-                if (j >= halfY) {
-                    iy++;
-                }
-                BuildingGfx buildingGfx = buildingMatrix[buildingMatrixSize - j - 1][ buildingMatrixSize - i - 1];
+        for(i = 0; i < bmSize.x; i++ ) {
+            ix = 2 + i * mod;
+            if (i >= halfX && isBigStreet()) { ix++;}
+            for(j = 0; j < bmSize.y; j++ ) {
+                iy = 2 + j * mod;
+                if (j >= halfY && isBigStreet()) { iy++;}
+                BuildingGfx buildingGfx = buildingMatrix[j][i];
                 if(buildingGfx == null) {
                     buildingGfx = park;
                 }
                 cityLayout[iy][ix] = buildingGfx;
             }
         }
-
-        addWalls();
+        //addWalls();
     }
 
+    /** @deprecated */
     public void addWalls() {
-        if(!walled) {
+        if(!walled || settings.walls.isEmpty()) {
             return;
         }
-        int e = cityLayoutMatrixSize - 1;
+        int s = 1;
+        int e = cityLayoutMatrixSize.x - 1; if(!isBigStreet()) e--;
         int ey = e;
         /*if(isEmptyRow()) {
             ey--;
@@ -118,41 +158,57 @@ class CityLayout {
         int cx = cityCenter.x;
         int cy = cityCenter.y;
 
+        BuildingGfx gatev, gateh;
+
+
         if(wallx4) {
-            for (int i = 0; i < cityLayoutMatrixSize; i++) {
+            gatev = getBuilding("gate_v");
+            gateh = getBuilding("gate_h");
+
+            for (int i = s; i < e; i++) {
                 if (i < ey) {
-                    cityLayout[i][0] = getBuilding("wall_l");
+                    cityLayout[i][s] = getBuilding("wall_l");
                     cityLayout[i][e] = getBuilding("wall_r");
                 }
-                cityLayout[0][i] = getBuilding("wall_b");
+                cityLayout[s][i] = getBuilding("wall_b");
                 cityLayout[ey][i] = getBuilding("wall_t");
             }
-            cityLayout[0][0] = getBuilding("tower_l");
-            cityLayout[0][e] = getBuilding("tower_b");
-            cityLayout[ey][0] = getBuilding("tower_t");
+            cityLayout[s][s] = getBuilding("tower_l");
+            cityLayout[s][e] = getBuilding("tower_b");
+            cityLayout[ey][s] = getBuilding("tower_t");
             cityLayout[ey][e] = getBuilding("tower_r");
-            cityLayout[cy][0] = getBuilding("gate_v");
-            cityLayout[cy][e] = getBuilding("gate_v");
-            cityLayout[0][cx] = getBuilding("gate_h");
-            cityLayout[ey][cx] = getBuilding("gate_h");
+            cityLayout[cy][s] = gatev;
+            cityLayout[cy][e] = gatev;
+            cityLayout[s][cx] = gateh;
+            cityLayout[ey][cx] = gateh;
 
         } else {
-            for (int i = 0; i < cityLayoutMatrixSize; i++) {
+            gatev = getBuilding("gatev");
+            gateh = getBuilding("gateh");
+
+            for (int i = s; i < e; i++) {
                 if (i < ey) {
-                    cityLayout[i][0] = getBuilding("wallv");
+                    cityLayout[i][s] = getBuilding("wallv");
                     cityLayout[i][e] = getBuilding("wallv");
                 }
-                cityLayout[0][i] = getBuilding("wallh");
+                cityLayout[s][i] = getBuilding("wallh");
                 cityLayout[ey][i] = getBuilding("wallh");
             }
-            cityLayout[0][0] = getBuilding("tower");
-            cityLayout[0][e] = getBuilding("tower");
-            cityLayout[ey][0] = getBuilding("tower");
+            cityLayout[s][s] = getBuilding("tower");
+            cityLayout[s][e] = getBuilding("tower");
+            cityLayout[ey][s] = getBuilding("tower");
             cityLayout[ey][e] = getBuilding("tower");
-            cityLayout[cy][0] = getBuilding("gateh");
-            cityLayout[cy][e] = getBuilding("gateh");
-            cityLayout[0][cx] = getBuilding("gatev");
-            cityLayout[ey][cx] = getBuilding("gatev");
+
+            cityLayout[cy][s] = gatev;
+            cityLayout[cy][e] = gatev;
+            cityLayout[s][cx] = gateh;
+            cityLayout[ey][cx] = gateh;
+        }
+
+        if(isBigStreet()) {
+            gatev.dy = -1;
+            gatev.dx = 0.5;
+            gateh.dx = 0.5;
         }
     }
 
@@ -193,16 +249,26 @@ class CityLayout {
         }
     }
 
+
+    /**
+     * Building functions
+     */
+
     public BuildingGfx getBuilding(String name) {
         BuildingGfx bgfx = null, _bgfx;
         name = getBuildingGfxNameByName(name);
-        System.out.println(name);
         for(int i = 0; i < buildingsGfx.size(); i++) {
             _bgfx = buildingsGfx.get(i);
             if(_bgfx != null && _bgfx.name.equals(name) && Ruleset.hasAge(age, _bgfx.age)) {
+                if(Buildings.isReligious(name) && !settings.religion.equals(_bgfx.religion)) continue;
+                if(bgfx == null || Ruleset.hasAge(_bgfx.age, bgfx.age))
                 bgfx = buildingsGfx.get(i);
             }
         }
+        if(bgfx == null) {
+            System.out.println("Cannot find building " + name);
+        }
+
         return bgfx;
     }
 
@@ -211,6 +277,10 @@ class CityLayout {
         switch (name) {
             case "townhall":
                 return "house4";
+
+            case "temple":
+                if(!settings.isPagan())
+                    return "church";
         }
 
         return name;
@@ -228,6 +298,7 @@ class CityLayout {
         buildingMatrix[y][x] = building;
     }
 
+    /** @deprecated */
     private void placeAqueduct(int x, int y) {
         for(int i = 0; i < buildingMatrixSize; i++) {
             BuildingGfx buildingGfx =  buildingMatrix[y][i];
@@ -248,7 +319,7 @@ class CityLayout {
         if(bc < buildings.size()) {
             BuildingGfx buildingGfx =  getBuilding(buildings.get(bc));
             if(buildingGfx == null) {
-                return false;
+                return true;
             }
 
             buildingMatrix[i][j] = buildingGfx;
@@ -277,23 +348,28 @@ class CityLayout {
         return true;
     }
 
+
+    /**
+     * Print functions
+     */
+
     public void printCity() {
-        printMatrix(buildingMatrix, buildingMatrixSize);
+        printMatrix(buildingMatrix);
     }
 
     public void printCityLayout() {
-        printMatrix(cityLayout, cityLayoutMatrixSize);
+        printMatrix(cityLayout);
     }
 
-    public void printMatrix(BuildingGfx[][] matrix, int size) {
+    public void printMatrix(BuildingGfx[][] matrix) {
 
         String symbol = "";
-        for(int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
+        for(int y = 0; y < matrix.length; y++) {
+            for (int x = 0; x < matrix[0].length; x++) {
                 if(matrix[y][x] != null) {
                     symbol = matrix[y][x].symbol;
                 } else {
-                    symbol = " ";
+                    symbol = "_";
                 }
                 System.out.print(symbol + ' ');
             }
@@ -301,4 +377,11 @@ class CityLayout {
         }
     }
 
+
+    /**
+     * draw functions
+     */
+    public void drawCityLayout() {
+
+    }
 } 

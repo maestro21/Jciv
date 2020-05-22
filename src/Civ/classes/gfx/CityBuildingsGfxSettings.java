@@ -32,7 +32,7 @@ class CityBuildingsGfxSettings {
 
     public String name = "Rome";
 
-    public String flag = "flag";
+    public String flag = "rome";
 
     public String age = "ancient";
 
@@ -48,6 +48,8 @@ class CityBuildingsGfxSettings {
 
     public String buildingStyle = "default";
 
+    public String religion = Ruleset.RELIGION_PAGANISM;
+
     public ArrayList<String> buildings = new ArrayList<>();
 
 
@@ -55,9 +57,16 @@ class CityBuildingsGfxSettings {
         size = (int)(Math.random() * maxSize);
         buildingStyle = "classic";
         age = Rnd.randomAge();
-        roads = getDefaultRoads(age, nation);
+        religion = age.equals("ancient") ? Ruleset.RELIGION_PAGANISM : Rnd.randomReligion();
         hasWater = yesno();
-        buildings = Buildings.getBuildingSequence(size,age,nation,hasWater,isCapital);
+        refresh();
+    }
+
+    public void refresh() {
+        roads = getDefaultRoads(age, nation);
+        buildings = Buildings.getBuildingSequence(size,age,nation,hasWater,isCapital, religion);
+        cityBuildings.clear();
+        waterBuildings.clear();
         processBuildings();
     }
 
@@ -68,14 +77,15 @@ class CityBuildingsGfxSettings {
         terrain = tile.getTerrain().getName();
         hasWater = city.hasWater();
         buildingStyle = city.getBuildingStyle();
-
         nation = city.getNation();
         size = city.getSize();
-        buildingStyle = city.getBuildingStyle();
+        religion = city.getReligion();
+        buildings = city.buildings;
         processBuildings();
     }
 
     public  void processBuildings() {
+        int i = 0;
         for (String building : buildings) {
             if(Buildings.isWall(building)) {
                 walls = building;
@@ -89,14 +99,21 @@ class CityBuildingsGfxSettings {
 
             if(Buildings.isTownCenter(building)) {
                 cityBuildings.add(0,building);
+                continue;
             }
 
             cityBuildings.add(building);
+            i++;
+            if(i > size) return;
         }
     }
 
     public boolean isRailroad() {
         return roads == "railroad";
+    }
+
+    public boolean isPagan() {
+        return religion.equals(Ruleset.RELIGION_PAGANISM);
     }
 
 
@@ -110,7 +127,7 @@ class CityBuildingsGfxSettings {
         }
 
         if(nation.equals("Romans")) {
-            return "roman_road";
+            return "romanroad";
         }
 
         return "road";
@@ -131,6 +148,13 @@ class CityBuildingsGfxSettings {
             idx = 0;
         }
         age = Ruleset.ages.get(idx);
-        Buildings.getBuildingSequence(size,age,nation,hasWater,isCapital);
+    }
+
+    public void nextRel(){
+        int idx = Ruleset.religions.indexOf(religion) + 1;
+        if(idx > Ruleset.religions.size() - 1) {
+            idx = 0;
+        }
+        religion = Ruleset.religions.get(idx);
     }
 }

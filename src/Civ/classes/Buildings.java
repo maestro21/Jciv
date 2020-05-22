@@ -17,26 +17,29 @@ public class Buildings {
     public static final String MARKET = "market";
     public static final String SUPERMARKET = "supermarket";
     public static final String BANK = "bank";
-    public static final String BUSINESSCENTER = "businesscenter";
-    public static final String PALACE = "townhall";
+    public static final String BUSINESSCENTER = "office";
+    public static final String PALACE = "palace";
     public static final String TOWNHALL = "townhall";
     public static final String TEMPLE = "temple";
-    public static final String CATHEDRAL = "cathedral";
-    public static final String ENTERTAINMENT = "entertainment";
+    public static final String CATHEDRAL = "cath";
+    public static final String ENTERTAINMENT = "entertain";
     public static final String LIBRARY = "library";
     public static final String UNIVERSITY = "university";
     public static final String FACTORY = "factory";
     public static final String AIRPORT = "airport";
     public static final String HES = "hes";
-    public static final String NUCLEARPLANT = "nuclearplant";
+    public static final String MFPLANT = "mfplant";
+    public static final String NUCLEARPLANT = "nuclear_plant";
     public static final String ROBOPLANT = "roboplant";
     public static final String VFARM = "vfarm";
     public static final String AQUEDUCT = "aqueduct";
     public static final String PORT = "port";
-    public static final String WALLS = "walls";
+    public static final String WALLS = "wall";
+
+    public static final String CHURCH = "church";
 
     public static final String WONDER_GREAT_TEMPLE = "great_temple";
-    public static final String WONDER_GREAT_CATHEDRAL = "great_cathedral";
+    public static final String WONDER_GREAT_CATHEDRAL = "great_cath";
     public static final String WONDER_GREAT_ENTERTAINMENT = "great_entertainment";
     public static final String WONDER_COLOSSUS = "colossus";
     public static final String WONDER_LIGHTHOUSE = "lighthouse";
@@ -58,6 +61,12 @@ public class Buildings {
         WONDER_LIGHTHOUSE
     );
 
+    public static final List religious = Arrays.asList(
+            CHURCH,
+            CATHEDRAL,
+            WONDER_GREAT_CATHEDRAL
+    );
+
     public static Game game;
 
 
@@ -74,12 +83,16 @@ public class Buildings {
         return townCenter.contains(name);
     }
 
-
-    public static ArrayList<String> getBuildingSequence(City city, boolean isCapital) {
-        return getBuildingSequence(city.getSize(), city.getAge(), city.getNation(), city.hasWater(), isCapital);
+    public static boolean isReligious(String name) {
+        return religious.contains(name);
     }
 
-    public static ArrayList<String> getBuildingSequence(int citySize, String age, String nation, boolean hasWater, boolean isCapital) {
+
+    public static ArrayList<String> getBuildingSequence(City city, boolean isCapital) {
+        return getBuildingSequence(city.getSize(), city.getAge(), city.getNation(), city.hasWater(), isCapital, city.getReligion());
+    }
+
+    public static ArrayList<String> getBuildingSequence(int citySize, String age, String nation, boolean hasWater, boolean isCapital, String religion) {
         ArrayList<String> buildings = new ArrayList<>();
         if(isCapital) {
             buildings.add(Buildings.PALACE);
@@ -101,20 +114,28 @@ public class Buildings {
         buildings.add(Buildings.TEMPLE);
         buildings.add(Buildings.LIBRARY);
         buildings.add(Buildings.WALLS);
-        if(nation.equals("roman")) {
+        if(nation.equals("Romans")) {
             buildings.add(Buildings.AQUEDUCT);
         }
-
         buildings.add(Buildings.ENTERTAINMENT);
 
+        /*
+        if(!religion.equals(Ruleset.RELIGION_PAGANISM)) {
+            buildings.add(Buildings.WONDER_GREAT_TEMPLE);
+        } */
 
         if(Ruleset.hasAge(age, "medieval")) {
-            buildings.add(Buildings.CATHEDRAL);
+            if(!religion.equals(Ruleset.RELIGION_PAGANISM)) {
+                buildings.add(Buildings.CATHEDRAL);
+            }
             buildings.add(Buildings.UNIVERSITY);
         }
 
         if(Ruleset.hasAge(age, "colonial")) {
             buildings.add(Buildings.BANK);
+            if(!religion.equals(Ruleset.RELIGION_PAGANISM)) {
+                buildings.add(Buildings.WONDER_GREAT_CATHEDRAL);
+            }
         }
 
         if(Ruleset.hasAge(age, "modern")) {
@@ -124,12 +145,12 @@ public class Buildings {
             if(hasWater) {
                 buildings.add(Buildings.HES);
             }
-            buildings.add(Buildings.NUCLEARPLANT);
         }
 
         if(Ruleset.hasAge(age, "postmodern")) {
+            buildings.add(Buildings.MFPLANT);
+            buildings.add(Buildings.NUCLEARPLANT);
             buildings.add(Buildings.BUSINESSCENTER);
-            buildings.add(Buildings.ROBOPLANT);
             buildings.add(Buildings.VFARM);
         }
 
