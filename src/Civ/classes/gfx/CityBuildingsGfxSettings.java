@@ -113,7 +113,7 @@ class CityBuildingsGfxSettings {
     }
 
     public boolean isPagan() {
-        return religion.equals(Ruleset.RELIGION_PAGANISM);
+        return age.equals("ancient") || religion.equals(Ruleset.RELIGION_PAGANISM);
     }
 
 
@@ -138,7 +138,7 @@ class CityBuildingsGfxSettings {
     }
 
     public boolean wallx4() {
-        return age.equals("colonial");
+        return Ruleset.hasAge(age, "colonial");
     }
 
 

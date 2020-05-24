@@ -111,10 +111,11 @@ class CityLayout {
         int yTo = buildingMatrixSize - (rmBottom ? 1 : 0);
 
         BuildingGfx[][] matrix = new BuildingGfx[yTo - yFrom][xTo - xFrom];
+        BuildingGfx park = getBuilding("park");
 
         for(int y = yFrom; y < yTo; y++){
             for(int x = xFrom ; x < xTo ; x++){
-                matrix[yTo - y - 1][xTo - x - 1] = buildingMatrix[y][x];
+                matrix[yTo - y - 1][xTo - x - 1] = buildingMatrix[y][x] == null ? park : buildingMatrix[y][x];
             }
         }
 
@@ -198,8 +199,19 @@ class CityLayout {
             case "temple":
                 if(!settings.isPagan())
                     return "church";
+
+            case "church":
+                if(settings.isPagan())
+                    return "temple";
         }
 
+
+
+        if(name.contains("romanroadbig")) {
+            name = "romanroadbig";
+        } else if(name.contains("roadbig")) {
+            name = "roadbig";
+        }
         return name;
     }
 
