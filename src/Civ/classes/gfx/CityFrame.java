@@ -95,14 +95,12 @@ public class CityFrame extends JFrame {
     }
 
     public void loadGfx() {
+
+        loadImg("coastBg","coastbgright2.png");
         loadImg("bg","grasslandbg2.jpg");
         loadImg("topBg","leftforest.png");
         loadImg("topBgL","topbgl.png");
         loadImg("topBgR","topbgr.png");
-        loadImg("coastBg","coastBg.png");
-        loadImg("coastBgTop","coastbgtop.png");
-        loadImg("coastBgRight","coast2r.jpg");
-        loadImg("coastBgBottom","coastbgright.png");
     }
 
     public void addButtons() {
@@ -748,17 +746,12 @@ public class CityFrame extends JFrame {
 
 
             if(settings.hasWater) {
-                draw("coastBgTop", d.left().top().dim(1100, 315, 500, 75));
-                draw("coastBgBottom", d.dim(575, 500, (1100 - 575) + 500, 375));
-                draw("coastBgRight", d.dim(430, 800, 1099 + 500, 88));
+                draw("coastBg", d.dim(1000, 600, ((getWidth() - 800) / 2), ((getHeight() - 600) / 2)));
                 drawBuilding( cityLayout.getBuilding("port"), cityLayout.sizeM.x / 2 + 14, cityLayout.sizeM.y / 2);
                // drawBuilding(g, cityLayout.getBuilding("colossus"), cityLayout.cityLayoutMatrixSize / 2 - 4, cityLayout.cityLayoutMatrixSize / 2 + 11);
                // drawBuilding(g, cityLayout.getBuilding("lighthouse"), cityLayout.cityLayoutMatrixSize / 2, cityLayout.cityLayoutMatrixSize / 2 + 12);
-            } else {
-                draw("topBgR", d.right().top().dim(672, 173, 0,130));
             }
-
-
+            draw("topBgR", d.right().top().dim(672, 173, 0,130));
             draw("topBgL", d.left().top().dim(672, 173, 0,130));
 
 
