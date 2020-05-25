@@ -362,6 +362,10 @@ public class CityFrame extends JFrame {
         }
 
 
+        public int plusOneIf(boolean cond) {
+            return cond ? 1 : 0;
+        }
+
         public void drawRoads() {
             /*** City road network **/
 
@@ -405,20 +409,22 @@ public class CityFrame extends JFrame {
             }
 
             /* round road */
-            int endX = cityLayout.sizeM.x + addBigRoad() - 1;
-            int endY = cityLayout.sizeM.y + addBigRoad() - 2;
-            for (int i = 3; i < endX; i++) {
-                drawBuilding( roady, i, 1);
-                drawBuilding( roady, i,endY);
-            }
-            for (int i = 2; i < endY ; i++) {
-                drawBuilding( roadx, 2, i);
-                drawBuilding( roadx,endX, i);
+            if(!settings.walled) {
+                int endX = cityLayout.sizeM.x + addBigRoad() - 1;
+                int endY = cityLayout.sizeM.y + addBigRoad() - 2;
+                for (int i = 3; i < endX; i++) {
+                    drawBuilding(roady, i, 1);
+                    drawBuilding(roady, i, endY);
+                }
+                for (int i = 2; i < endY; i++) {
+                    drawBuilding(roadx, 2, i);
+                    drawBuilding(roadx, endX, i);
+                }
             }
 
             /* xroads */
-            for (int y = toY - 1; y >= -1; y--) {
-                for (int x = -1; x < toX; x++) {
+            for (int y = toY - 1; y >= 0 - plusOneIf(!settings.walled); y--) {
+                for (int x = -1; x < toX -  plusOneIf(settings.walled); x++) {
                     int dx = getDx(x); int dy = getDy(y);
                     roadsY = (y != (cityLayout.centerB.y - 1));
                     roadsX = (x != (cityLayout.centerB.x - 1));
@@ -489,7 +495,7 @@ public class CityFrame extends JFrame {
         public int getDy(int y, int dd) { int dy = y * 3 + 2; if(isBigRoadY(y)) dy= dy + dd; return  dy; }
         public boolean isBigRoadX(int x) { return isBigRoad() && x >= cityLayout.centerB.x; }
         public boolean isBigRoadY(int y) { return isBigRoad() && y >= cityLayout.centerB.y; }
-        public boolean isBigRoad() { return settings.size > 5; }
+        public boolean isBigRoad() { return settings.size > 6; }
         public int addBigRoad() { return isBigRoad() ? 1 : 0; }
         public boolean isCenterY(int y) { return isBigRoad() && y == cityLayout.centerB.y;}
         public boolean isCenterX(int x) { return isBigRoad() && x == cityLayout.centerB.x;}
@@ -537,15 +543,15 @@ public class CityFrame extends JFrame {
             drawBuilding(gateh, cx, ey);
 
             if(w4) {
-                towerl.dx = -1;
-                towerr.dx = 1;
+                towerl.dx = -0.5;
+                towerr.dx = 0.75;
             } else {
                 towerl.dx = 0;
                 towerr.dx = 0;
             }
-
+            /*
             drawBuilding(towerl, 2,1);
-            drawBuilding(towerr, ex, ey);
+            drawBuilding(towerr, ex, ey); */
         }
 
         public void drawWallsFront() {
@@ -563,7 +569,8 @@ public class CityFrame extends JFrame {
             BuildingGfx gateh = cityLayout.getBuilding(w4 ? "gate_h" : "gateh");
             BuildingGfx wallr = cityLayout.getBuilding(w4 ? "wall_r" : "wallv");
             BuildingGfx wallb = cityLayout.getBuilding(w4 ?  "wall_b" : "wallh");
-
+            BuildingGfx towerl = cityLayout.getBuilding(w4 ? "tower_l" : "tower");
+            BuildingGfx towerr = cityLayout.getBuilding(w4 ? "tower_r" : "tower");
             for (int i = s; i < ey; i++) {
                 drawBuilding( wallr, ex, i);
             }
@@ -587,6 +594,8 @@ public class CityFrame extends JFrame {
             drawBuilding(gatev, ex, cy);
             drawBuilding(gateh, cx, s);
 
+            drawBuilding(towerl, 2,1);
+            drawBuilding(towerr, ex, ey);
             drawBuilding(w4 ? "tower_b" : "tower", ex, s);
         }
 
