@@ -119,6 +119,10 @@ public class Buildings {
         }
         buildings.add(Buildings.ENTERTAINMENT);
 
+        buildings.add("circus");
+        buildings.add("pyramids");
+        buildings.add("glibrary");
+
         /*
         if(!religion.equals(Ruleset.RELIGION_PAGANISM)) {
             buildings.add(Buildings.WONDER_GREAT_TEMPLE);

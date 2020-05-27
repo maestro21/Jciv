@@ -7,6 +7,7 @@ public class ImgDimensions {
     public int y = 0;
     public int offX = 0;
     public int offY = 0;
+    public
 
     ImgDimensions() {}
 

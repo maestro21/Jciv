@@ -142,6 +142,7 @@ public class Drawer {
     }
 
 
+
     public ImgDimensions dim(int dx, int dy, int offX, int offY ) {
         if(scale != 1) {
             dx = (int)(dx * scale);

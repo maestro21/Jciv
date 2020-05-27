@@ -256,8 +256,10 @@ public class CityFrame extends JFrame {
 
         loadImg(citySet);
         loadImg("general");
+
+        loadImg("wonders");
         buildingsGfx.clear();
-       // loadJsonWonders();
+        loadJsonWonders();
         loadJsonBuildings("general", true);
         loadJsonBuildings(citySet);
     }
@@ -342,7 +344,7 @@ public class CityFrame extends JFrame {
             paint(g);
         }
 
-        public Coords getDrawCoords(int x, int y, double dx, double dy) {
+        public Coords getDrawCoords(double x, double y, double dx, double dy) {
             double cidx = y + x + dx;
             double cidy = x - y + dy;
             int cx = offset.x + (int)(cidx * tileSize * mod / 2);
@@ -446,19 +448,17 @@ public class CityFrame extends JFrame {
             String bigxroad = bigroad + "x";
 
             for(int i = 0; i < 25; i++) {
-                drawBuilding(bigroady, cx - i, cy);
-                drawBuilding(bigroadx, cx, cy + i);
-            }
-            for(int i = 0; i < 25; i++) {
-                drawBuilding(bigroady, cx + i, cy);
-                drawBuilding(bigroadx, cx, cy - i);
+                drawBuilding(inCityX(cx - i) ? bigroady : roady, cx - i + 0.0, cy - addBigRoad(0.5));
+                drawBuilding(inCityY(cy + i) ? bigroadx : roadx, cx + addBigRoad(0.5), cy + i + 0.0);
+                drawBuilding(inCityX(cx + i) ? bigroady : roady, cx + i + 0.0, cy - addBigRoad(0.5));
+                drawBuilding(inCityY(cy - i) ? bigroadx : roadx, cx + addBigRoad(0.5), cy - i + 0.0);
             }
             drawBuilding( bigroad + "x", cx, cy);
 
             BuildingGfx bigRoadX = cityLayout.getBuilding(bigxroad);
-            for(int i = 0 ; i <= cityLayout.sizeB.x - addBigRoad(); i++) {
-                int dx = getDx(i,3);
-                if(isBigRoad() && road.equals("highway")) {
+            if(isBigRoad() && road.equals("highway")) {
+                for(int i = 0 ; i <= cityLayout.sizeB.x - addBigRoad(); i++) {
+                    int dx = getDx(i,3);
                     if (i >= cityLayout.centerB.x) {
                         bigRoadX.dx = 0.5;
                         bigRoadX.dy = 1.25;
@@ -466,12 +466,10 @@ public class CityFrame extends JFrame {
                         bigRoadX.dx = -0.25;
                         bigRoadX.dy = 0.25;
                     }
+                    drawBuilding(bigRoadX, dx, cy);
                 }
-                drawBuilding(bigRoadX, dx, cy);
-            }
-            for(int i = 0 ; i <= cityLayout.sizeB.y - addBigRoad(); i++) {
-                int dy = getDy(i,3) - (isBigRoad() ? 0 : 1);
-                if(isBigRoad() && road.equals("highway")) {
+                for (int i = 0; i <= cityLayout.sizeB.y - addBigRoad(); i++) {
+                    int dy = getDy(i, 3) - (isBigRoad() ? 0 : 1);
                     if (i >= cityLayout.centerB.y) {
                         bigRoadX.dx = 0.75;
                         bigRoadX.dy = 0.25;
@@ -479,14 +477,15 @@ public class CityFrame extends JFrame {
                         bigRoadX.dx = -0.25;
                         bigRoadX.dy = 1.25;
                     }
+                    drawBuilding(bigxroad, cx, dy);
                 }
-                drawBuilding(bigxroad, cx, dy);
             }
             bigRoadX.dx = 0;
-            bigRoadX.dy = isBigRoad() ? 0.75 : 0;
             drawBuilding(bigxroad, cx, cy);
         }
 
+        public boolean inCityY(int y) { return y > 1 && y < cityLayout.sizeM.y; }
+        public boolean inCityX(int x) { return x > 1 && x < cityLayout.sizeM.x; }
         public int getDx(int x){ return getDx(x,1); }
         public int getDy(int y){ return getDy(y,1); }
         public int getDx(int x, int dd) { int dx = x * 3 + 2; if(isBigRoadX(x)) dx = dx + dd; return  dx; }
@@ -495,12 +494,37 @@ public class CityFrame extends JFrame {
         public boolean isBigRoadY(int y) { return isBigRoad() && y >= cityLayout.centerB.y; }
         public boolean isBigRoad() { return settings.size > 6; }
         public int addBigRoad() { return isBigRoad() ? 1 : 0; }
+        public Double addBigRoad(Double d) { return isBigRoad() ? d : 0.0; }
         public boolean isCenterY(int y) { return isBigRoad() && y == cityLayout.centerB.y;}
         public boolean isCenterX(int x) { return isBigRoad() && x == cityLayout.centerB.x;}
 
+
+
+        public void drawBigBuildings() {
+
+            if(cityLayout.bigBuildings.size() < 1) return;
+
+            int ex = cityLayout.sizeM.x; if(!cityLayout.isBigStreet()) ex--;
+            int ey = cityLayout.sizeM.y - 1; if(!cityLayout.isBigStreet()) ey--;
+            int cx = cityLayout.centerM.x;
+            int cy = cityLayout.centerM.y;
+
+            ArrayList<Coords> bigBuildingPos = new ArrayList<>();
+            bigBuildingPos.add(new Coords(cx - 5, ey + 3));
+            bigBuildingPos.add(new Coords(-5 , cy + 3));
+            bigBuildingPos.add(new Coords(cx + 1 , ey + 3));
+            bigBuildingPos.add(new Coords(-5 , cy - 1));
+
+            for(int i = 0; i < cityLayout.bigBuildings.size(); i++) {
+                drawBuilding(cityLayout.bigBuildings.get(i), bigBuildingPos.get(i).x, bigBuildingPos.get(i).y);
+            }
+
+        }
+
+
         public void drawWallsBack() {
-            if(!cityLayout.walled || settings.walls.isEmpty()) {
-             //   return;
+            if(!settings.walled) {
+                return;
             }
             int s = 1;
             int ex = cityLayout.sizeM.x; if(!cityLayout.isBigStreet()) ex--;
@@ -553,8 +577,8 @@ public class CityFrame extends JFrame {
         }
 
         public void drawWallsFront() {
-            if(!cityLayout.walled || settings.walls.isEmpty()) {
-              //  return;
+            if(!settings.walled) {
+                return;
             }
             int s = 1;
             int ex = cityLayout.sizeM.x; if(!cityLayout.isBigStreet()) ex--;
@@ -569,6 +593,11 @@ public class CityFrame extends JFrame {
             BuildingGfx wallb = cityLayout.getBuilding(w4 ?  "wall_b" : "wallh");
             BuildingGfx towerl = cityLayout.getBuilding(w4 ? "tower_l" : "tower");
             BuildingGfx towerr = cityLayout.getBuilding(w4 ? "tower_r" : "tower");
+
+            drawBuilding(towerl, 2,1);
+            drawBuilding(towerr, ex, ey);
+
+
             for (int i = s; i < ey; i++) {
                 drawBuilding( wallr, ex, i);
             }
@@ -592,26 +621,32 @@ public class CityFrame extends JFrame {
             drawBuilding(gatev, ex, cy);
             drawBuilding(gateh, cx, s);
 
-            drawBuilding(towerl, 2,1);
-            drawBuilding(towerr, ex, ey);
             drawBuilding(w4 ? "tower_b" : "tower", ex, s);
         }
 
 
         public void drawBuilding(String name, int x, int y) {
+            drawBuilding(name, x + 0.0, y+ 0.0);
+        }
+
+        public void drawBuilding(BuildingGfx buildingGfx, int x, int y) {
+            drawBuilding(buildingGfx, x + 0.0, y+ 0.0);
+        }
+
+        public void drawBuilding(String name, Double x, Double y) {
             drawBuilding(name, x, y, 0.8);
         }
 
-        public void drawBuilding(String name, int x, int y, Double mod) {
+        public void drawBuilding(String name, Double x, Double y, Double scale) {
             BuildingGfx buildingGfx = cityLayout.getBuilding(name);
-            drawBuilding(buildingGfx, x, y, mod);
+            drawBuilding(buildingGfx, x, y, scale);
         }
 
-        public void drawBuilding( BuildingGfx buildingGfx, int x, int y) {
+        public void drawBuilding( BuildingGfx buildingGfx, Double x, Double y) {
             drawBuilding(buildingGfx, x, y, 0.8);
         }
 
-        public void drawBuilding(BuildingGfx buildingGfx, int x, int y, Double mod) {
+        public void drawBuilding(BuildingGfx buildingGfx, Double x, Double y, Double scale) {
 
            // y = 0 - y;
 
@@ -658,7 +693,7 @@ public class CityFrame extends JFrame {
             int cy = drawCoords.y;
 
             if(buildingGfx.name.equals(Buildings.AQUEDUCT)) {
-                drawAqueduct( x,y);
+                drawAqueduct(x.intValue(),y.intValue());
             }
 
             Image img = gfx.get(buildingGfx.fileName);
@@ -695,14 +730,6 @@ public class CityFrame extends JFrame {
             }
         }
 
-        public void draw(String imgKey,
-                                  int dx1, int dy1, int dx2, int dy2,
-                                  int sx1, int sy1, int sx2, int sy2,
-                                  ImageObserver observer){
-            Image img = gfx.get(imgKey);
-            if(img == null) return;
-            g.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, this);
-        }
 
         public void draw(String imgKey, ImgDimensions dim) {
             Image img = gfx.get(imgKey);
@@ -747,14 +774,14 @@ public class CityFrame extends JFrame {
 
             if(settings.hasWater) {
                 draw("coastBg", d.dim(1000, 600, ((getWidth() - 800) / 2), ((getHeight() - 600) / 2)));
-                drawBuilding( cityLayout.getBuilding("port"), cityLayout.sizeM.x / 2 + 14, cityLayout.sizeM.y / 2);
-               // drawBuilding(g, cityLayout.getBuilding("colossus"), cityLayout.cityLayoutMatrixSize / 2 - 4, cityLayout.cityLayoutMatrixSize / 2 + 11);
-               // drawBuilding(g, cityLayout.getBuilding("lighthouse"), cityLayout.cityLayoutMatrixSize / 2, cityLayout.cityLayoutMatrixSize / 2 + 12);
+                drawBuilding( cityLayout.getBuilding("port"), cityLayout.sizeM.x / 2 + 14, cityLayout.centerM.y);
+                drawBuilding( cityLayout.getBuilding("colossus"), cityLayout.sizeM.x / 2 + 14, cityLayout.centerM.y + 3);
+                drawBuilding(cityLayout.getBuilding("lighthouse"), cityLayout.sizeM.x / 2 + 14, cityLayout.centerM.y + 6);
             }
             draw("topBgR", d.right().top().dim(672, 173, 0,130));
             draw("topBgL", d.left().top().dim(672, 173, 0,130));
 
-
+            drawBigBuildings();
             drawWallsBack();
             drawCityLayout();
             drawWallsFront();
