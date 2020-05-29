@@ -44,6 +44,7 @@ public class Buildings {
     public static final String WONDER_COLOSSUS = "colossus";
     public static final String WONDER_LIGHTHOUSE = "lighthouse";
     public static final String WONDER_KREMLIN = "kremlin";
+    public static final String WONDER_HES = "great_hes";
 
     public static final List walls = Arrays.asList(
             WALLS,
@@ -67,12 +68,22 @@ public class Buildings {
             WONDER_GREAT_CATHEDRAL
     );
 
+    public static final List riverBuildings = Arrays.asList(
+            HES,
+            WONDER_HES
+    );
+
     public static Game game;
 
 
     public static boolean isWaterBuilding(String name) {
         return waterBuildings.contains(name);
     }
+
+    public static boolean isRiverBuilding(String name) {
+        return riverBuildings.contains(name);
+    }
+
 
     public static boolean isWall(String name) {
         return walls.contains(name);
@@ -119,9 +130,10 @@ public class Buildings {
         }
         buildings.add(Buildings.ENTERTAINMENT);
 
+        /*
         buildings.add("circus");
         buildings.add("pyramids");
-        buildings.add("glibrary");
+        buildings.add("glibrary"); */
 
         /*
         if(!religion.equals(Ruleset.RELIGION_PAGANISM)) {
@@ -137,9 +149,9 @@ public class Buildings {
 
         if(Ruleset.hasAge(age, "colonial")) {
             buildings.add(Buildings.BANK);
-            if(!religion.equals(Ruleset.RELIGION_PAGANISM)) {
+            /*if(!religion.equals(Ruleset.RELIGION_PAGANISM)) {
                 buildings.add(Buildings.WONDER_GREAT_CATHEDRAL);
-            }
+            } */
         }
 
         if(Ruleset.hasAge(age, "modern")) {

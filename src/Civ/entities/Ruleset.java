@@ -41,7 +41,7 @@ public class Ruleset {
     public static ArrayList<CivNation> civNations = new ArrayList<>();
 
     public static ArrayList<String> buildingSets = new ArrayList<String>(Arrays.asList(
-      "classic"
+      "classic", "euro"
     ));
 
     public Ruleset() {}
@@ -152,17 +152,30 @@ public class Ruleset {
         }
     }
 
-    public Terrain getTerrain(String symbol) {
+    public static Terrain getTerrain(String symbol) {
         Terrain t = new Terrain();
         for(int i = 0; i < terrain.size(); i++) {
             t = terrain.get(i);
 
-            if(t.symbol.equals(symbol)) {
+            if(t.symbol.equals(symbol) || t.name.equals(symbol)) {
                 return t;
             }
         }
         return getTerrain(" ");
     }
+
+    public static int getTerrainIdx(String symbol) {
+        Terrain t = new Terrain();
+        for(int i = 0; i < terrain.size(); i++) {
+            t = terrain.get(i);
+
+            if(t.symbol.equals(symbol) || t.name.equals(symbol)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     public int getCityStyleIndex(String name) {
         for(int i = 0; i < cityStyles.size(); i++) {

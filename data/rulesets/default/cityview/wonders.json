@@ -1,102 +1,176 @@
 {
-  "buildings": [
-
-    {
-      "x": 0,
-      "y": 0,
-      "w": 3,
-      "h": 5,
-      "dx": 1,
-      "dy": 1,
-      "size": 2,
-      "name": "circus",
-      "symbol": "@"
-    },
-    {
-      "x": 3,
-      "y": 0,
-      "w": 2,
-      "h": 4,
-      "name": "colosseum",
-      "symbol": "C"
-    },
-
-    {
-      "x": 0,
-      "y": 5,
-      "w": 4,
-      "h": 5,
-      "size": 4,
-      "dx": -2,
-      "dy": -2,
-      "name": "pyramids",
-      "symbol": "Y"
-    },
-    {
-      "x": 5,
-      "y": 0,
-      "w": 2,
-      "h": 5,
-      "name": "basyl",
-      "symbol": "L"
-    }, {
-      "x": 7,
-      "y": 0,
-      "w": 4,
-      "h": 5,
-      "size": 4,
-      "dx": -2,
-      "dy": -2,
-      "name": "glibrary",
-      "symbol": "L"
-    },
-    {
-      "x": 0,
-      "y": 10,
-      "w": 2,
-      "h": 6,
-      "name": "colossus",
-      "symbol": "C"
-    },
-    {
-      "x": 4,
-      "y": 5,
-      "w": 2,
-      "h": 4,
-      "name": "gardens",
-      "symbol": "C"
-    },
-    {
-      "x": 6,
-      "y": 5,
-      "w": 2,
-      "h": 5,
-      "name": "mausoleum",
-      "symbol": "M"
-    },
-    {
-      "x": 2,
-      "y": 10,
-      "w": 2,
-      "h": 3,
-      "name": "gharbor",
-      "symbol": "H"
-    },
-    {
-      "x": 4,
-      "y": 10,
-      "w": 2,
-      "h": 4,
-      "name": "lighthouse",
-      "symbol": "L"
-    },
-    {
-      "x": 6,
-      "y": 10,
-      "w": 2,
-      "h": 4,
-      "name": "acropolis",
-      "symbol": "H"
-    }
-  ]
+    "name": "wonders",
+    "parent": "",
+    "ruleset": "default",
+    "buildings": [
+        {
+            "x": "0",
+            "y": "0",
+            "w": "3",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "2",
+            "name": "circus",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "3",
+            "y": "0",
+            "w": "2",
+            "h": "4",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "colloseum",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "5",
+            "y": "0",
+            "w": "2",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "basyl",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "7",
+            "y": "0",
+            "w": "4",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "4",
+            "name": "glibrary",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "0",
+            "y": "5",
+            "w": "4",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "4",
+            "name": "pyramids",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "0",
+            "y": "10",
+            "w": "2",
+            "h": "6",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "colossus",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "4",
+            "y": "9",
+            "w": "2",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "lighthouse",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "8",
+            "y": "5",
+            "w": "3",
+            "h": "4",
+            "dx": "0",
+            "dy": "0",
+            "size": "2",
+            "name": "sophia",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "4",
+            "y": "5",
+            "w": "2",
+            "h": "4",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "gardens",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "6",
+            "y": "5",
+            "w": "2",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "mausoleum",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "6",
+            "y": "10",
+            "w": "2",
+            "h": "4",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "akropolis",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "8",
+            "y": "9",
+            "w": "2",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "notredame",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        },
+        {
+            "x": "10",
+            "y": "9",
+            "w": "2",
+            "h": "5",
+            "dx": "0",
+            "dy": "0",
+            "size": "1",
+            "name": "stpaul",
+            "age": "",
+            "religion": "",
+            "symbol": ""
+        }
+    ]
 }

@@ -69,7 +69,7 @@ class CityLayout {
 
         int houseIndex = 0;
         for(int i = 0; i < citySize; i++) {
-            if(i < buildingCount) {
+            if(i < settings.cityBuildings.size()) {
                 BuildingGfx b = getBuilding(settings.cityBuildings.get(i));
                 if(b != null) {
                     if(b.size == 4) {
@@ -94,12 +94,12 @@ class CityLayout {
 
         buildingMatrix = new BuildingGfx[buildingMatrixSize][buildingMatrixSize];
         spiralBuildingsCounterClockwise();
-        printCity();
+        //printCity();
         cleanEmptyRows();
-        System.out.println("After row cleaning:");
+        /*System.out.println("After row cleaning:");
         printCity();
        // cityLayout();
-       // printCityLayout();
+       // printCityLayout(); */
     }
 
     public void cleanEmptyRows() {
@@ -182,7 +182,7 @@ class CityLayout {
      * Building functions
      */
 
-    public BuildingGfx getBuilding(String name) {
+    public BuildingGfx getBuilding(String name) { if(name == null) return null;
         BuildingGfx bgfx = null, _bgfx;
         name = getBuildingGfxNameByName(name);
         for(int i = 0; i < buildingsGfx.size(); i++) {
@@ -222,6 +222,7 @@ class CityLayout {
         } else if(name.contains("roadbig")) {
             name = "roadbig";
         }
+
         return name;
     }
 

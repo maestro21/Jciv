@@ -55,7 +55,7 @@ public class CityFrame extends JFrame {
 
     CityFrame() {
         Ruleset.load("default");
-        settings.randomizeCity();
+        settings.nextCity();
         init();
     }
 
@@ -84,9 +84,7 @@ public class CityFrame extends JFrame {
         setMaximumSize(new Dimension(1750, 900));
         tileSize = 64;
         CityPanel cityPanel = new CityPanel(this);
-        loadGfx();
-        loadBuildings();
-        buildCityLayout();
+        refresh();
         getContentPane().add(cityPanel);
         setLayout(null);
         cityPanel.setBounds(0, 50, 1750, 900);
@@ -95,12 +93,10 @@ public class CityFrame extends JFrame {
     }
 
     public void loadGfx() {
-
+        loadImg("river","river.png");
         loadImg("coastBg","coastbgright2.png");
-        loadImg("bg","grasslandbg2.jpg");
-        loadImg("topBg","leftforest.png");
-        loadImg("topBgL","topbgl.png");
-        loadImg("topBgR","topbgr.png");
+        loadImg("bg",settings.terrain + "bg.jpg");
+        loadBuildings();
     }
 
     public void addButtons() {
@@ -109,11 +105,8 @@ public class CityFrame extends JFrame {
         rndBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                settings.randomizeCity();
-                randomStyle();
-                loadBuildings();
-                buildCityLayout();
-                repaint();
+                settings.nextCity();
+                refresh();
             }
         });
 
@@ -209,6 +202,16 @@ public class CityFrame extends JFrame {
             }
         });
 
+        relBtn = new JButton("Ter");
+        relBtn.setBounds(750,0,70,30);
+        relBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                settings.nextTerrain();
+                refresh();
+            }
+        });
+
 
         add(rndBtn);
         add(incBtn);
@@ -223,6 +226,7 @@ public class CityFrame extends JFrame {
     }
 
     public void refresh() {
+        loadGfx();
         settings.refresh();
         buildCityLayout();
         repaint();
@@ -254,14 +258,14 @@ public class CityFrame extends JFrame {
     public void loadBuildings() {
         //citySet = citySets[csCounter];
 
-        loadImg(citySet);
+        loadImg(settings.buildingStyle);
         loadImg("general");
 
         loadImg("wonders");
         buildingsGfx.clear();
         loadJsonWonders();
         loadJsonBuildings("general", true);
-        loadJsonBuildings(citySet);
+        loadJsonBuildings(settings.buildingStyle);
     }
 
     public void loadJsonBuildings(String name) {
@@ -452,6 +456,8 @@ public class CityFrame extends JFrame {
                 drawBuilding(inCityY(cy + i) ? bigroadx : roadx, cx + addBigRoad(0.5), cy + i + 0.0);
                 drawBuilding(inCityX(cx + i) ? bigroady : roady, cx + i + 0.0, cy - addBigRoad(0.5));
                 drawBuilding(inCityY(cy - i) ? bigroadx : roadx, cx + addBigRoad(0.5), cy - i + 0.0);
+                drawBuilding(road + "b", cx - 25 - i * 0.5 + 0.25, cy - i * 0.5 - addBigRoad(0.5) - 0.2);
+                drawBuilding(road + "b", cx + i * 0.5 + addBigRoad(0.5) + 0.25, cy + 25 + i * 0.5 - 0.2);
             }
             drawBuilding( bigroad + "x", cx, cy);
 
@@ -502,20 +508,52 @@ public class CityFrame extends JFrame {
 
         public void drawBigBuildings() {
 
-            if(cityLayout.bigBuildings.size() < 1) return;
-
+            settings.isTerrainX = false;
             int ex = cityLayout.sizeM.x; if(!cityLayout.isBigStreet()) ex--;
             int ey = cityLayout.sizeM.y - 1; if(!cityLayout.isBigStreet()) ey--;
             int cx = cityLayout.centerM.x;
             int cy = cityLayout.centerM.y;
 
             ArrayList<Coords> bigBuildingPos = new ArrayList<>();
-            bigBuildingPos.add(new Coords(cx - 5, ey + 3));
-            bigBuildingPos.add(new Coords(-5 , cy + 3));
-            bigBuildingPos.add(new Coords(cx + 1 , ey + 3));
-            bigBuildingPos.add(new Coords(-5 , cy - 1));
+            bigBuildingPos.add(new Coords(cx - 7, ey + 3));
+            bigBuildingPos.add(new Coords(-7 , cy + 2));
+            if(!settings.isTerrainX) { bigBuildingPos.add(new Coords(cx - 1, ey + 3));}
+            bigBuildingPos.add(new Coords(-7 , cy - 4));
 
-            for(int i = 0; i < cityLayout.bigBuildings.size(); i++) {
+            bigBuildingPos.add(new Coords(cx - 7, -4));
+            bigBuildingPos.add(new Coords(cx - 1, -4));
+
+            bigBuildingPos.add(new Coords(-7 , cy + 7));
+            bigBuildingPos.add(new Coords(cx - 12, -4));
+
+            if(!settings.hasWater) {
+                bigBuildingPos.add(new Coords(ex - 1, cy + 2));
+                bigBuildingPos.add(new Coords(ex - 1, cy - 4));
+                bigBuildingPos.add(new Coords(ex - 1, cy + 7));
+            }
+
+            bigBuildingPos.add(new Coords(cx - 12, -4));
+
+            if(!settings.isTerrainX)  bigBuildingPos.add(new Coords(cx - 17, -4));
+            bigBuildingPos.add(new Coords(cx - 7, ey + 9));
+            if(!settings.isTerrainX) { bigBuildingPos.add(new Coords(cx - 1, ey + 9));  }
+
+            bigBuildingPos.add(new Coords(-13, cy + 2));
+            bigBuildingPos.add(new Coords(-13, cy - 4));
+
+
+            BuildingGfx farm = cityLayout.getBuilding("farms");
+
+            int tf = Math.min(settings.size, bigBuildingPos.size());
+
+            if(settings.hasFarms) {
+                for (int i = cityLayout.bigBuildings.size(); i < tf; i++) {
+                    cityLayout.bigBuildings.add(farm);
+                }
+            }
+
+
+            for(int i = 0; i < tf; i++) {
                 drawBuilding(cityLayout.bigBuildings.get(i), bigBuildingPos.get(i).x, bigBuildingPos.get(i).y);
             }
 
@@ -639,6 +677,7 @@ public class CityFrame extends JFrame {
 
         public void drawBuilding(String name, Double x, Double y, Double scale) {
             BuildingGfx buildingGfx = cityLayout.getBuilding(name);
+            if(buildingGfx == null) return;
             drawBuilding(buildingGfx, x, y, scale);
         }
 
@@ -756,6 +795,7 @@ public class CityFrame extends JFrame {
                         continue;
                     }
                     int dx = getDx(x); int dy = getDy(y);
+                    if(buildingGfx.size == 2) { dx -= 3; dy--; }
                     drawBuilding( buildingGfx, dx,dy);
                 }
             }
@@ -771,15 +811,20 @@ public class CityFrame extends JFrame {
 
             drawRoads();
 
-
             if(settings.hasWater) {
                 draw("coastBg", d.dim(1000, 600, ((getWidth() - 800) / 2), ((getHeight() - 600) / 2)));
-                drawBuilding( cityLayout.getBuilding("port"), cityLayout.sizeM.x / 2 + 14, cityLayout.centerM.y);
-                drawBuilding( cityLayout.getBuilding("colossus"), cityLayout.sizeM.x / 2 + 14, cityLayout.centerM.y + 3);
-                drawBuilding(cityLayout.getBuilding("lighthouse"), cityLayout.sizeM.x / 2 + 14, cityLayout.centerM.y + 6);
+                for(int i = 0; i < settings.waterBuildings.size(); i++) {
+                    drawBuilding(settings.waterBuildings.get(i), cityLayout.sizeM.x / 2 + 14, cityLayout.centerM.y + i * 3 );
+                }
             }
-            draw("topBgR", d.right().top().dim(672, 173, 0,130));
-            draw("topBgL", d.left().top().dim(672, 173, 0,130));
+            //draw("topBgR", d.right().top().dim(672, 173, 0,130));
+            //draw("topBgL", d.left().top().dim(672, 173, 0,130));
+
+
+            if(settings.hasRiver) {
+                draw("river", d.left().bottom().dim(666, 415, 0, 0));
+                drawBuilding(settings.riverBuilding,  cityLayout.centerM.x - 10, cityLayout.centerM.y - 17);
+            }
 
             drawBigBuildings();
             drawWallsBack();
@@ -795,11 +840,10 @@ public class CityFrame extends JFrame {
             int x = getWidth() / 2 - getStringCenter(g, settings.name, font) - 32;
             g.drawString(settings.name, x, 50);
 
-            /*
-            if(game != null) {
-                Game.gfx.drawFlag(g, city.getPlayer(), x - 50, 20, io, 44, 30);
-                game.gfx.drawFlag(g, city.getPlayer(), x + getStringCenter(g, cityName, font) * 2 + 10, 20, io, 44, 30);
-            }*/
+            if(Game.gfx != null) {
+                Game.gfx.drawFlag(g, settings.flag, x - 50, 20, io, 44, 30);
+                Game.gfx.drawFlag(g, settings.flag, x + getStringCenter(g, settings.name, font) * 2 + 10, 20, io, 44, 30);
+            }
 
             font = new Font("SansSerif", Font.BOLD, 16);
             g.setFont(font);
