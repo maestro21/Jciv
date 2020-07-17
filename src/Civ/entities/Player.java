@@ -58,7 +58,7 @@ public class Player {
     }
 
     public void setCivNation(String civNationName) {
-        this.civNation = game.ruleset.getCivNation(civNationName);
+        this.civNation = Ruleset.getCivNation(civNationName);
     }
 
 

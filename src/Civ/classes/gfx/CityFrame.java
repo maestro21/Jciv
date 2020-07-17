@@ -552,6 +552,7 @@ public class CityFrame extends JFrame {
                 }
             }
 
+            tf = Math.min(tf, cityLayout.bigBuildings.size());
 
             for(int i = 0; i < tf; i++) {
                 drawBuilding(cityLayout.bigBuildings.get(i), bigBuildingPos.get(i).x, bigBuildingPos.get(i).y);

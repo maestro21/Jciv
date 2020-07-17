@@ -12,6 +12,8 @@ public class Terrain {
     public Coords pos; // position in image;
     public Color color;
     public String type;
+    public Integer irrigable;
+    public Integer mineable;
 
     public Terrain() {};
 
@@ -57,5 +59,13 @@ public class Terrain {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isIrrigable() {
+        return irrigable > 0;
+    }
+
+    public boolean isMineable() {
+        return mineable > 0;
     }
 }

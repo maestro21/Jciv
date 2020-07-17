@@ -12,7 +12,9 @@
             "name": "Coast",
             "symbol": "",
             "color": "",
-            "type": "coast"
+            "type": "coast",
+            "irrigable": "0",
+            "mineable": "0"
         },
         {
             "col": "1",
@@ -20,7 +22,9 @@
             "name": "Floodplains",
             "symbol": "l",
             "color": "255,0,255",
-            "type": "land"
+            "type": "land",
+            "irrigable": "2",
+            "mineable": "0"
         },
         {
             "col": "2",
@@ -28,7 +32,9 @@
             "name": "Grassland",
             "symbol": "g",
             "color": "0,136, 0",
-            "type": "land"
+            "type": "land",
+            "irrigable": "2",
+            "mineable": "0"
         },
         {
             "col": "3",
@@ -36,7 +42,9 @@
             "name": "Desert",
             "symbol": "d",
             "color": "255,255,0",
-            "type": "land"
+            "type": "land",
+            "irrigable": "1",
+            "mineable": "0"
         },
         {
             "col": "4",
@@ -44,7 +52,9 @@
             "name": "Swamp",
             "symbol": "a",
             "color": "0,0,0",
-            "type": "land"
+            "type": "land",
+            "irrigable": "0",
+            "mineable": "0"
         },
         {
             "col": "5",
@@ -52,7 +62,9 @@
             "name": "Plains",
             "symbol": "p",
             "color": "248,178,52",
-            "type": "land"
+            "type": "land",
+            "irrigable": "2",
+            "mineable": "0"
         },
         {
             "col": "6",
@@ -60,7 +72,9 @@
             "name": "",
             "symbol": "",
             "color": "",
-            "type": ""
+            "type": "",
+            "irrigable": "0",
+            "mineable": "0"
         },
         {
             "col": "0",
@@ -68,7 +82,9 @@
             "name": "Water",
             "symbol": " ",
             "color": "0,100,255",
-            "type": "water"
+            "type": "water",
+            "irrigable": "0",
+            "mineable": "0"
         },
         {
             "col": "1",
@@ -76,7 +92,9 @@
             "name": "Taiga",
             "symbol": "t",
             "color": "68,135,100",
-            "type": "land"
+            "type": "land",
+            "irrigable": "1",
+            "mineable": "0"
         },
         {
             "col": "2",
@@ -84,7 +102,9 @@
             "name": "Snow",
             "symbol": "s",
             "color": "255,255,255",
-            "type": "land"
+            "type": "land",
+            "irrigable": "0",
+            "mineable": "0"
         },
         {
             "col": "3",
@@ -92,7 +112,9 @@
             "name": "Mountains",
             "symbol": "m",
             "color": "68,68,68",
-            "type": "top"
+            "type": "top",
+            "irrigable": "0",
+            "mineable": "2"
         },
         {
             "col": "4",
@@ -100,7 +122,9 @@
             "name": "Forest",
             "symbol": "f",
             "color": "32, 87, 2",
-            "type": "top"
+            "type": "top",
+            "irrigable": "0",
+            "mineable": "1"
         },
         {
             "col": "5",
@@ -108,7 +132,9 @@
             "name": "Hills",
             "symbol": "h",
             "color": "136,136,136",
-            "type": "top"
+            "type": "top",
+            "irrigable": "1",
+            "mineable": "2"
         },
         {
             "col": "6",
@@ -116,7 +142,9 @@
             "name": "Jungle",
             "symbol": "j",
             "color": "0,255,0",
-            "type": "top"
+            "type": "top",
+            "irrigable": "0",
+            "mineable": "1"
         }
     ],
     "units": [

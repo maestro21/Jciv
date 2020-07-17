@@ -3,6 +3,7 @@ package Civ.classes.gfx;
 import Civ.classes.Coords;
 import Civ.classes.Game;
 import Civ.entities.Player;
+import Civ.entities.Ruleset;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -13,7 +14,7 @@ public class GameGfx extends Gfx {
 
     public String rulesetPath = "data/rulesets/" + Game.gameOptions.ruleset + "/";
 
-    GameGfx(Game game) {
+    public GameGfx(Game game) {
         this.game = game;
         loadGfx();
     }
@@ -48,7 +49,7 @@ public class GameGfx extends Gfx {
     }
 
     public void drawFlag(Graphics g, String flag, int x, int y, ImageObserver io, int fx, int fy) {
-        Coords flagCoords = game.ruleset.getFlagCoords(flag);
+        Coords flagCoords = Ruleset.getFlagCoords(flag);
         if(flagCoords == null) return;
         g.drawImage(get("flags"), x, y,
                 x + fx,

@@ -119,8 +119,8 @@ public class Buildings {
         }
 
 
-        buildings.add(Buildings.GRANARY);
         buildings.add(Buildings.BARRACKS);
+        buildings.add(Buildings.GRANARY);
         buildings.add(Buildings.MARKET);
         buildings.add(Buildings.TEMPLE);
         buildings.add(Buildings.LIBRARY);

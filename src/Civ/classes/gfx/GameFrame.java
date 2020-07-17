@@ -3,10 +3,7 @@ package Civ.classes.gfx;
 import Civ.classes.Coords;
 import Civ.classes.Game;
 import Civ.classes.ScreenCoords;
-import Civ.entities.City;
-import Civ.entities.Player;
-import Civ.entities.Terrain;
-import Civ.entities.Tile;
+import Civ.entities.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,8 +29,8 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        this.tileSize = Game.ruleset.tileSize;
-        this.terrainTileSize = Game.ruleset.terrainTileSize;
+        this.tileSize = Ruleset.tileSize;
+        this.terrainTileSize = Ruleset.terrainTileSize;
         MapPanel mapPanel = new MapPanel();
 
         mapPanel.addMouseListener(new MouseAdapter() {
@@ -54,7 +51,7 @@ public class GameFrame extends JFrame {
     public void initScreenCoords() {
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setPreferredSize(new Dimension(screenSize.width, screenSize.height));
-        screenCoords = new ScreenCoords(Game.map.size.x, Game.map.size.y, Game.ruleset.tileSize, false);
+        screenCoords = new ScreenCoords(Game.map.size.x, Game.map.size.y, Ruleset.tileSize, false);
         screenCoords.setScreenSize(screenSize.width, screenSize.height);
         screenCoords.goTo(Game.map.size.x / 2, Game.map.size.y / 2);
     }
@@ -220,7 +217,7 @@ public class GameFrame extends JFrame {
                         int py = y * tileSize;
 
                         int sx = city.getCitySizeGfx();
-                        int sy = Game.ruleset.getCityStyleIndex(city.getCityStyle());
+                        int sy = Ruleset.getCityStyleIndex(city.getCityStyle());
                         System.out.printf("%d %d \n", sx, sy);
                         g.drawImage(Game.gfx.get("cities"), px, py,
                                 px + tileSize,
@@ -231,7 +228,7 @@ public class GameFrame extends JFrame {
                                 (sy + 1) * tileSize,
                                 this);
 
-                        Game.gfx.drawFlag(g, city.getPlayer(),px,py, this);
+                        //Game.gfx.drawFlag(g, city.getPlayer(),px,py, this);
 
                         g.drawRect(px + 22, py + 44, 20, 16);
                         g.setColor(city.getPlayer().getColor());

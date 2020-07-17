@@ -100,6 +100,8 @@ public class Ruleset {
                 t.symbol = getStr(jsonTerrainEl, "symbol");
                 t.type = getStr(jsonTerrainEl ,"type");
                 ArrayList<String> colors = getValues(jsonTerrainEl,"color");
+                t.irrigable = getInt(jsonTerrainEl, "irrigable");
+                t.mineable = getInt(jsonTerrainEl, "mineable");
 
                 //JSONArray colors = (JSONArray)jsonTerrainEl.get("color");
                 t.color = new Color(
@@ -177,7 +179,7 @@ public class Ruleset {
     }
 
 
-    public int getCityStyleIndex(String name) {
+    public static int getCityStyleIndex(String name) {
         for(int i = 0; i < cityStyles.size(); i++) {
             if(cityStyles.get(i).equals(name)) {
                 return i;
@@ -187,7 +189,7 @@ public class Ruleset {
     }
 
 
-    public CivNation getCivNation(String civNationName) {
+    public static CivNation getCivNation(String civNationName) {
         for (CivNation civNation : civNations) {
             if(civNation.getName().equals(civNationName)) {
                 return civNation;
@@ -201,7 +203,7 @@ public class Ruleset {
         return civNation;
     }
 
-    public CivNation loadCivNation(String civNationName) {
+    public static CivNation loadCivNation(String civNationName) {
         JSONParser parser = new JSONParser();
         CivNation civNation = null;
         try (Reader reader = new FileReader("data/rulesets/" + name + "/nations/" + civNationName + ".json")) {
@@ -240,7 +242,7 @@ public class Ruleset {
         return civNation;
     }
 
-    public Coords getFlagCoords(String flagName) {
+    public static Coords getFlagCoords(String flagName) {
         Coords coords = null;
         int index = flags.indexOf(flagName);
         if(index > -1) {
@@ -293,14 +295,14 @@ public class Ruleset {
             case "polish":
             case "english":
             case "nordic":
-                return "european";
+                return "euro";
 
 
             case "eastern":
                 return  "eastern";
         }
 
-        return "european";
+        return "euro";
     }
 }
 

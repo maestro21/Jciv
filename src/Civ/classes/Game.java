@@ -23,6 +23,8 @@ public class Game extends JPanel {
 
     public Game(GameOptions gameOptions){
         Game.gameOptions = gameOptions;
+        Game.gfx = new GameGfx(this);
+        Ruleset.load(gameOptions.ruleset);
         map = new Map(this, gameOptions.map);
         addTestPlayers();
         //randomPlayers();

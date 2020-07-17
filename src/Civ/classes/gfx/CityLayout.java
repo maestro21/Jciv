@@ -83,11 +83,8 @@ class CityLayout {
                     }
                 }
             }
-            houseIndex = (int)Math.ceil((citySize - i ) / 4.0);
-            if(houseIndex > 4) houseIndex = 4;
-            if(houseIndex < 1) houseIndex = 1;
-            this.buildings.add("house" + houseIndex);
 
+            this.buildings.add("house" + getHouseIndex(citySize,i));
         }
 
         buildingMatrixSize = (int)Math.ceil(Math.sqrt(citySize + buildingCount));
@@ -100,6 +97,14 @@ class CityLayout {
         printCity();
        // cityLayout();
        // printCityLayout(); */
+    }
+
+    public int getHouseIndex(int citySize, int idx) {
+        Double hIdx = citySize > 16 ? citySize / 4.0 : 4.0;
+        int houseIndex = (int)Math.ceil((citySize - idx ) / hIdx);
+        if(houseIndex > 4) houseIndex = 4;
+        if(houseIndex < 1) houseIndex = 1;
+        return houseIndex;
     }
 
     public void cleanEmptyRows() {

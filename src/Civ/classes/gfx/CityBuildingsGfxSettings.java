@@ -90,6 +90,8 @@ class CityBuildingsGfxSettings {
         roads = tile.getRoads();
         terrain = tile.getTerrain().getName();
         hasWater = city.hasWater();
+        hasFarms = tile.terrain.isIrrigable();
+        hasRiver = city.hasWater();
         buildingStyle = city.getBuildingStyle();
         nation = city.getNation();
         size = city.getSize();
@@ -195,6 +197,7 @@ class CityBuildingsGfxSettings {
         ArrayList<String> terrains = new ArrayList<>();
         terrains.add("plains");
         terrains.add("grassland");
+        terrains.add("floodplains");
         terrains.add("hills");
         terrains.add("mountains");
         int idx = terrains.indexOf(terrain); idx++;
@@ -206,7 +209,7 @@ class CityBuildingsGfxSettings {
     }
 
     int cityCounter = 2;
-    int maxCity = 4;
+    int maxCity = 8;
     public void nextCity() {
         cityCounter++;
         if(cityCounter > maxCity) cityCounter = 0;
@@ -248,13 +251,14 @@ class CityBuildingsGfxSettings {
                     500,
                     "medieval",
                     10,
-                    "Greek",
+                    "Romans",
                     "ancient_greece",
                     "classic",
                     "grassland",
                     true,
                     "orthodoxy",
                     true,
+
                     false,
                     true,
                     new String[]{"circus", "sophia"}
@@ -267,7 +271,7 @@ class CityBuildingsGfxSettings {
                     "Romans",
                     "rome",
                     "classic",
-                    "plains",
+                    "grassland",
                     true,
                     Ruleset.RELIGION_PAGANISM,
                     true,
@@ -292,6 +296,73 @@ class CityBuildingsGfxSettings {
                     new String[]{"notredame"}
             ); break;
 
+            case 5: setCitySettings(
+                    "Bern",
+                    1300,
+                    "medieval",
+                    4,
+                    "Swiss",
+                    "switzerland",
+                    "euro",
+                    "mountains",
+                    true,
+                    "protestantism",
+                    false,
+                    true,
+                    false,
+                    new String[]{}
+            ); break;
+
+            case 6: setCitySettings(
+                    "London",
+                    1850,
+                    "colonial",
+                    24,
+                    "British",
+                    "uk",
+                    "euro",
+                    "grassland",
+                    true,
+                    "protestantism",
+                    true,
+                    true,
+                    true,
+                    new String[]{}
+            ); break;
+
+            case 7: setCitySettings(
+                    "New York",
+                    1950,
+                    "modern",
+                    50,
+                    "USA",
+                    "usa",
+                    "euro",
+                    "grassland",
+                    false,
+                    "protestantism",
+                    true,
+                    true,
+                    true,
+                    new String[]{}
+            ); break;
+
+            case 8: setCitySettings(
+                    "Moscow",
+                    2000,
+                    "postmodern",
+                    50,
+                    "Russia",
+                    "russia",
+                    "euro",
+                    "grassland",
+                    false,
+                    "orthodoxy",
+                    false,
+                    true,
+                    true,
+                    new String[]{}
+            ); break;
         }
     }
 
